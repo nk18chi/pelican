@@ -1,0 +1,24 @@
+[
+  {
+    "_id" : ObjectId("6134262fb7601fc4de2356e7"),
+    "name" : "Product A",
+    "user" : ObjectId("61342657b7601fc4de235704"),
+    "createdAt": ISODate("2021-08-22T18:33:33.485Z"),
+    "updatedAt": ISODate("2021-08-22T18:33:33.485Z")
+  },
+  {
+    "_id" : ObjectId("614f909124b9e28b1ba9ca2c"),
+    "name" : "Product B",
+    "user" : ObjectId("61342657b7601fc4de235704"),
+    "createdAt": ISODate("2021-08-22T18:33:33.485Z"),
+    "updatedAt": ISODate("2021-08-22T18:33:33.485Z")
+  },
+  {
+    "_id" : ObjectId("614f90ce24b9e28b1ba9ca56"),
+    "name" : "Product C",
+    "user" : ObjectId("614f90ac24b9e28b1ba9ca3f"),
+    "createdAt": ISODate("2021-08-22T18:33:33.485Z"),
+    "updatedAt": ISODate("2021-08-22T18:33:33.485Z")
+
+  }
+]

@@ -1,0 +1,16 @@
+[
+    {
+      "_id" : ObjectId("61342657b7601fc4de235704"),
+      "name": "Steve Jobs",
+      "email": "stevejobs@example.com",
+      "createdAt": ISODate("2021-08-22T18:33:33.485Z"),
+      "updatedAt": ISODate("2021-08-22T18:33:33.485Z")
+    },
+    {
+      "_id" : ObjectId("614f90ac24b9e28b1ba9ca3f"),
+      "name": "Bill Gates",
+      "email": "billgates@example.com",
+      "createdAt": ISODate("2021-08-22T18:33:33.485Z"),
+      "updatedAt": ISODate("2021-08-22T18:33:33.485Z")
+    }
+]

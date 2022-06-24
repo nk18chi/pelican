@@ -50,6 +50,12 @@ chmod +x mongo/setup.sh
 docker-compose up --build
 ```
 
+Error
+Read timed out. (read timeout=60)
+
+Restart docker or run the command in the following link
+https://stackoverflow.com/a/52135934/9792009
+
 ## Test
 
 ```

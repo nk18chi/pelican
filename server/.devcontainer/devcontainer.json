@@ -1,0 +1,7 @@
+{
+  "name": "stripe payment server dev container",
+  "dockerComposeFile": ["../../docker-compose.yml"],
+  "service": "server",
+  "remoteUser": "root",
+  "workspaceFolder": "/app/server"
+}

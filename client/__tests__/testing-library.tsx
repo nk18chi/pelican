@@ -7,7 +7,7 @@ describe('App', () => {
     const { getByRole } = render(<Index />);
 
     const heading = getByRole('heading', {
-      name: /welcome to next\.js!/i,
+      name: /money/i,
     });
 
     expect(heading).toBeInTheDocument();

@@ -36,3 +36,4 @@ yarn-error.log*
 # test
 */__snapshots__
 /cypress/videos
+/cypress/screenshots

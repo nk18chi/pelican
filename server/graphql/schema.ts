@@ -1,5 +1,4 @@
 import { schemaComposer } from 'graphql-compose';
-import { GraphQLUpload } from 'graphql-upload';
 
 import { userResolvers, UserTC } from './user/UserResolvers';
 import { userTypeDef } from './user/UserTypeDef';
@@ -38,8 +37,6 @@ for (const def of typeDefs) {
 
 schemaComposer.addTypeDefs(typeDef);
 schemaComposer.addResolveMethods(resolvers);
-
-schemaComposer.add(GraphQLUpload);
 
 ProductTC.addRelation('user', {
   resolver: UserTC.getResolver('findById'),

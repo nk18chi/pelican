@@ -9,7 +9,6 @@ const app = express();
 const PORT = 4000;
 
 connectDatabase();
-
 async function startApollo() {
   const apolloServer = createApolloServer({
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
@@ -28,7 +27,6 @@ async function startApollo() {
   });
 }
 startApollo();
-
 app.use(
   helmet({
     contentSecurityPolicy:
@@ -37,7 +35,6 @@ app.use(
 );
 
 app.use(cors());
-
 app.get('/', (req, res) => res.send('Express + TypeScript Server'));
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);

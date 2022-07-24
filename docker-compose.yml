@@ -18,33 +18,28 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    environment:
-      - PORT=4000
-      - NODE_ENV=development
     volumes:
       - ./server:/app/server
-      - /app/server/node_modules
+      - app/client/node_modules
     restart: always
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
-    environment:
-      - REACT_APP_PORT=3000
-      - CHOKIDAR_USEPOLLING=true
-      - NODE_ENV=development
     volumes:
       - ./client:/app/client
-      - /app/client/node_modules
+      - app/client/node_modules
+      - app/client/.next
     tty: true
-  storybook:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.storybook
-    environment:
-      - NODE_ENV=development
-    volumes:
-      - ./client:/app/client
+  # storybook:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile.storybook
+  #   environment:
+  #     - NODE_ENV=development
+  #   volumes:
+  #     - ./client:/app/client
+  #     - /app/client/node_modules
 networks:
   default:
     driver: bridge

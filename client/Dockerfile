@@ -5,4 +5,7 @@ WORKDIR /app/client
 COPY package.json .
 RUN yarn install
 
-CMD ["yarn", "run", "dev"]
+COPY . .
+RUN yarn build
+
+CMD ["yarn", "start"]

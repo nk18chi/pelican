@@ -1,0 +1,9 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/stripe-payment-app
+hooks:
+  ApplicationStart:
+    - location: scripts/start.sh
+      runas: root

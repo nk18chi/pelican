@@ -8,7 +8,6 @@ services:
     ports:
       - '80:80'
       - '4000:4000'
-      - '6006:6006'
   mongodb:
     image: mongo
     restart: always
@@ -20,7 +19,9 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./server:/app/server
-      - app/client/node_modules
+      - /app/client/node_modules
+    environment:
+      - NODE_ENV=production
     restart: always
   client:
     build:
@@ -28,8 +29,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./client:/app/client
-      - app/client/node_modules
-      - app/client/.next
+      - /app/client/node_modules
+      - /app/client/.next
     tty: true
   # storybook:
   #   build:

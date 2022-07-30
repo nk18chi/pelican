@@ -13,13 +13,14 @@ services:
     restart: always
     volumes:
       - ./mongo:/mongo
+      - mongo_data:/data/db
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
     volumes:
       - ./server:/app/server
-      - /app/server/node_modules
+      - server_node_modules:/app/server/node_modules
     environment:
       - NODE_ENV=production
     restart: always
@@ -29,8 +30,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./client:/app/client
-      - /app/client/node_modules
-      - /app/client/.next
+      - client_node_modules:/app/client/node_modules
+      - client_next:/app/client/.next
     tty: true
   # storybook:
   #   build:
@@ -41,6 +42,13 @@ services:
   #   volumes:
   #     - ./client:/app/client
   #     - /app/client/node_modules
+
+volumes:
+  mongo_data:
+  client_node_modules:
+  client_next:
+  server_node_modules:
+
 networks:
   default:
     driver: bridge

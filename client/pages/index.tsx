@@ -12,10 +12,14 @@ import {
   createIcon,
 } from '@chakra-ui/react';
 import client from '../apollo-client';
-import { GET_PRODUCT_MANY } from '../gql/product';
+import { GET_PRODUCT_MANY, GET_PRODUCT_BY_ID } from '../gql/product';
 import { TProduct } from 'types/product';
 
-const Home: NextPage<{ products: [TProduct] }> = ({ products }) => {
+const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
+  product,
+  products,
+}) => {
+  console.log('product', product);
   console.log('products', products);
   return (
     <>
@@ -103,13 +107,17 @@ const Arrow = createIcon({
 });
 
 export async function getStaticProps() {
-  const { data } = await client.query({
+  const { data: product } = await client.query({
+    query: GET_PRODUCT_BY_ID('62d4b636d41f4441db37ef01'),
+  });
+  const { data: products } = await client.query({
     query: GET_PRODUCT_MANY,
   });
 
   return {
     props: {
-      products: data.productMany,
+      product: product.productById,
+      products: products.productMany,
     },
   };
 }

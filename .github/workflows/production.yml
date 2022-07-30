@@ -33,7 +33,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           working-directory: client
-          start: yarn run dev
+          start: yarn run dev:test
           wait-on: 'http://localhost:3000'
           config: screenshotOnRunFailure=false,video=false
 

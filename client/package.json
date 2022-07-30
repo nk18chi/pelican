@@ -5,6 +5,7 @@
   "proxy": "http://localhost:4000",
   "scripts": {
     "dev": "next dev",
+    "dev:test": "APP_ENV=test next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

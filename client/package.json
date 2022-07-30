@@ -8,6 +8,7 @@
     "dev:test": "APP_ENV=test next dev",
     "build": "next build",
     "start": "next start",
+    "build-and-start": "next build && next start",
     "lint": "next lint",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",

@@ -28,7 +28,7 @@ services:
       - ./server:/app/server
       - server_node_modules:/app/server/node_modules
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV:-production}
     restart: always
   client:
     build:

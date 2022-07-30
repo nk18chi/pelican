@@ -26,19 +26,25 @@
 
 ## Development
 
+add env.local in server
+
+```
+NODE_ENV=development
+```
+
 ### Docker
 
 ```
 docker-compose down
-docker-compose up --build
-docker-compose up -d // if building is already done
+docker-compose --env-file .env up --build
+docker-compose --env-file .env up -d // if building is already done
 
 ## only once
 docker-compose exec mongodb bash
 /mongo/setup.sh
 ```
 
-http://localhost:3000/  
+http://localhost  
 http://localhost:4000/graphql  
 http://localhost:6006/
 

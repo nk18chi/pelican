@@ -8,10 +8,11 @@ services:
     depends_on:
       - "server"
       - "client"
+      - "storybook"
     ports:
       - '80:80'
-      # - '4000:4000'
-      # - '6006:6006'
+      - '4000:4000'
+      - '6006:6006'
   mongodb:
     image: mongo
     restart: always
@@ -41,15 +42,13 @@ services:
       - client_node_modules:/app/client/node_modules
       - client_next:/app/client/.next
     tty: true
-  # storybook:
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile.storybook
-  #   environment:
-  #     - NODE_ENV=development
-  #   volumes:
-  #     - ./client:/app/client
-  #     - /app/client/node_modules
+  storybook:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.storybook
+    volumes:
+      - ./client:/app/client
+      - client_node_modules:/app/client/node_modules
 
 volumes:
   mongo_data:

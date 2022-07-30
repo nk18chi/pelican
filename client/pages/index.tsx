@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import type { NextPage } from 'next';
 import {
   Box,
   Heading,
@@ -10,17 +11,18 @@ import {
   useColorModeValue,
   createIcon,
 } from '@chakra-ui/react';
+import client from '../apollo-client';
+import { GET_PRODUCT_MANY, GET_PRODUCT_BY_ID } from '../gql/product';
+import { TProduct } from 'types/product';
 
-export default function CallToActionWithAnnotation() {
+const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
+  product,
+  products,
+}) => {
+  console.log('product', product);
+  console.log('products', products);
   return (
     <>
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
       <Container maxW={'3xl'}>
         <Stack
           as={Box}
@@ -89,7 +91,7 @@ export default function CallToActionWithAnnotation() {
       </Container>
     </>
   );
-}
+};
 
 const Arrow = createIcon({
   displayName: 'Arrow',
@@ -103,3 +105,21 @@ const Arrow = createIcon({
     />
   ),
 });
+
+export async function getStaticProps() {
+  const { data: product } = await client.query({
+    query: GET_PRODUCT_BY_ID('62d4b636d41f4441db37ef01'),
+  });
+  const { data: products } = await client.query({
+    query: GET_PRODUCT_MANY,
+  });
+
+  return {
+    props: {
+      product: product.productById,
+      products: products.productMany,
+    },
+  };
+}
+
+export default Home;

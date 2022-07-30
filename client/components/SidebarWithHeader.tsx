@@ -171,7 +171,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         }}
         py="12px"
         borderRadius="15px"
-        _hover="none"
         w="100%"
         _active={{
           bg: 'inherit',
@@ -217,7 +216,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         }}
         py="12px"
         borderRadius="15px"
-        _hover="none"
         w="100%"
         _active={{
           bg: 'inherit',

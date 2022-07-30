@@ -1,5 +1,5 @@
-FROM node:16.7.0-alpine3.14
-RUN apk update && apk add bash
+FROM node:16.10.0-slim
+RUN apt-get -y update && apt-get -y install bash
 
 WORKDIR /app/server
 COPY package.json .

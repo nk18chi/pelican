@@ -152,7 +152,7 @@ const Dashboard: NextPage = () => {
                     fontWeight="bold"
                     pb=".1rem"
                   >
-                    Today's Moneys
+                    Today&#39;s Moneys
                   </StatLabel>
                   <Flex>
                     <StatNumber fontSize="lg" color={textColor}>

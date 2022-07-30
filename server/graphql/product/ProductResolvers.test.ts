@@ -21,6 +21,36 @@ afterAll(async () => {
 });
 
 describe('ProductResolver', () => {
+  describe('productById Query', () => {
+    it('get a product', async () => {
+      const user1 = await User.create({ name: 'Naoki' });
+
+      const product = await Product.create({
+        name: 'Product 1',
+        user: user1._id,
+      });
+
+      const apolloServer: ApolloServer = new ApolloServer({
+        schema,
+      });
+
+      const res = await apolloServer.executeOperation({
+        query: `{
+          productById(_id: "${product._id}") {
+              name
+              user {
+                  name
+              }
+            }
+          }`,
+      });
+      expect(res.errors).toBeUndefined();
+      expect(res.data?.productById).toEqual({
+        name: 'Product 1',
+        user: { name: 'Naoki' },
+      });
+    });
+  });
   describe('productMany Query', () => {
     it('get all products', async () => {
       const user1 = await User.create({ name: 'Naoki' });

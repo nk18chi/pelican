@@ -1,6 +1,6 @@
 ## Environment
 
-- Node v16.7.0
+- Node v16.10.0
 
 ### client
 
@@ -9,7 +9,7 @@
 - storybook
 - cypress
 - Atomic Design
-- Tailwind
+- Chakura
 - Jest / React Testing Library
 
 ### server
@@ -22,20 +22,30 @@
 ### settings
 
 - Github Action
-- Circle CI
 - Docker
 
 ## Development
 
+add env.local in server
+
+```
+NODE_ENV=development
+```
+
 ### Docker
 
 ```
-docker-compose up --build
-docker-compose up // if building is already done
+docker-compose down
+docker-compose --env-file .env up --build
+docker-compose --env-file .env up -d // if building is already done
+
+## only once
+docker-compose exec mongodb bash
+/mongo/setup.sh
 ```
 
-http://localhost:3000/
-http://localhost:4000/graphql
+http://localhost  
+http://localhost:4000/graphql  
 http://localhost:6006/
 
 #### Troble Shooting
@@ -53,7 +63,7 @@ docker-compose up --build
 Error
 Read timed out. (read timeout=60)
 
-Restart docker or run the command in the following link
+Restart docker or run the command in the following link  
 https://stackoverflow.com/a/52135934/9792009
 
 ## Test

@@ -10,7 +10,6 @@ import {
   SimpleGrid,
   Avatar,
   AvatarGroup,
-  useBreakpointValue,
   IconProps,
   Icon,
 } from '@chakra-ui/react';
@@ -70,7 +69,6 @@ export default function JoinOurTeam() {
                   key={avatar.name}
                   name={avatar.name}
                   src={avatar.url}
-                  size={useBreakpointValue({ base: 'md', md: 'lg' })}
                   position={'relative'}
                   zIndex={2}
                   _before={{
@@ -99,8 +97,6 @@ export default function JoinOurTeam() {
               bg={'gray.800'}
               color={'white'}
               rounded={'full'}
-              width={useBreakpointValue({ base: '44px', md: '60px' })}
-              height={useBreakpointValue({ base: '44px', md: '60px' })}
               position={'relative'}
               _before={{
                 content: '""',
@@ -209,8 +205,6 @@ export default function JoinOurTeam() {
 export const Blur = (props: IconProps) => {
   return (
     <Icon
-      width={useBreakpointValue({ base: '100%', md: '40vw', lg: '30vw' })}
-      zIndex={useBreakpointValue({ base: -1, md: -1, lg: 0 })}
       height="560px"
       viewBox="0 0 528 560"
       fill="none"

@@ -1,66 +1,61 @@
 version: '3'
 
 services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - "server"
+      - "client"
+      - "storybook"
+    ports:
+      - '80:80'
+      - '4000:4000'
+      - '6006:6006'
   mongodb:
     image: mongo
-    ports:
-      - 27017:27017
     restart: always
-  mongodb-seed:
-    build:
-      context: ./mongo
-      dockerfile: Dockerfile
     volumes:
       - ./mongo:/mongo
-    links:
-      - mongodb
-    command: mongo/setup.sh
-    tty: true
+      - mongo_data:/data/db
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
-    expose:
-      - 4000
-    environment:
-      - PORT=4000
-      - NODE_ENV=development
-    ports:
-      - 4000:4000
+    depends_on:
+      - "mongodb"
     volumes:
       - ./server:/app/server
-      - /app/server/node_modules
-    links:
-      - mongodb
+      - server_node_modules:/app/server/node_modules
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
     restart: always
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
-    environment:
-      - REACT_APP_PORT=3000
-      - CHOKIDAR_USEPOLLING=true
-      - NODE_ENV=development
-    expose:
-      - 3000
-    ports:
-      - 3000:3000
+    depends_on:
+      - "server"
     volumes:
       - ./client:/app/client
-      - /app/client/node_modules
-    links:
-      - server
+      - client_node_modules:/app/client/node_modules
+      - client_next:/app/client/.next
     tty: true
   storybook:
     build:
       context: ./client
       dockerfile: Dockerfile.storybook
-    environment:
-      - NODE_ENV=development
-    expose:
-      - 6006
-    ports:
-      - 6006:6006
     volumes:
       - ./client:/app/client
-      - /app/client/node_modules
+      - client_node_modules:/app/client/node_modules
+
+volumes:
+  mongo_data:
+  client_node_modules:
+  client_next:
+  server_node_modules:
+
+networks:
+  default:
+    driver: bridge

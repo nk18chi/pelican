@@ -29,8 +29,13 @@
 ### Docker
 
 ```
+docker-compose down
 docker-compose up --build
-docker-compose up // if building is already done
+docker-compose up -d // if building is already done
+
+## only once
+docker-compose exec mongodb bash
+/mongo/setup.sh
 ```
 
 http://localhost:3000/  

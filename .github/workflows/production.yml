@@ -75,4 +75,10 @@ jobs:
           aws-region: ap-northeast-1
 
       - name: Create CodeDeploy Deployment
-        run: aws deploy create-deployment --application-name {{ secrets.AWS_APPLICATION_NAME }} --deployment-group-name {{ secrets.AWS_DEPLOYMENT_GROUP_NAME }} --deployment-config-name CodeDeployDefault.OneAtATime --github-location repository=${{ github.repository }},commitId=${{ github.sha }} --file-exists-behavior OVERWRITE
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ secrets.AWS_APPLICATION_NAME }} \
+            --deployment-group-name ${{ secrets.AWS_DEPLOYMENT_GROUP_NAME }} \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }} \
+            --file-exists-behavior OVERWRITE

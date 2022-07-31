@@ -43,6 +43,9 @@ services:
       - client_next:/app/client/.next
     environment:
       - NODE_ENV=${NODE_ENV:-production}
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 3000:3000
     tty: true
   storybook:
     build:

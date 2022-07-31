@@ -6,4 +6,4 @@ COPY package.json .
 RUN yarn install
 
 COPY . .
-CMD ["yarn", "build-and-start"]
+ENTRYPOINT ./run-app.sh

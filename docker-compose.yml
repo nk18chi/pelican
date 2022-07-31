@@ -41,6 +41,8 @@ services:
       - ./client:/app/client
       - client_node_modules:/app/client/node_modules
       - client_next:/app/client/.next
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
     tty: true
   storybook:
     build:

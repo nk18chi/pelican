@@ -15,6 +15,7 @@
     "test": "jest --maxWorkers=1",
     "test:watch": "jest --watchAll --maxWorkers=1",
     "storybook": "start-storybook -p 6006",
+    "dev-and-storybook": "next dev & start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "husky": {

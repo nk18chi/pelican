@@ -104,6 +104,9 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                     ))}
                   </Grid>
                 </AccordionItemBlock>
+                <AccordionItemBlock title={'Choose your plan'}>
+                  <PricingHorizontal />
+                </AccordionItemBlock>
               </Accordion>
             </Box>
             <Box w="40%">

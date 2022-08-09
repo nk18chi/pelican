@@ -1,16 +1,18 @@
 import {
   Box,
-  Accordion,
   AccordionItem,
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
-  Grid,
-  GridItem,
 } from '@chakra-ui/react';
 import { CheckCircleIcon } from '@chakra-ui/icons';
 
-const AccordionItemBlock = ({ children, title }) => {
+interface Props {
+  title: string;
+  children: JSX.Element;
+}
+
+const AccordionItemBlock = ({ children, title }: Props) => {
   return (
     <AccordionItem>
       <h2>

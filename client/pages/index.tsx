@@ -1,5 +1,4 @@
-import Head from 'next/head';
-import type { NextPage } from 'next';
+import type { NextPage, GetStaticProps } from 'next';
 import {
   Box,
   Heading,
@@ -26,6 +25,14 @@ import { TProduct } from 'types/product';
 import Product from '@/components/card/Product';
 import AccordionItemBlock from '@/components/Accordion/AccordionItemBlock';
 import PricingHorizontal from '@/components/pricing/PricingHorizontal';
+import {
+  QueryProductById,
+  QueryProductByIdVariables,
+} from '@/generated/QueryProductById';
+import {
+  QueryProductMany,
+  QueryProductManyVariables,
+} from '@/generated/QueryProductMany';
 
 const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
   product,
@@ -53,6 +60,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
       price: 1000,
       rating: 4.7,
       numReviews: 42,
+      selected: false,
     },
     {
       id: '3',
@@ -62,6 +70,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
       price: 1200,
       rating: 4.2,
       numReviews: 34,
+      selected: false,
     },
   ];
   return (
@@ -153,20 +162,26 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
   );
 };
 
-export async function getStaticProps() {
-  const { data: product } = await client.query({
-    query: GET_PRODUCT_BY_ID('62d4b636d41f4441db37ef01'),
+export const getStaticProps: GetStaticProps = async () => {
+  const {
+    data: { productById },
+  } = await client.query<QueryProductById, QueryProductByIdVariables>({
+    query: GET_PRODUCT_BY_ID,
+    variables: {
+      id: '62d4b636d41f4441db37ef01',
+    },
   });
-  const { data: products } = await client.query({
+  const {
+    data: { productMany },
+  } = await client.query<QueryProductMany, QueryProductManyVariables>({
     query: GET_PRODUCT_MANY,
   });
-
   return {
     props: {
-      product: product.productById,
-      products: products.productMany,
+      product: productById,
+      products: productMany,
     },
   };
-}
+};
 
 export default Home;

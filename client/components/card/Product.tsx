@@ -34,6 +34,15 @@ function Rating({ rating, numReviews }: RatingProps) {
   );
 }
 
+interface ProductProps {
+  isNew: boolean;
+  imageURL: string;
+  name: string;
+  price: number;
+  rating: number;
+  numReviews: number;
+  selected: boolean;
+}
 function Product({
   isNew,
   imageURL,
@@ -42,7 +51,7 @@ function Product({
   rating,
   numReviews,
   selected,
-}) {
+}: ProductProps) {
   return (
     <Flex p="2" alignItems="center" justifyContent="center">
       <Box

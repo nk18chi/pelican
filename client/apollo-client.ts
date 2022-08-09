@@ -7,7 +7,10 @@ import productDummy from './cypress/fixtures/product.json';
 const mocks: MockedResponse[] = [
   {
     request: {
-      query: GET_PRODUCT_BY_ID('62d4b636d41f4441db37ef01'),
+      query: GET_PRODUCT_BY_ID,
+      variables: {
+        id: '62d4b636d41f4441db37ef01',
+      },
     },
     result: {
       data: {
@@ -34,6 +37,7 @@ const client = new ApolloClient({
       ? new MockLink(mocks)
       : createHttpLink({
           uri: process.env.API_URL,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           fetch: fetch as any,
         }),
   cache: new InMemoryCache(),

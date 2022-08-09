@@ -7,7 +7,6 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { css } from '@emotion/react';
 import { FaCheckCircle } from 'react-icons/fa';
 const plans = [
   {
@@ -45,7 +44,7 @@ const plans = [
 interface PackageTierProps {
   title: string;
   options: Array<{ id: number; desc: string }>;
-  typePlan: string;
+  typePlan: number;
   selected?: boolean;
 }
 
@@ -78,7 +77,7 @@ const PackageTier = ({
         {title}
       </Heading>
       <List spacing={3} textAlign="start" width="50%">
-        {options.map((desc, id) => (
+        {options.map((desc) => (
           <ListItem key={desc.id}>
             <ListIcon as={FaCheckCircle} color="green.500" />
             {desc.desc}
@@ -93,7 +92,7 @@ const PackageTier = ({
 };
 const PricingHorizontal = () => {
   return (
-    <Box min={'100vh'}>
+    <Box minW={'100vh'}>
       <Stack width={'100%'} direction={'column'}>
         {plans.map((p) => (
           <PackageTier

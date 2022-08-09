@@ -1,10 +1,22 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Index from '../pages/index';
+import { TProduct } from 'types/product';
+
+const testProduct: TProduct = {
+  _id: '1',
+  name: 'product name 1',
+  user: {
+    _id: '1',
+    name: 'user 1',
+  },
+};
 
 describe('App', () => {
   it('renders a heading', () => {
-    const { getByRole } = render(<Index />);
+    const { getByRole } = render(
+      <Index product={testProduct} products={[testProduct]} />
+    );
 
     const heading = getByRole('heading', {
       name: /money/i,

@@ -17,7 +17,62 @@ import {
   Grid,
   GridItem,
   Accordion,
+  Checkbox,
 } from '@chakra-ui/react';
+import { css } from '@emotion/react';
+
+const stylePrimary = css`
+  .chakra-checkbox__label {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const productItems = [
+  {
+    id: '1',
+    isNew: true,
+    imageURL: '/assets/img/phones/phone-1.png',
+    name: 'iPhone 13',
+    price: 1800,
+    rating: 4.8,
+    numReviews: 134,
+    selected: true,
+  },
+  {
+    id: '2',
+    isNew: true,
+    imageURL: '/assets/img/phones/phone-2.png',
+    name: 'Goolge Pixel 6a',
+    price: 1000,
+    rating: 4.7,
+    numReviews: 42,
+    selected: false,
+  },
+  {
+    id: '3',
+    isNew: true,
+    imageURL: '/assets/img/phones/phone-3.png',
+    name: 'Samsung Galaxy',
+    price: 1200,
+    rating: 4.2,
+    numReviews: 34,
+    selected: false,
+  },
+];
+
+type TProductOptions = {
+  id: number;
+  label: string;
+  price: number;
+};
+
+const productOptions: TProductOptions[] = [
+  { id: 1, label: 'Device Protection', price: 6.99 },
+  { id: 2, label: 'Premium Voicemail-To-Text', price: 15 },
+];
 
 import client from '../apollo-client';
 import { GET_PRODUCT_MANY, GET_PRODUCT_BY_ID } from '../gql/product';
@@ -41,38 +96,6 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
   console.log('product', product);
   console.log('products', products);
 
-  const productItems = [
-    {
-      id: '1',
-      isNew: true,
-      imageURL: '/assets/img/phones/phone-1.png',
-      name: 'iPhone 13',
-      price: 1800,
-      rating: 4.8,
-      numReviews: 134,
-      selected: true,
-    },
-    {
-      id: '2',
-      isNew: true,
-      imageURL: '/assets/img/phones/phone-2.png',
-      name: 'Goolge Pixel 6a',
-      price: 1000,
-      rating: 4.7,
-      numReviews: 42,
-      selected: false,
-    },
-    {
-      id: '3',
-      isNew: true,
-      imageURL: '/assets/img/phones/phone-3.png',
-      name: 'Samsung Galaxy',
-      price: 1200,
-      rating: 4.2,
-      numReviews: 34,
-      selected: false,
-    },
-  ];
   return (
     <>
       <Container maxW={'5xl'}>
@@ -115,6 +138,22 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                 </AccordionItemBlock>
                 <AccordionItemBlock title={'Choose your plan'}>
                   <PricingHorizontal />
+                </AccordionItemBlock>
+                <AccordionItemBlock title={'Additional Options'}>
+                  <Stack direction="column">
+                    {productOptions.map((option) => (
+                      <Checkbox
+                        key={option.id}
+                        size="lg"
+                        colorScheme="green"
+                        w="100%"
+                        css={stylePrimary}
+                      >
+                        <p>{option.label}</p>
+                        <p>${option.price.toFixed(2)}/mo</p>
+                      </Checkbox>
+                    ))}
+                  </Stack>
                 </AccordionItemBlock>
               </Accordion>
             </Box>

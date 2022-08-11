@@ -88,6 +88,7 @@ import {
   QueryProductMany,
   QueryProductManyVariables,
 } from '@/generated/QueryProductMany';
+import { FormStatus } from 'types/plan';
 
 const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
   product,
@@ -119,7 +120,10 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
           <Flex alignItems="start" gap="10">
             <Box w="60%">
               <Accordion allowToggle defaultIndex={0}>
-                <AccordionItemBlock title={'Choose your new phone'}>
+                <AccordionItemBlock
+                  title={'Choose your new phone'}
+                  status={FormStatus.valid}
+                >
                   <Grid templateColumns="repeat(3, 1fr)">
                     {productItems.map((p) => (
                       <GridItem key={p.id}>
@@ -136,10 +140,16 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                     ))}
                   </Grid>
                 </AccordionItemBlock>
-                <AccordionItemBlock title={'Choose your plan'}>
+                <AccordionItemBlock
+                  title={'Choose your plan'}
+                  status={FormStatus.notSet}
+                >
                   <PricingHorizontal />
                 </AccordionItemBlock>
-                <AccordionItemBlock title={'Additional Options'}>
+                <AccordionItemBlock
+                  title={'Additional Options'}
+                  status={FormStatus.invalid}
+                >
                   <Stack direction="column">
                     {productOptions.map((option) => (
                       <Checkbox

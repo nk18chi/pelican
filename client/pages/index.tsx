@@ -18,6 +18,7 @@ import {
   GridItem,
   Accordion,
   Checkbox,
+  Button,
 } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 
@@ -104,7 +105,8 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
           as={Box}
           textAlign={'center'}
           spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}
+          pt={{ base: 20, md: 36 }}
+          pb={{ base: 20, md: 8 }}
         >
           <Heading
             as="h1"
@@ -205,6 +207,17 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
               </TableContainer>
             </Box>
           </Flex>
+        </Stack>
+        <Stack
+          spacing={4}
+          direction="row"
+          align="center"
+          justifyContent={'center'}
+          pb={8}
+        >
+          <Button colorScheme="teal" size="lg">
+            Proceed to Checkout
+          </Button>
         </Stack>
       </Container>
     </>

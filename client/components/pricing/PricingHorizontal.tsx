@@ -92,7 +92,7 @@ const PackageTier = ({
 };
 const PricingHorizontal = () => {
   return (
-    <Box minW={'100vh'}>
+    <Box>
       <Stack width={'100%'} direction={'column'}>
         {plans.map((p) => (
           <PackageTier

@@ -230,9 +230,11 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                         ? invoiceTable.map((table) => (
                             <TableContainer
                               key={table.id}
-                              w="92%"
-                              mx="auto"
-                              my="2"
+                              px="4%"
+                              py="4"
+                              my="4"
+                              rounded="lg"
+                              bg="white"
                             >
                               <Heading
                                 as="h3"
@@ -268,12 +270,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                             </TableContainer>
                           ))
                         : invoiceTable.map((table) => (
-                            <TableContainer
-                              key={table.id}
-                              w="92%"
-                              mx="auto"
-                              my="2"
-                            >
+                            <TableContainer key={table.id} px="4%" py="2">
                               <HStack>
                                 <Heading
                                   as="h3"

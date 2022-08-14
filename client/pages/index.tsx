@@ -8,17 +8,20 @@ import {
   Flex,
   TableContainer,
   Table,
-  Thead,
   Tr,
-  Th,
   Tbody,
   Td,
-  Tfoot,
   Grid,
   GridItem,
   Accordion,
   Checkbox,
   Button,
+  HStack,
+  VStack,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  Divider,
 } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 
@@ -29,6 +32,11 @@ const stylePrimary = css`
     flex-direction: row;
     justify-content: space-between;
   }
+`;
+
+const styleEmphasize = css`
+  font-weight: bold;
+  font-size: 1.1rem;
 `;
 
 const productItems = [
@@ -73,6 +81,34 @@ type TProductOptions = {
 const productOptions: TProductOptions[] = [
   { id: 1, label: 'Device Protection', price: 6.99 },
   { id: 2, label: 'Premium Voicemail-To-Text', price: 15 },
+];
+
+const invoiceTable = [
+  {
+    id: 1,
+    label: 'One-Time Fees',
+    details: [
+      { id: 1, label: 'Plan Name', price: 100 },
+      { id: 2, label: 'Additional Service', price: 10 },
+      { id: 2, label: 'Additional Service', price: 20 },
+      { id: 3, label: 'Subtotal', price: 130 },
+      { id: 4, label: 'GST/HST', price: 6.5 }, // 0.05%
+      { id: 5, label: 'PST/QST', price: 9.1 }, // 0.07%
+    ],
+    total: { label: 'Total', price: 145.6 },
+  },
+  {
+    id: 2,
+    label: 'Monthly Fees',
+    details: [
+      { id: 1, label: 'Phone Name', price: 1000 },
+      { id: 2, label: 'Set Up Service Fee', price: 50 },
+      { id: 3, label: 'Subtotal', price: 1050 },
+      { id: 4, label: 'GST/HST', price: 52.5 },
+      { id: 5, label: 'PST/QST', price: 73.5 },
+    ],
+    total: { label: 'Total', price: 1176 },
+  },
 ];
 
 import client from '../apollo-client';
@@ -120,8 +156,8 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
             </Text>
           </Heading>
           <Flex alignItems="start" gap="10">
-            <Box w="60%">
-              <Accordion allowToggle defaultIndex={0}>
+            <VStack w="60%">
+              <Accordion w="100%" allowToggle defaultIndex={0}>
                 <AccordionItemBlock
                   title={'Choose your new phone'}
                   status={FormStatus.valid}
@@ -168,44 +204,103 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                   </Stack>
                 </AccordionItemBlock>
               </Accordion>
-            </Box>
-            <Box w="40%">
-              <TableContainer>
-                <Table size="sm">
-                  <Thead>
-                    <Tr>
-                      <Th>To convert</Th>
-                      <Th>into</Th>
-                      <Th isNumeric>multiply by</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td>inches</Td>
-                      <Td>millimetres (mm)</Td>
-                      <Td isNumeric>25.4</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>feet</Td>
-                      <Td>centimetres (cm)</Td>
-                      <Td isNumeric>30.48</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>yards</Td>
-                      <Td>metres (m)</Td>
-                      <Td isNumeric>0.91444</Td>
-                    </Tr>
-                  </Tbody>
-                  <Tfoot>
-                    <Tr>
-                      <Th>To convert</Th>
-                      <Th>into</Th>
-                      <Th isNumeric>multiply by</Th>
-                    </Tr>
-                  </Tfoot>
-                </Table>
-              </TableContainer>
-            </Box>
+            </VStack>
+            <VStack w="40%" spacing={4}>
+              <Accordion w="100%" allowToggle>
+                <AccordionItem>
+                  {({ isExpanded }) => (
+                    <>
+                      <Heading
+                        as="h2"
+                        w="100%"
+                        fontWeight={600}
+                        fontSize={{ base: '2xl', sm: '2xl', md: '2xl' }}
+                        lineHeight={'110%'}
+                        textAlign="left"
+                      >
+                        <AccordionButton>
+                          <Box flex="1" textAlign="left">
+                            Invoice
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </Heading>
+                      <Divider />
+                      {isExpanded
+                        ? invoiceTable.map((table) => (
+                            <TableContainer
+                              key={table.id}
+                              w="92%"
+                              mx="auto"
+                              my="2"
+                            >
+                              <Heading
+                                as="h3"
+                                w="100%"
+                                fontWeight={600}
+                                fontSize={{ base: 'xl', sm: 'xl', md: 'xl' }}
+                                lineHeight={'110%'}
+                                textAlign="left"
+                                mb={1}
+                              >
+                                {table.label}
+                              </Heading>
+                              <Table size="sm">
+                                <Tbody>
+                                  {table.details.map((detail) => (
+                                    <Tr key={detail.id}>
+                                      <Td>{detail.label}</Td>
+                                      <Td isNumeric>
+                                        ${detail.price.toFixed(2)}
+                                      </Td>
+                                    </Tr>
+                                  ))}
+                                  <Tr>
+                                    <Td css={styleEmphasize}>
+                                      {table.total.label}
+                                    </Td>
+                                    <Td css={styleEmphasize} isNumeric>
+                                      ${table.total.price.toFixed(2)}
+                                    </Td>
+                                  </Tr>
+                                </Tbody>
+                              </Table>
+                            </TableContainer>
+                          ))
+                        : invoiceTable.map((table) => (
+                            <TableContainer
+                              key={table.id}
+                              w="92%"
+                              mx="auto"
+                              my="2"
+                            >
+                              <HStack>
+                                <Heading
+                                  as="h3"
+                                  w="100%"
+                                  fontWeight={600}
+                                  fontSize={{
+                                    base: 'xl',
+                                    sm: 'xl',
+                                    md: 'xl',
+                                  }}
+                                  lineHeight={'110%'}
+                                  textAlign="left"
+                                  mb={1}
+                                >
+                                  {table.label}
+                                </Heading>
+                                <p css={styleEmphasize}>
+                                  ${table.total.price.toFixed(2)}
+                                </p>
+                              </HStack>
+                            </TableContainer>
+                          ))}
+                    </>
+                  )}
+                </AccordionItem>
+              </Accordion>
+            </VStack>
           </Flex>
         </Stack>
         <Stack

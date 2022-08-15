@@ -10,7 +10,7 @@ import {
 import { FaCheckCircle } from 'react-icons/fa';
 const plans = [
   {
-    id: 1,
+    id: '1',
     title: 'Standard',
     options: [
       { id: 1, desc: 'up to 10 GB / mo' },
@@ -21,7 +21,7 @@ const plans = [
     price: 30.0,
   },
   {
-    id: 2,
+    id: '2',
     title: 'Gold',
     options: [
       { id: 1, desc: 'up to 50 GB / mo' },
@@ -31,7 +31,7 @@ const plans = [
     price: 70.0,
   },
   {
-    id: 3,
+    id: '3',
     title: 'Platinum',
     options: [
       { id: 1, desc: 'unlimited data' },
@@ -42,17 +42,21 @@ const plans = [
   },
 ];
 interface PackageTierProps {
+  id: string;
   title: string;
   options: Array<{ id: number; desc: string }>;
   typePlan: number;
   selected?: boolean;
+  handleClick: (id: string) => void;
 }
 
 const PackageTier = ({
+  id,
   title,
   options,
   typePlan,
   selected,
+  handleClick,
 }: PackageTierProps) => {
   return (
     <Stack
@@ -72,6 +76,7 @@ const PackageTier = ({
       rounded="lg"
       shadow="lg"
       cursor="pointer"
+      onClick={() => handleClick(id)}
     >
       <Heading as="p" size={'md'} width="25%">
         {title}
@@ -90,17 +95,25 @@ const PackageTier = ({
     </Stack>
   );
 };
-const PricingHorizontal = () => {
+
+type TProps = {
+  selectedId?: string;
+  handleClick: (id: string) => void;
+};
+
+const PricingHorizontal = ({ selectedId, handleClick }: TProps) => {
   return (
     <Box>
       <Stack width={'100%'} direction={'column'}>
         {plans.map((p) => (
           <PackageTier
             key={p.id}
+            id={p.id}
             title={p.title}
             typePlan={p.price}
             options={p.options}
-            selected={p.selected}
+            selected={p.id === selectedId}
+            handleClick={handleClick}
           />
         ))}
       </Stack>

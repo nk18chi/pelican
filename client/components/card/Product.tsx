@@ -42,6 +42,7 @@ interface ProductProps {
   rating: number;
   numReviews: number;
   selected: boolean;
+  handleClick: () => void;
 }
 function Product({
   isNew,
@@ -51,6 +52,7 @@ function Product({
   rating,
   numReviews,
   selected,
+  handleClick,
 }: ProductProps) {
   return (
     <Flex p="2" alignItems="center" justifyContent="center">
@@ -63,6 +65,7 @@ function Product({
         borderWidth={selected ? '2px' : '1px'}
         borderColor={selected ? 'green.400' : 'inherit'}
         cursor="pointer"
+        onClick={handleClick}
       >
         <Image
           src={imageURL}

@@ -22,6 +22,7 @@ import {
   AccordionButton,
   AccordionIcon,
   Divider,
+  ExpandedIndex,
 } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 
@@ -48,7 +49,6 @@ const productItems = [
     price: 1800,
     rating: 4.8,
     numReviews: 134,
-    selected: true,
   },
   {
     id: '2',
@@ -58,7 +58,6 @@ const productItems = [
     price: 1000,
     rating: 4.7,
     numReviews: 42,
-    selected: false,
   },
   {
     id: '3',
@@ -68,7 +67,6 @@ const productItems = [
     price: 1200,
     rating: 4.2,
     numReviews: 34,
-    selected: false,
   },
 ];
 
@@ -126,13 +124,36 @@ import {
   QueryProductManyVariables,
 } from '@/generated/QueryProductMany';
 import { FormStatus } from 'types/plan';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
+type TOption = {
+  [key: string]: string;
+};
+
+type TSelectedPlan = {
+  phone?: string;
+  plan?: string;
+  options: TOption;
+};
 
 const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
   product,
   products,
 }) => {
+  const [selectedPlan, setSelectedPlan] = useState<TSelectedPlan>({
+    options: {},
+  });
+  const [validation, setValidation] = useState<boolean>(false);
+  const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>(0);
   console.log('product', product);
   console.log('products', products);
+
+  useEffect(() => {
+    setValidation(selectedPlan.phone && selectedPlan.plan ? true : false);
+    if (selectedPlan.phone && selectedPlan.plan) setAccordionIndex(2);
+    else if (selectedPlan.phone) setAccordionIndex(1);
+  }, [selectedPlan.phone, selectedPlan.plan]);
 
   return (
     <>
@@ -157,10 +178,17 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
           </Heading>
           <Flex alignItems="start" gap="10">
             <VStack w="60%">
-              <Accordion w="100%" allowToggle defaultIndex={0}>
+              <Accordion
+                w="100%"
+                allowToggle
+                index={accordionIndex}
+                onChange={(id: ExpandedIndex) => setAccordionIndex(id)}
+              >
                 <AccordionItemBlock
                   title={'Choose your new phone'}
-                  status={FormStatus.valid}
+                  status={
+                    selectedPlan.phone ? FormStatus.valid : FormStatus.notSet
+                  }
                 >
                   <Grid templateColumns="repeat(3, 1fr)">
                     {productItems.map((p) => (
@@ -172,7 +200,13 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                           price={p.price}
                           rating={p.rating}
                           numReviews={p.numReviews}
-                          selected={p.selected}
+                          selected={selectedPlan.phone === p.id}
+                          handleClick={() =>
+                            setSelectedPlan((prev) => ({
+                              ...prev,
+                              phone: p.id,
+                            }))
+                          }
                         />
                       </GridItem>
                     ))}
@@ -180,13 +214,23 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                 </AccordionItemBlock>
                 <AccordionItemBlock
                   title={'Choose your plan'}
-                  status={FormStatus.notSet}
+                  status={
+                    selectedPlan.plan ? FormStatus.valid : FormStatus.notSet
+                  }
                 >
-                  <PricingHorizontal />
+                  <PricingHorizontal
+                    selectedId={selectedPlan.plan}
+                    handleClick={(id) =>
+                      setSelectedPlan((prev) => ({
+                        ...prev,
+                        plan: id,
+                      }))
+                    }
+                  />
                 </AccordionItemBlock>
                 <AccordionItemBlock
                   title={'Additional Options'}
-                  status={FormStatus.invalid}
+                  status={FormStatus.valid}
                 >
                   <Stack direction="column">
                     {productOptions.map((option) => (
@@ -307,7 +351,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
           justifyContent={'center'}
           pb={8}
         >
-          <Button colorScheme="teal" size="lg">
+          <Button colorScheme="teal" size="lg" disabled={!validation}>
             Proceed to Checkout
           </Button>
         </Stack>

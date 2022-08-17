@@ -7,6 +7,7 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { TPlan } from 'pages';
 import { FaCheckCircle } from 'react-icons/fa';
 const plans = [
   {
@@ -47,7 +48,7 @@ interface PackageTierProps {
   options: Array<{ id: number; desc: string }>;
   typePlan: number;
   selected?: boolean;
-  handleClick: (id: string) => void;
+  handleClick: (plan: TPlan) => void;
 }
 
 const PackageTier = ({
@@ -76,7 +77,7 @@ const PackageTier = ({
       rounded="lg"
       shadow="lg"
       cursor="pointer"
-      onClick={() => handleClick(id)}
+      onClick={() => handleClick({ id, label: title, price: typePlan })}
     >
       <Heading as="p" size={'md'} width="25%">
         {title}
@@ -98,7 +99,7 @@ const PackageTier = ({
 
 type TProps = {
   selectedId?: string;
-  handleClick: (id: string) => void;
+  handleClick: (plan: TPlan) => void;
 };
 
 const PricingHorizontal = ({ selectedId, handleClick }: TProps) => {

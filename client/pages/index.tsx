@@ -71,41 +71,62 @@ const productItems = [
 ];
 
 type TProductOptions = {
-  id: number;
+  id: string;
   label: string;
   price: number;
 };
 
 const productOptions: TProductOptions[] = [
-  { id: 1, label: 'Device Protection', price: 6.99 },
-  { id: 2, label: 'Premium Voicemail-To-Text', price: 15 },
+  { id: '1', label: 'Device Protection', price: 6.99 },
+  { id: '2', label: 'Premium Voicemail-To-Text', price: 15 },
 ];
 
-const invoiceTable = [
+const taxes = [
+  { id: '1', label: 'GST/HST', percentage: 0.05 },
+  { id: '2', label: 'PST/QST', percentage: 0.07 },
+];
+
+type TInvoiceDetail = {
+  id: string;
+  label: string;
+  value: number;
+};
+
+type TInvoice = {
+  id: string;
+  label: string;
+  details: TInvoiceDetail[];
+  total: {
+    label: string;
+    value: number;
+  };
+};
+
+const invoiceTable: TInvoice[] = [
   {
-    id: 1,
-    label: 'One-Time Fees',
-    details: [
-      { id: 1, label: 'Plan Name', price: 100 },
-      { id: 2, label: 'Additional Service', price: 10 },
-      { id: 2, label: 'Additional Service', price: 20 },
-      { id: 3, label: 'Subtotal', price: 130 },
-      { id: 4, label: 'GST/HST', price: 6.5 }, // 0.05%
-      { id: 5, label: 'PST/QST', price: 9.1 }, // 0.07%
-    ],
-    total: { label: 'Total', price: 145.6 },
-  },
-  {
-    id: 2,
+    id: '1',
     label: 'Monthly Fees',
     details: [
-      { id: 1, label: 'Phone Name', price: 1000 },
-      { id: 2, label: 'Set Up Service Fee', price: 50 },
-      { id: 3, label: 'Subtotal', price: 1050 },
-      { id: 4, label: 'GST/HST', price: 52.5 },
-      { id: 5, label: 'PST/QST', price: 73.5 },
+      // { id: 1, label: 'Plan Name', price: 100 },
+      // { id: 2, label: 'Additional Service', price: 10 },
+      // { id: 2, label: 'Additional Service', price: 20 },
+      // { id: 3, label: 'Subtotal', price: 130 },
+      // { id: 4, label: 'GST/HST', price: 6.5 },
+      // { id: 5, label: 'PST/QST', price: 9.1 },
     ],
-    total: { label: 'Total', price: 1176 },
+    total: { label: 'Total', value: 0 },
+  },
+  {
+    id: '2',
+    label: 'One-Time Fees',
+    details: [
+      // { id: 1, label: 'Phone Name', price: 1000 },
+      // { id: 2, label: 'Set Up Service Fee', price: 50 },
+      // { id: 3, label: 'Subtotal', price: 1050 },
+      // { id: 4, label: 'GST/HST', price: 52.5 },
+      // { id: 5, label: 'PST/QST', price: 73.5 },
+    ],
+    total: { label: 'Total', value: 0 },
   },
 ];
 
@@ -128,13 +149,27 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 type TOption = {
-  [key: string]: string;
+  id: string;
+  label: string;
+  price: number;
+};
+
+type TPhone = {
+  id: string;
+  label: string;
+  price: number;
+};
+
+export type TPlan = {
+  id: string;
+  label: string;
+  price: number;
 };
 
 type TSelectedPlan = {
-  phone?: string;
-  plan?: string;
-  options: TOption;
+  phone?: TPhone;
+  plan?: TPlan;
+  options: TOption[];
 };
 
 const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
@@ -142,10 +177,11 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
   products,
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<TSelectedPlan>({
-    options: {},
+    options: [],
   });
   const [validation, setValidation] = useState<boolean>(false);
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>(0);
+  const [invoice, setInvoice] = useState(invoiceTable);
   console.log('product', product);
   console.log('products', products);
 
@@ -154,6 +190,73 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     if (selectedPlan.phone && selectedPlan.plan) setAccordionIndex(2);
     else if (selectedPlan.phone) setAccordionIndex(1);
   }, [selectedPlan.phone, selectedPlan.plan]);
+
+  useEffect(() => {
+    const monthlyInvoice: TInvoice = { ...invoiceTable[0], details: [] };
+    const oneTimeInvoice: TInvoice = { ...invoiceTable[1], details: [] };
+
+    if (selectedPlan.plan) {
+      monthlyInvoice.details.push({
+        id: '1',
+        label: selectedPlan.plan.label,
+        value: selectedPlan.plan.price,
+      });
+    }
+
+    if (selectedPlan.phone) {
+      oneTimeInvoice.details.push({
+        id: '1',
+        label: selectedPlan.phone.label,
+        value: selectedPlan.phone.price,
+      });
+      oneTimeInvoice.details.push({
+        id: '2',
+        label: 'Set Up Service Fee',
+        value: 50,
+      });
+    }
+
+    if (selectedPlan.options.length > 0) {
+      selectedPlan.options.forEach((opt) => {
+        monthlyInvoice.details.push({
+          id: (opt.id + 1).toString(),
+          label: opt.label,
+          value: opt.price,
+        });
+      });
+    }
+
+    // subtotal/taxes
+    const calcTotal = (invoice: TInvoice) => {
+      const subtotal = invoice.details
+        .map((detail) => detail.value)
+        .reduce((a, b) => a + b, 0);
+      let total = subtotal;
+      invoice.details.push({
+        id: '10',
+        label: 'Subtotal',
+        value: subtotal,
+      });
+      taxes.forEach((tax) => {
+        const taxValue = subtotal * tax.percentage;
+        total += taxValue;
+        invoice.details.push({
+          id: (10 + tax.id).toString(),
+          label: tax.label,
+          value: taxValue,
+        });
+      });
+      invoice.total.value = total;
+    };
+    calcTotal(monthlyInvoice);
+    calcTotal(oneTimeInvoice);
+
+    setInvoice((prev) => {
+      return prev.map((p) => {
+        return p.id === '1' ? monthlyInvoice : oneTimeInvoice;
+      });
+    });
+  }, [selectedPlan]);
 
   return (
     <>
@@ -200,11 +303,15 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                           price={p.price}
                           rating={p.rating}
                           numReviews={p.numReviews}
-                          selected={selectedPlan.phone === p.id}
+                          selected={selectedPlan.phone?.id === p.id}
                           handleClick={() =>
                             setSelectedPlan((prev) => ({
                               ...prev,
-                              phone: p.id,
+                              phone: {
+                                id: p.id,
+                                label: p.name,
+                                price: p.price,
+                              },
                             }))
                           }
                         />
@@ -219,11 +326,15 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                   }
                 >
                   <PricingHorizontal
-                    selectedId={selectedPlan.plan}
-                    handleClick={(id) =>
+                    selectedId={selectedPlan.plan?.id}
+                    handleClick={(plan) =>
                       setSelectedPlan((prev) => ({
                         ...prev,
-                        plan: id,
+                        plan: {
+                          id: plan.id,
+                          label: plan.label,
+                          price: plan.price,
+                        },
                       }))
                     }
                   />
@@ -240,6 +351,19 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                         colorScheme="green"
                         w="100%"
                         css={stylePrimary}
+                        onChange={(e) =>
+                          setSelectedPlan((prev) => {
+                            let newOptions = [...prev.options];
+                            if (e.target.checked) {
+                              newOptions.push(option);
+                            } else {
+                              newOptions = newOptions.filter(
+                                (opt) => opt.id !== option.id
+                              );
+                            }
+                            return { ...prev, options: newOptions };
+                          })
+                        }
                       >
                         <p>{option.label}</p>
                         <p>${option.price.toFixed(2)}/mo</p>
@@ -271,7 +395,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                       </Heading>
                       <Divider />
                       {isExpanded
-                        ? invoiceTable.map((table) => (
+                        ? invoice.map((table) => (
                             <TableContainer
                               key={table.id}
                               px="4%"
@@ -297,7 +421,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                     <Tr key={detail.id}>
                                       <Td>{detail.label}</Td>
                                       <Td isNumeric>
-                                        ${detail.price.toFixed(2)}
+                                        ${detail.value.toFixed(2)}
                                       </Td>
                                     </Tr>
                                   ))}
@@ -306,14 +430,14 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                       {table.total.label}
                                     </Td>
                                     <Td css={styleEmphasize} isNumeric>
-                                      ${table.total.price.toFixed(2)}
+                                      ${table.total.value.toFixed(2)}
                                     </Td>
                                   </Tr>
                                 </Tbody>
                               </Table>
                             </TableContainer>
                           ))
-                        : invoiceTable.map((table) => (
+                        : invoice.map((table) => (
                             <TableContainer key={table.id} px="4%" py="2">
                               <HStack>
                                 <Heading
@@ -332,7 +456,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                   {table.label}
                                 </Heading>
                                 <p css={styleEmphasize}>
-                                  ${table.total.price.toFixed(2)}
+                                  ${table.total.value.toFixed(2)}
                                 </p>
                               </HStack>
                             </TableContainer>

@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { TPlan } from 'pages';
 import { FaCheckCircle } from 'react-icons/fa';
+import { currentFormat } from 'utils/format';
 const plans = [
   {
     id: '1',
@@ -91,7 +92,7 @@ const PackageTier = ({
         ))}
       </List>
       <Heading as="p" size={'md'} width="25%">
-        ${typePlan.toFixed(2)}/mo
+        {currentFormat({ n: typePlan })}/mo
       </Heading>
     </Stack>
   );

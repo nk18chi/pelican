@@ -1,5 +1,6 @@
 import { Flex, Box, Image, Badge, useColorModeValue } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import { currentFormat } from 'utils/format';
 
 interface RatingProps {
   rating: number;
@@ -92,10 +93,7 @@ function Product({
           </Flex>
           <Flex justifyContent="space-between" alignContent="center">
             <Box fontSize="2xl" color={useColorModeValue('gray.800', 'white')}>
-              <Box as="span" color={'gray.600'} fontSize="lg">
-                $
-              </Box>
-              {price.toFixed(2)}
+              {currentFormat({ n: price })}
             </Box>
           </Flex>
         </Box>

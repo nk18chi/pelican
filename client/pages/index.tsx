@@ -147,6 +147,7 @@ import {
 import { FormStatus } from 'types/plan';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { currentFormat } from 'utils/format';
 
 type TOption = {
   id: string;
@@ -198,7 +199,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     if (selectedPlan.plan) {
       monthlyInvoice.details.push({
         id: '1',
-        label: selectedPlan.plan.label,
+        label: `${selectedPlan.plan.label} Plan`,
         value: selectedPlan.plan.price,
       });
     }
@@ -366,7 +367,10 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                         }
                       >
                         <p>{option.label}</p>
-                        <p>${option.price.toFixed(2)}/mo</p>
+                        <p>
+                          {currentFormat({ n: option.price })}
+                          /mo
+                        </p>
                       </Checkbox>
                     ))}
                   </Stack>
@@ -421,7 +425,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                     <Tr key={detail.id}>
                                       <Td>{detail.label}</Td>
                                       <Td isNumeric>
-                                        ${detail.value.toFixed(2)}
+                                        {currentFormat({ n: detail.value })}
                                       </Td>
                                     </Tr>
                                   ))}
@@ -430,7 +434,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                       {table.total.label}
                                     </Td>
                                     <Td css={styleEmphasize} isNumeric>
-                                      ${table.total.value.toFixed(2)}
+                                      {currentFormat({ n: table.total.value })}
                                     </Td>
                                   </Tr>
                                 </Tbody>
@@ -456,7 +460,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                   {table.label}
                                 </Heading>
                                 <p css={styleEmphasize}>
-                                  ${table.total.value.toFixed(2)}
+                                  {currentFormat({ n: table.total.value })}
                                 </p>
                               </HStack>
                             </TableContainer>

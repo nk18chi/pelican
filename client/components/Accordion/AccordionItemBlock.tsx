@@ -43,7 +43,17 @@ const AccordionItemBlock = ({ children, title, status }: Props) => {
           <h2>
             <AccordionButton _expanded={{ bg: 'green.400', color: 'white' }}>
               {getStatusIcon(status, isExpanded)}
-              <Box flex="1" textAlign="left">
+              <Box
+                flex="1"
+                textAlign="left"
+                color={
+                  isExpanded
+                    ? 'white.400'
+                    : status === FormStatus.invalid
+                    ? 'red.400'
+                    : 'unset'
+                }
+              >
                 {title}
               </Box>
               <AccordionIcon />

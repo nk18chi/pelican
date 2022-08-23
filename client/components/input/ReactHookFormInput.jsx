@@ -53,19 +53,28 @@ const ReactHookFormInput = (props) => {
         name={input.name}
         rules={input.validation}
         defaultValue={input.defaultValue}
-        render={({ field: { onChange } }) => {
+        render={({ field: { onChange, value } }) => {
           switch (input.type) {
             case 'phone':
               return (
                 <PhoneInput
                   country={input.country}
-                  value={input.value}
+                  disabled={input.disabled}
+                  value={value}
                   onChange={onChange}
+                  defaultValue={input.value}
                   isValid={!errorMessage}
                 />
               );
             default:
-              return <Input type={input.type} onChange={onChange} />;
+              return (
+                <Input
+                  value={value}
+                  type={input.type}
+                  onChange={onChange}
+                  disabled={input.disabled}
+                />
+              );
           }
         }}
       />

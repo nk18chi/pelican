@@ -145,6 +145,7 @@ import { FormStatus } from 'types/plan';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { currencyFormat } from 'utils/format';
+import { COUNTRY, generateRandomPhoneNumber } from 'utils/fake';
 
 type TOption = {
   id: string;
@@ -183,8 +184,14 @@ type TInputField = {
     minLength?: number;
   };
   description?: string;
+  disabled?: boolean;
+  defaultValue?: string;
 };
 
+const randomPhoneNumber = generateRandomPhoneNumber({
+  country: COUNTRY.CANADA,
+});
+console.log('randomPhoneNumber', randomPhoneNumber);
 const inputFields: TInputField[] = [
   {
     name: 'firstName',
@@ -206,6 +213,8 @@ const inputFields: TInputField[] = [
     type: 'phone',
     validation: { required: true },
     description: "Don't put your actual information",
+    disabled: true,
+    defaultValue: randomPhoneNumber,
   },
   {
     name: 'email',
@@ -219,12 +228,16 @@ const inputFields: TInputField[] = [
       },
     },
     description: "Don't put your actual information",
+    disabled: true,
+    defaultValue: `yourphone${randomPhoneNumber}@example.com`,
   },
   {
     name: 'password',
     displayName: 'Password',
     type: 'password',
     validation: { required: true, minLength: 8 },
+    defaultValue: 'buildyourplan',
+    description: '"buildyourplan" is your password',
   },
 ];
 
@@ -244,7 +257,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     FormStatus.notSet,
   ]);
   const [invoice, setInvoice] = useState(invoiceTable);
-  const { handleSubmit, ...useFormHooks } = useForm();
+  const { handleSubmit, ...useFormHooks } = useForm({ defaultValues: {} });
   const {
     formState: { errors },
   } = useFormHooks;

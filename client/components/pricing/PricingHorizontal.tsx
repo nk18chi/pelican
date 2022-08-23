@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { TPlan } from 'pages';
 import { FaCheckCircle } from 'react-icons/fa';
-import { currentFormat } from 'utils/format';
+import { currencyFormat } from 'utils/format';
 const plans = [
   {
     id: '1',
@@ -92,7 +92,7 @@ const PackageTier = ({
         ))}
       </List>
       <Heading as="p" size={'md'} width="25%">
-        {currentFormat({ n: typePlan })}/mo
+        {currencyFormat({ n: typePlan })}/mo
       </Heading>
     </Stack>
   );

@@ -144,7 +144,7 @@ import {
 import { FormStatus } from 'types/plan';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { currentFormat } from 'utils/format';
+import { currencyFormat } from 'utils/format';
 
 type TOption = {
   id: string;
@@ -472,7 +472,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                     >
                       <p>{option.label}</p>
                       <p>
-                        {currentFormat({ n: option.price })}
+                        {currencyFormat({ n: option.price })}
                         /mo
                       </p>
                     </Checkbox>
@@ -554,14 +554,14 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                   <Tr key={detail.id}>
                                     <Td>{detail.label}</Td>
                                     <Td isNumeric>
-                                      {currentFormat({ n: detail.value })}
+                                      {currencyFormat({ n: detail.value })}
                                     </Td>
                                   </Tr>
                                 ))}
                                 <Tr>
                                   <Td>{table.total.label}</Td>
                                   <Td isNumeric>
-                                    {currentFormat({ n: table.total.value })}
+                                    {currencyFormat({ n: table.total.value })}
                                   </Td>
                                 </Tr>
                               </Tbody>
@@ -587,7 +587,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                                 {table.label}
                               </Heading>
                               <p css={styleEmphasize}>
-                                {currentFormat({ n: table.total.value })}
+                                {currencyFormat({ n: table.total.value })}
                               </p>
                             </HStack>
                           </TableContainer>

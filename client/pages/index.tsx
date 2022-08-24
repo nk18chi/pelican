@@ -237,6 +237,7 @@ const inputFields: TInputField[] = [
     type: 'password',
     validation: { required: true, minLength: 8 },
     defaultValue: 'buildyourplan',
+    disabled: true,
     description: '"buildyourplan" is your password',
   },
 ];

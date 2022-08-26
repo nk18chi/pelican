@@ -191,7 +191,6 @@ type TInputField = {
 const randomPhoneNumber = generateRandomPhoneNumber({
   country: COUNTRY.CANADA,
 });
-console.log('randomPhoneNumber', randomPhoneNumber);
 const inputFields: TInputField[] = [
   {
     name: 'firstName',

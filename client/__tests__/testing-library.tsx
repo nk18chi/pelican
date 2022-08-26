@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+
 import Index from '../pages/index';
 import { TProduct } from 'types/product';
 
@@ -14,14 +15,8 @@ const testProduct: TProduct = {
 
 describe('App', () => {
   it('renders a heading', () => {
-    const { getByRole } = render(
-      <Index product={testProduct} products={[testProduct]} />
-    );
-
-    const heading = getByRole('heading', {
-      name: /money/i,
-    });
-
+    render(<Index product={testProduct} products={[testProduct]} />);
+    const heading = screen.getByText(/Build Your Plan/i);
     expect(heading).toBeInTheDocument();
   });
 });

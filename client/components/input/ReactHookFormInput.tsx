@@ -6,31 +6,40 @@ import {
   FormHelperText,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { Controller } from 'react-hook-form';
+import { Controller, UseFormReturn, FieldErrorsImpl } from 'react-hook-form';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { TInputField } from 'pages';
 
-const getErrorMessage = (errors, input) => {
+type TErrorMessage = {
+  input: TInputField;
+  errors: FieldErrorsImpl;
+};
+
+const getErrorMessage = ({ errors, input }: TErrorMessage) => {
   const {
     name,
     validation: { minLength },
   } = input || {};
-  if (!errors || !Object.keys(errors).length) return null;
+  if (!errors || !Object.keys(errors).length) return '';
   const error = errors[name];
   if (!error || !error.type) return '';
-  console.log('error', error, input);
   switch (error.type) {
     case 'required':
       return 'This is a required field.';
     case 'minLength':
       return `This field should be at least ${minLength} characters long.`;
     default:
-      return error.message || 'Unknown validation error.';
+      return 'Unknown validation error.';
   }
 };
 
-const ReactHookFormInput = (props) => {
-  const { useFormHooks, input } = props;
+type TProps = {
+  input: TInputField;
+  useFormHooks: UseFormReturn;
+};
+
+const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
   const {
     register,
     control,
@@ -38,7 +47,7 @@ const ReactHookFormInput = (props) => {
   } = useFormHooks;
   if (!register) return null;
   if (!input || !input.type) return null;
-  const errorMessage = getErrorMessage(errors, input);
+  const errorMessage = getErrorMessage({ errors, input });
 
   return (
     <FormControl
@@ -58,11 +67,9 @@ const ReactHookFormInput = (props) => {
             case 'phone':
               return (
                 <PhoneInput
-                  country={input.country}
                   disabled={input.disabled}
                   value={value}
                   onChange={onChange}
-                  defaultValue={input.value}
                   isValid={!errorMessage}
                 />
               );

@@ -171,7 +171,7 @@ type TSelectedPlan = {
   options: TOption[];
 };
 
-type TInputField = {
+export type TInputField = {
   name: string;
   displayName: string;
   type: 'text' | 'email' | 'password' | 'phone';
@@ -257,8 +257,9 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     FormStatus.notSet,
   ]);
   const [invoice, setInvoice] = useState(invoiceTable);
-  const { handleSubmit, ...useFormHooks } = useForm({ defaultValues: {} });
+  const useFormHooks = useForm({ defaultValues: {} });
   const {
+    handleSubmit,
     formState: { errors },
   } = useFormHooks;
   console.log('product', product);

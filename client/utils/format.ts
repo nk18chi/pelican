@@ -1,14 +1,12 @@
-type TcurrencyFormat = {
-  n: number;
-  currency?: string;
-  decimal?: number;
-};
-
 export const currencyFormat = ({
   n,
   currency = 'USD',
   decimal = 2,
-}: TcurrencyFormat) => {
+}: {
+  n: number;
+  currency?: string;
+  decimal?: number;
+}) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,

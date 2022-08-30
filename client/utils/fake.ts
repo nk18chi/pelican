@@ -1,19 +1,14 @@
-export enum COUNTRY {
+export enum SUPPORTED_COUNTRIES {
   'CANADA' = 'Canada',
+  'USA' = 'USA',
 }
 
-type TRandomPhoneNumber = {
-  country: COUNTRY;
-};
-
-type TCountryPhone = {
+const SUPPORTED_COUNTRY_PHONE: {
   [key: string]: {
     countryCode: string;
     areaCode: number[];
   };
-};
-
-const COUNTRY_PHONE: TCountryPhone = {
+} = {
   Canada: {
     countryCode: '1',
     areaCode: [778, 604],
@@ -22,8 +17,10 @@ const COUNTRY_PHONE: TCountryPhone = {
 
 export const generateRandomPhoneNumber = ({
   country,
-}: TRandomPhoneNumber): string => {
-  const { countryCode, areaCode } = COUNTRY_PHONE[country] || {};
+}: {
+  country: SUPPORTED_COUNTRIES;
+}) => {
+  const { countryCode, areaCode } = SUPPORTED_COUNTRY_PHONE[country] || {};
   if (!countryCode || !areaCode)
     throw new Error(`${country} has not been supported yet`);
 

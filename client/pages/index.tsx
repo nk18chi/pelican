@@ -145,7 +145,7 @@ import { FormStatus } from 'types/plan';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { currencyFormat } from 'utils/format';
-import { COUNTRY, generateRandomPhoneNumber } from 'utils/fake';
+import { SUPPORTED_COUNTRIES, generateRandomPhoneNumber } from 'utils/fake';
 
 type TOption = {
   id: string;
@@ -189,7 +189,7 @@ export type TInputField = {
 };
 
 const randomPhoneNumber = generateRandomPhoneNumber({
-  country: COUNTRY.CANADA,
+  country: SUPPORTED_COUNTRIES.CANADA,
 });
 const inputFields: TInputField[] = [
   {

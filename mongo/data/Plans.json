@@ -1,0 +1,33 @@
+[
+  {
+    "_id": ObjectId("6134262fb7601fc4de2356c0"),
+    "title": "Standard",
+    "options": [
+      { "_id": 1, "desc": "up to 10 GB / mo" },
+      { "_id": 2, "desc": "30 min free call / mo" },
+      { "_id": 3, "desc": "Unlimited Canada Calling" }
+    ],
+    "selected": true,
+    "price": 30.0
+  },
+  {
+    "_id": ObjectId("6134262fb7601fc4de2356c1"),
+    "title": "Gold",
+    "options": [
+      { "_id": 1, "desc": "up to 50 GB / mo" },
+      { "_id": 2, "desc": "120 min free call / mo" },
+      { "_id": 3, "desc": "Unlimited Canada/US Calling" }
+    ],
+    "price": 70.0
+  },
+  {
+    "_id": ObjectId("6134262fb7601fc4de2356c2"),
+    "title": "Platinum",
+    "options": [
+      { "_id": 1, "desc": "unlimited data" },
+      { "_id": 2, "desc": "free call" },
+      { "_id": 3, "desc": "Unlimited International Calling" }
+    ],
+    "price": 200.0
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "_id" : ObjectId("6134262fb7601fc4de2356a0"),
+    "label": "GST/HST",
+    "percentage": 0.05
+  },
+  {
+    "_id" : ObjectId("6134262fb7601fc4de2356a1"),
+    "label": "PST/QST",
+    "percentage": 0.07
+  }
+]

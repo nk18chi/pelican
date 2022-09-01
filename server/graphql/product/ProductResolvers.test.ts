@@ -1,84 +1,40 @@
-import { ApolloServer } from 'apollo-server-express';
+import { testApolloServer } from '../../jest.global';
 import { Product } from '../../models/Product';
-import { User } from '../../models/User';
-import {
-  connectTestDatabase,
-  disconnectDataBase,
-  clearDataBase,
-} from '../../utils/database';
-import schema from '../schema';
 
-beforeAll(async () => {
-  await connectTestDatabase();
-});
-
-afterEach(async () => {
-  await clearDataBase();
-});
-
-afterAll(async () => {
-  await disconnectDataBase();
-});
+const productParam = {
+  name: 'Product 1',
+  isNewItem: true,
+  imageURL: '/assets/img/phones/phone-1.png',
+  price: 1000,
+  rating: 4.8,
+  numReviews: 134,
+};
 
 describe('ProductResolver', () => {
-  describe('productById Query', () => {
-    it('get a product', async () => {
-      const user1 = await User.create({ name: 'Naoki' });
-
-      const product = await Product.create({
-        name: 'Product 1',
-        user: user1._id,
-      });
-
-      const apolloServer: ApolloServer = new ApolloServer({
-        schema,
-      });
-
-      const res = await apolloServer.executeOperation({
-        query: `{
-          productById(_id: "${product._id}") {
-              name
-              user {
-                  name
-              }
-            }
-          }`,
-      });
-      expect(res.errors).toBeUndefined();
-      expect(res.data?.productById).toEqual({
-        name: 'Product 1',
-        user: { name: 'Naoki' },
-      });
-    });
-  });
-  describe('productMany Query', () => {
+  describe('productFindMany Query', () => {
     it('get all products', async () => {
-      const user1 = await User.create({ name: 'Naoki' });
-      const user2 = await User.create({ name: 'Taro' });
+      const p1 = await Product.create({ ...productParam, name: 'Product 1' });
+      const p2 = await Product.create({ ...productParam, name: 'Product 2' });
+      const p3 = await Product.create({ ...productParam, name: 'Product 3' });
 
-      await Product.create({ name: 'Product 1', user: user1._id });
-      await Product.create({ name: 'Product 2', user: user1._id });
-      await Product.create({ name: 'Product 3', user: user2._id });
-
-      const apolloServer: ApolloServer = new ApolloServer({
-        schema,
-      });
-
-      const res = await apolloServer.executeOperation({
+      const res = await testApolloServer.executeOperation({
         query: `{
-            productMany {
+            productFindMany {
+              _id
               name
-              user {
-                  name
-              }
+              isNewItem
+              imageURL
+              price
+              rating
+              numReviews
             }
           }`,
       });
       expect(res.errors).toBeUndefined();
-      expect(res.data?.productMany).toEqual([
-        { name: 'Product 1', user: { name: 'Naoki' } },
-        { name: 'Product 2', user: { name: 'Naoki' } },
-        { name: 'Product 3', user: { name: 'Taro' } },
+      expect(res.data?.productFindMany).toEqual([
+        { ...productParam, _id: p1._id.toString(), name: 'Product 1' },
+        { ...productParam, _id: p2._id.toString(), name: 'Product 2' },
+        { ...productParam, _id: p3._id.toString(), name: 'Product 3' },
       ]);
     });
   });

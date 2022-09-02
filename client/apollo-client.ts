@@ -1,30 +1,17 @@
 import fetch from 'node-fetch';
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { MockLink, MockedResponse } from '@apollo/client/testing';
-import { GET_PRODUCT_BY_ID, GET_PRODUCT_MANY } from './gql/product';
+import { GET_PRODUCT_FIND_MANY } from './gql/product';
 import productDummy from './cypress/fixtures/product.json';
 
 const mocks: MockedResponse[] = [
   {
     request: {
-      query: GET_PRODUCT_BY_ID,
-      variables: {
-        id: '62d4b636d41f4441db37ef01',
-      },
+      query: GET_PRODUCT_FIND_MANY,
     },
     result: {
       data: {
-        productById: productDummy[0],
-      },
-    },
-  },
-  {
-    request: {
-      query: GET_PRODUCT_MANY,
-    },
-    result: {
-      data: {
-        productMany: productDummy,
+        productFindMany: productDummy,
       },
     },
   },

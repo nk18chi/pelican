@@ -4,7 +4,6 @@ import { testApolloServer } from '../../jest.global';
 const planParam = {
   title: 'Plan 1',
   options: [{ desc: 'Plan Desc 1' }],
-  selected: false,
   price: 100,
 };
 
@@ -23,7 +22,6 @@ describe('PlanResolver', () => {
               options {
                 desc
               }
-              selected
               price
             }
           }`,

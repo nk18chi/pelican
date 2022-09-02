@@ -36,7 +36,7 @@ function Rating({ rating, numReviews }: RatingProps) {
 }
 
 interface ProductProps {
-  isNew: boolean;
+  isNewItem: boolean;
   imageURL: string;
   name: string;
   price: number;
@@ -46,7 +46,7 @@ interface ProductProps {
   handleClick: () => void;
 }
 function Product({
-  isNew,
+  isNewItem,
   imageURL,
   name,
   price,
@@ -76,7 +76,7 @@ function Product({
         />
         <Box p="3">
           <Box display="flex" alignItems="baseline">
-            {isNew && (
+            {isNewItem && (
               <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
                 New
               </Badge>

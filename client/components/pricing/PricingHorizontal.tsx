@@ -1,3 +1,4 @@
+import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
 import {
   Box,
   Heading,
@@ -7,59 +8,18 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { TPlan } from 'pages';
 import { FaCheckCircle } from 'react-icons/fa';
 import { currencyFormat } from 'utils/format';
-const plans = [
-  {
-    id: '1',
-    title: 'Standard',
-    options: [
-      { id: 1, desc: 'up to 10 GB / mo' },
-      { id: 2, desc: '30 min free call / mo' },
-      { id: 3, desc: 'Unlimited Canada Calling' },
-    ],
-    selected: true,
-    price: 30.0,
-  },
-  {
-    id: '2',
-    title: 'Gold',
-    options: [
-      { id: 1, desc: 'up to 50 GB / mo' },
-      { id: 2, desc: '120 min free call / mo' },
-      { id: 3, desc: 'Unlimited Canada/US Calling' },
-    ],
-    price: 70.0,
-  },
-  {
-    id: '3',
-    title: 'Platinum',
-    options: [
-      { id: 1, desc: 'unlimited data' },
-      { id: 2, desc: 'free call' },
-      { id: 3, desc: 'Unlimited International Calling' },
-    ],
-    price: 200.0,
-  },
-];
-interface PackageTierProps {
-  id: string;
-  title: string;
-  options: Array<{ id: number; desc: string }>;
-  typePlan: number;
-  selected?: boolean;
-  handleClick: (plan: TPlan) => void;
+interface Handler {
+  handleClick: (plan: QueryPlanFindMany_planFindMany) => void;
+}
+interface PackageTierProps extends Handler {
+  plan: QueryPlanFindMany_planFindMany;
+  selected: boolean;
 }
 
-const PackageTier = ({
-  id,
-  title,
-  options,
-  typePlan,
-  selected,
-  handleClick,
-}: PackageTierProps) => {
+const PackageTier = ({ plan, selected, handleClick }: PackageTierProps) => {
+  const { title, options, price } = plan;
   return (
     <Stack
       py={3}
@@ -78,43 +38,40 @@ const PackageTier = ({
       rounded="lg"
       shadow="lg"
       cursor="pointer"
-      onClick={() => handleClick({ id, label: title, price: typePlan })}
+      onClick={() => handleClick(plan)}
     >
       <Heading as="p" size={'md'} width="25%">
         {title}
       </Heading>
       <List spacing={3} textAlign="start" width="50%">
-        {options.map((desc) => (
-          <ListItem key={desc.id}>
+        {options?.map((option, i) => (
+          <ListItem key={i}>
             <ListIcon as={FaCheckCircle} color="green.500" />
-            {desc.desc}
+            {option?.desc}
           </ListItem>
         ))}
       </List>
       <Heading as="p" size={'md'} width="25%">
-        {currencyFormat({ n: typePlan })}/mo
+        {currencyFormat({ n: price })}/mo
       </Heading>
     </Stack>
   );
 };
 
-type TProps = {
+interface TProps extends Handler {
+  plans: QueryPlanFindMany_planFindMany[];
   selectedId?: string;
-  handleClick: (plan: TPlan) => void;
-};
+}
 
-const PricingHorizontal = ({ selectedId, handleClick }: TProps) => {
+const PricingHorizontal = ({ plans, selectedId, handleClick }: TProps) => {
   return (
     <Box>
       <Stack width={'100%'} direction={'column'}>
         {plans.map((p) => (
           <PackageTier
-            key={p.id}
-            id={p.id}
-            title={p.title}
-            typePlan={p.price}
-            options={p.options}
-            selected={p.id === selectedId}
+            key={p._id}
+            plan={p}
+            selected={p._id === selectedId}
             handleClick={handleClick}
           />
         ))}

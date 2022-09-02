@@ -24,9 +24,41 @@ import {
   Divider,
   ExpandedIndex,
 } from '@chakra-ui/react';
-import { css } from '@emotion/react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactHookFormInput from '@/components/input/ReactHookFormInput';
+import Product from '@/components/card/Product';
+import AccordionItemBlock from '@/components/Accordion/AccordionItemBlock';
+import PricingHorizontal from '@/components/pricing/PricingHorizontal';
+import {
+  QueryProductFindMany,
+  QueryProductFindManyVariables,
+  QueryProductFindMany_productFindMany,
+} from '@/generated/QueryProductFindMany';
+import {
+  QueryTaxFindMany,
+  QueryTaxFindManyVariables,
+  QueryTaxFindMany_taxFindMany,
+} from '@/generated/QueryTaxFindMany';
+import {
+  QueryPlanFindMany,
+  QueryPlanFindManyVariables,
+  QueryPlanFindMany_planFindMany,
+} from '@/generated/QueryPlanFindMany';
+import {
+  QueryPlanOptionFindMany,
+  QueryPlanOptionFindManyVariables,
+  QueryPlanOptionFindMany_planOptionFindMany,
+} from '@/generated/QueryPlanOptionFindMany';
+import { css } from '@emotion/react';
+import { FormStatus } from 'types/plan';
+import { currencyFormat } from 'utils/format';
+import { SUPPORTED_COUNTRIES, generateRandomPhoneNumber } from 'utils/fake';
+import { GET_TAX_FIND_MANY } from 'gql/tax';
+import { GET_PLAN_FIND_MANY } from 'gql/plan';
+import { GET_PLAN_OPTION_FIND_MANY } from 'gql/planOption';
+import client from '../apollo-client';
+import { GET_PRODUCT_FIND_MANY } from '../gql/product';
 
 const stylePage = css`
   .chakra-checkbox__label {
@@ -50,62 +82,14 @@ const styleEmphasize = css`
   font-size: 1.1rem;
 `;
 
-const productItems = [
-  {
-    id: '1',
-    isNew: true,
-    imageURL: '/assets/img/phones/phone-1.png',
-    name: 'iPhone 13',
-    price: 1800,
-    rating: 4.8,
-    numReviews: 134,
-  },
-  {
-    id: '2',
-    isNew: true,
-    imageURL: '/assets/img/phones/phone-2.png',
-    name: 'Goolge Pixel 6a',
-    price: 1000,
-    rating: 4.7,
-    numReviews: 42,
-  },
-  {
-    id: '3',
-    isNew: true,
-    imageURL: '/assets/img/phones/phone-3.png',
-    name: 'Samsung Galaxy',
-    price: 1200,
-    rating: 4.2,
-    numReviews: 34,
-  },
-];
-
-type TProductOptions = {
-  id: string;
-  label: string;
-  price: number;
-};
-
-const productOptions: TProductOptions[] = [
-  { id: '1', label: 'Device Protection', price: 6.99 },
-  { id: '2', label: 'Premium Voicemail-To-Text', price: 15 },
-];
-
-const taxes = [
-  { id: '1', label: 'GST/HST', percentage: 0.05 },
-  { id: '2', label: 'PST/QST', percentage: 0.07 },
-];
-
-type TInvoiceDetail = {
-  id: string;
-  label: string;
-  value: number;
-};
-
 type TInvoice = {
   id: string;
   label: string;
-  details: TInvoiceDetail[];
+  details: {
+    id: string;
+    label: string;
+    value: number;
+  }[];
   total: {
     label: string;
     value: number;
@@ -127,48 +111,10 @@ const invoiceTable: TInvoice[] = [
   },
 ];
 
-import client from '../apollo-client';
-import { GET_PRODUCT_MANY, GET_PRODUCT_BY_ID } from '../gql/product';
-import { TProduct } from 'types/product';
-import Product from '@/components/card/Product';
-import AccordionItemBlock from '@/components/Accordion/AccordionItemBlock';
-import PricingHorizontal from '@/components/pricing/PricingHorizontal';
-import {
-  QueryProductById,
-  QueryProductByIdVariables,
-} from '@/generated/QueryProductById';
-import {
-  QueryProductMany,
-  QueryProductManyVariables,
-} from '@/generated/QueryProductMany';
-import { FormStatus } from 'types/plan';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { currencyFormat } from 'utils/format';
-import { SUPPORTED_COUNTRIES, generateRandomPhoneNumber } from 'utils/fake';
-
-type TOption = {
-  id: string;
-  label: string;
-  price: number;
-};
-
-type TPhone = {
-  id: string;
-  label: string;
-  price: number;
-};
-
-export type TPlan = {
-  id: string;
-  label: string;
-  price: number;
-};
-
 type TSelectedPlan = {
-  phone?: TPhone;
-  plan?: TPlan;
-  options: TOption[];
+  phone?: QueryProductFindMany_productFindMany;
+  plan?: QueryPlanFindMany_planFindMany;
+  options: QueryPlanOptionFindMany_planOptionFindMany[];
 };
 
 export type TInputField = {
@@ -241,10 +187,12 @@ const inputFields: TInputField[] = [
   },
 ];
 
-const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
-  product,
-  products,
-}) => {
+const Home: NextPage<{
+  products: QueryProductFindMany_productFindMany[];
+  taxes: QueryTaxFindMany_taxFindMany[];
+  plans: QueryPlanFindMany_planFindMany[];
+  planOptions: QueryPlanOptionFindMany_planOptionFindMany[];
+}> = ({ products, taxes, plans, planOptions }) => {
   const [selectedPlan, setSelectedPlan] = useState<TSelectedPlan>({
     options: [],
   });
@@ -262,8 +210,6 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     handleSubmit,
     formState: { errors },
   } = useFormHooks;
-  console.log('product', product);
-  console.log('products', products);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitForm = (data: any) => {
@@ -289,7 +235,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     if (selectedPlan.plan) {
       monthlyInvoice.details.push({
         id: '1',
-        label: `${selectedPlan.plan.label} Plan`,
+        label: `${selectedPlan.plan.title} Plan`,
         value: selectedPlan.plan.price,
       });
     }
@@ -297,7 +243,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     if (selectedPlan.phone) {
       oneTimeInvoice.details.push({
         id: '1',
-        label: selectedPlan.phone.label,
+        label: selectedPlan.phone.name,
         value: selectedPlan.phone.price,
       });
       oneTimeInvoice.details.push({
@@ -310,7 +256,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
     if (selectedPlan.options.length > 0) {
       selectedPlan.options.forEach((opt) => {
         monthlyInvoice.details.push({
-          id: (opt.id + 1).toString(),
+          id: opt._id,
           label: opt.label,
           value: opt.price,
         });
@@ -332,7 +278,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
         const taxValue = subtotal * tax.percentage;
         total += taxValue;
         invoice.details.push({
-          id: (10 + tax.id).toString(),
+          id: tax._id,
           label: tax.label,
           value: taxValue,
         });
@@ -347,7 +293,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
         return p.id === '1' ? monthlyInvoice : oneTimeInvoice;
       });
     });
-  }, [selectedPlan]);
+  }, [taxes, selectedPlan]);
 
   return (
     <Container maxW={'5xl'} css={stylePage}>
@@ -383,29 +329,26 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
               >
                 <>
                   <Grid templateColumns="repeat(3, 1fr)">
-                    {productItems.map((p) => (
-                      <GridItem key={p.id}>
-                        <Product
-                          isNew={p.isNew}
-                          imageURL={p.imageURL}
-                          name={p.name}
-                          price={p.price}
-                          rating={p.rating}
-                          numReviews={p.numReviews}
-                          selected={selectedPlan.phone?.id === p.id}
-                          handleClick={() =>
-                            setSelectedPlan((prev) => ({
-                              ...prev,
-                              phone: {
-                                id: p.id,
-                                label: p.name,
-                                price: p.price,
-                              },
-                            }))
-                          }
-                        />
-                      </GridItem>
-                    ))}
+                    {Array.isArray(products) &&
+                      products.map((p) => (
+                        <GridItem key={p._id}>
+                          <Product
+                            isNewItem={p.isNewItem || false}
+                            imageURL={p.imageURL}
+                            name={p.name}
+                            price={p.price}
+                            rating={p.rating || 0}
+                            numReviews={p.numReviews || 0}
+                            selected={selectedPlan.phone?._id === p._id}
+                            handleClick={() =>
+                              setSelectedPlan((prev) => ({
+                                ...prev,
+                                phone: p,
+                              }))
+                            }
+                          />
+                        </GridItem>
+                      ))}
                   </Grid>
                   <Button
                     colorScheme="teal"
@@ -430,15 +373,12 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
               >
                 <>
                   <PricingHorizontal
-                    selectedId={selectedPlan.plan?.id}
+                    plans={plans}
+                    selectedId={selectedPlan.plan?._id}
                     handleClick={(plan) =>
                       setSelectedPlan((prev) => ({
                         ...prev,
-                        plan: {
-                          id: plan.id,
-                          label: plan.label,
-                          price: plan.price,
-                        },
+                        plan,
                       }))
                     }
                   />
@@ -464,9 +404,9 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                 status={accordionStatus[2]}
               >
                 <Stack direction="column">
-                  {productOptions.map((option) => (
+                  {planOptions.map((option) => (
                     <Checkbox
-                      key={option.id}
+                      key={option._id}
                       size="lg"
                       colorScheme="green"
                       w="100%"
@@ -477,7 +417,7 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
                             newOptions.push(option);
                           } else {
                             newOptions = newOptions.filter(
-                              (opt) => opt.id !== option.id
+                              (opt) => opt._id !== option._id
                             );
                           }
                           return { ...prev, options: newOptions };
@@ -635,22 +575,34 @@ const Home: NextPage<{ product: TProduct; products: [TProduct] }> = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const {
-    data: { productById },
-  } = await client.query<QueryProductById, QueryProductByIdVariables>({
-    query: GET_PRODUCT_BY_ID,
-    variables: {
-      id: '62d4b636d41f4441db37ef01',
-    },
+    data: { productFindMany },
+  } = await client.query<QueryProductFindMany, QueryProductFindManyVariables>({
+    query: GET_PRODUCT_FIND_MANY,
   });
   const {
-    data: { productMany },
-  } = await client.query<QueryProductMany, QueryProductManyVariables>({
-    query: GET_PRODUCT_MANY,
+    data: { taxFindMany },
+  } = await client.query<QueryTaxFindMany, QueryTaxFindManyVariables>({
+    query: GET_TAX_FIND_MANY,
+  });
+  const {
+    data: { planFindMany },
+  } = await client.query<QueryPlanFindMany, QueryPlanFindManyVariables>({
+    query: GET_PLAN_FIND_MANY,
+  });
+  const {
+    data: { planOptionFindMany },
+  } = await client.query<
+    QueryPlanOptionFindMany,
+    QueryPlanOptionFindManyVariables
+  >({
+    query: GET_PLAN_OPTION_FIND_MANY,
   });
   return {
     props: {
-      product: productById,
-      products: productMany,
+      products: productFindMany,
+      taxes: taxFindMany,
+      plans: planFindMany,
+      planOptions: planOptionFindMany,
     },
   };
 };

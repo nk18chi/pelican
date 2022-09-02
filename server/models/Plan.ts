@@ -4,7 +4,6 @@ const PlanSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     options: [{ desc: { type: String, required: true } }],
-    selected: { type: Boolean },
     price: { type: Number, required: true },
   },
   {

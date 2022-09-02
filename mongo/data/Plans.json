@@ -7,7 +7,6 @@
       { "_id": 2, "desc": "30 min free call / mo" },
       { "_id": 3, "desc": "Unlimited Canada Calling" }
     ],
-    "selected": true,
     "price": 30.0
   },
   {

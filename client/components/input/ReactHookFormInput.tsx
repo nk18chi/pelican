@@ -76,7 +76,7 @@ const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
             default:
               return (
                 <Input
-                  value={value}
+                  value={value || ''}
                   type={input.type}
                   onChange={onChange}
                   disabled={input.disabled}

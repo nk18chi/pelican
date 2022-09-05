@@ -17,7 +17,6 @@ const mocks: MockedResponse[] = [
   },
 ];
 
-console.log(process.env.APP_ENV);
 const client = new ApolloClient({
   link:
     process.env.APP_ENV === 'test'

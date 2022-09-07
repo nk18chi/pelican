@@ -9,12 +9,13 @@ import { CheckCircleIcon, EditIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import { FormStatus } from 'types/plan';
 
 interface Props {
+  id: string;
   title: string;
   children: JSX.Element;
   status: FormStatus;
 }
 
-const AccordionItemBlock = ({ children, title, status }: Props) => {
+const AccordionItemBlock = ({ children, id, title, status }: Props) => {
   const getStatusIcon = (status: FormStatus, isExpanded: boolean) => {
     switch (status) {
       case FormStatus.valid:
@@ -37,22 +38,21 @@ const AccordionItemBlock = ({ children, title, status }: Props) => {
     }
   };
   return (
-    <AccordionItem>
+    <AccordionItem id={id}>
       {({ isExpanded }) => (
         <>
           <h2>
-            <AccordionButton _expanded={{ bg: 'green.400', color: 'white' }}>
+            <AccordionButton
+              _expanded={{
+                bg: status === FormStatus.invalid ? 'red.400' : 'green.400',
+                color: 'white',
+              }}
+            >
               {getStatusIcon(status, isExpanded)}
               <Box
                 flex="1"
                 textAlign="left"
-                color={
-                  isExpanded
-                    ? 'white.400'
-                    : status === FormStatus.invalid
-                    ? 'red.400'
-                    : 'unset'
-                }
+                color={isExpanded ? 'white.400' : 'unset'}
               >
                 {title}
               </Box>

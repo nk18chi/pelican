@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import Index from './index';
 import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFindMany';
@@ -268,5 +268,87 @@ describe('Top Page', () => {
     const button = screen.getByText(/Proceed to Checkout/i);
     expect(button).toBeInTheDocument();
     expect(button).toBeEnabled();
+  });
+  it('able to skip selecting a phone', async () => {
+    const { container } = render(
+      <Index
+        products={productDummy}
+        taxes={taxesDummy}
+        plans={planDummy}
+        planOptions={planOptionDummy}
+      />
+    );
+    const accorditionItemBlock1 = container.querySelector(
+      '#accordion-panel-accordionItemBlock1'
+    )?.parentElement;
+    expect(accorditionItemBlock1?.style.display).toBe('block');
+    const nextButton1 = container.querySelector('#nextButton1');
+    if (nextButton1) fireEvent.click(nextButton1);
+    await waitFor(() =>
+      expect(accorditionItemBlock1?.style.display).toBe('none')
+    );
+  });
+  it('show an error when try to go next without selecting a plan', async () => {
+    const { container } = render(
+      <Index
+        products={productDummy}
+        taxes={taxesDummy}
+        plans={planDummy}
+        planOptions={planOptionDummy}
+      />
+    );
+    const accordionButton2 = container.querySelector(
+      '#accordion-button-accordionItemBlock2'
+    );
+    if (accordionButton2) fireEvent.click(accordionButton2);
+
+    const accorditionItemBlock2 = container.querySelector(
+      '#accordion-panel-accordionItemBlock2'
+    )?.parentElement;
+    expect(accorditionItemBlock2?.style.display).toBe('block');
+    const nextButton2 = container.querySelector('#nextButton2');
+    if (nextButton2) fireEvent.click(nextButton2);
+    await waitFor(() => {
+      expect(accorditionItemBlock2?.style.display).toBe('block');
+    });
+  });
+  it('able to skip selecting plan options', async () => {
+    const { container } = render(
+      <Index
+        products={productDummy}
+        taxes={taxesDummy}
+        plans={planDummy}
+        planOptions={planOptionDummy}
+      />
+    );
+    const accordionButton3 = container.querySelector(
+      '#accordion-button-accordionItemBlock3'
+    );
+    if (accordionButton3) fireEvent.click(accordionButton3);
+
+    const accorditionItemBlock3 = container.querySelector(
+      '#accordion-panel-accordionItemBlock3'
+    )?.parentElement;
+    expect(accorditionItemBlock3?.style.display).toBe('block');
+    const nextButton3 = container.querySelector('#nextButton3');
+    if (nextButton3) fireEvent.click(nextButton3);
+    await waitFor(() =>
+      expect(accorditionItemBlock3?.style.display).toBe('none')
+    );
+  });
+  it('show an error when try to go next without filling in mandatory fields', async () => {
+    render(
+      <Index
+        products={productDummy}
+        taxes={taxesDummy}
+        plans={planDummy}
+        planOptions={planOptionDummy}
+      />
+    );
+    // select a plan
+    fireEvent.click(screen.getByText(`${planDummy[0].title}`));
+    // hit the submit button
+    // const submitButton = container.querySelector('#checkoutButton');
+    // if (submitButton) fireEvent.click(submitButton);
   });
 });

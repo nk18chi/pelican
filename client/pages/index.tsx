@@ -196,37 +196,23 @@ const Home: NextPage<{
   const [selectedPlan, setSelectedPlan] = useState<TSelectedPlan>({
     options: [],
   });
-  const [validation, setValidation] = useState<boolean>(false);
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>(0);
   const [accordionStatus, setAccordionStatus] = useState<FormStatus[]>([
     FormStatus.notSet,
     FormStatus.notSet,
-    FormStatus.valid,
     FormStatus.notSet,
   ]);
   const [invoice, setInvoice] = useState(invoiceTable);
   const useFormHooks = useForm({ defaultValues: {} });
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, submitCount },
   } = useFormHooks;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitForm = (data: any) => {
     console.log('submit', data);
   };
-
-  useEffect(() => {
-    setValidation(selectedPlan.phone && selectedPlan.plan ? true : false);
-    if (selectedPlan.phone && selectedPlan.plan) setAccordionIndex(3);
-    else if (selectedPlan.phone) setAccordionIndex(1);
-    setAccordionStatus((prev) => {
-      if (selectedPlan.phone) prev[0] = FormStatus.valid;
-      if (selectedPlan.plan) prev[1] = FormStatus.valid;
-      if (errors && Object.keys(errors).length > 0) prev[3] = FormStatus.valid;
-      return prev;
-    });
-  }, [selectedPlan.phone, selectedPlan.plan, errors]);
 
   useEffect(() => {
     const monthlyInvoice: TInvoice = { ...invoiceTable[0], details: [] };
@@ -324,7 +310,8 @@ const Home: NextPage<{
               onChange={(id: ExpandedIndex) => setAccordionIndex(id)}
             >
               <AccordionItemBlock
-                title={'Choose your new phone'}
+                id="accordionItemBlock1"
+                title={'Choose your new phone (Optional)'}
                 status={accordionStatus[0]}
               >
                 <>
@@ -351,16 +338,16 @@ const Home: NextPage<{
                       ))}
                   </Grid>
                   <Button
+                    id="nextButton1"
                     colorScheme="teal"
                     size="md"
                     onClick={() => {
-                      setAccordionIndex(1);
                       setAccordionStatus((prev) => {
-                        prev[0] = selectedPlan.phone
-                          ? FormStatus.valid
-                          : FormStatus.invalid;
-                        return prev;
+                        const newPrev = [...prev];
+                        newPrev[0] = FormStatus.valid;
+                        return newPrev;
                       });
+                      setAccordionIndex(1);
                     }}
                   >
                     Next
@@ -368,6 +355,7 @@ const Home: NextPage<{
                 </>
               </AccordionItemBlock>
               <AccordionItemBlock
+                id="accordionItemBlock2"
                 title={'Choose your plan'}
                 status={accordionStatus[1]}
               >
@@ -375,24 +363,31 @@ const Home: NextPage<{
                   <PricingHorizontal
                     plans={plans}
                     selectedId={selectedPlan.plan?._id}
-                    handleClick={(plan) =>
+                    handleClick={(plan) => {
                       setSelectedPlan((prev) => ({
                         ...prev,
                         plan,
-                      }))
-                    }
+                      }));
+                      setAccordionStatus((prev) => {
+                        const newPrev = [...prev];
+                        newPrev[1] = FormStatus.valid;
+                        return newPrev;
+                      });
+                    }}
                   />
                   <Button
+                    id="nextButton2"
                     colorScheme="teal"
                     size="md"
                     onClick={() => {
-                      setAccordionIndex(2);
                       setAccordionStatus((prev) => {
-                        prev[1] = selectedPlan.plan
+                        const newPrev = [...prev];
+                        newPrev[1] = selectedPlan.plan
                           ? FormStatus.valid
                           : FormStatus.invalid;
-                        return prev;
+                        return newPrev;
                       });
+                      if (selectedPlan.plan) setAccordionIndex(2);
                     }}
                   >
                     Next
@@ -400,6 +395,7 @@ const Home: NextPage<{
                 </>
               </AccordionItemBlock>
               <AccordionItemBlock
+                id="accordionItemBlock3"
                 title={'Additional Options'}
                 status={accordionStatus[2]}
               >
@@ -432,17 +428,32 @@ const Home: NextPage<{
                     </Checkbox>
                   ))}
                   <Button
+                    id="nextButton3"
                     colorScheme="teal"
                     size="md"
-                    onClick={() => setAccordionIndex(3)}
+                    onClick={() => {
+                      setAccordionStatus((prev) => {
+                        const newPrev = [...prev];
+                        newPrev[2] = FormStatus.valid;
+                        return newPrev;
+                      });
+                      setAccordionIndex(3);
+                    }}
                   >
                     Next
                   </Button>
                 </Stack>
               </AccordionItemBlock>
               <AccordionItemBlock
-                title={'Choose your plan'}
-                status={accordionStatus[3]}
+                id="accordionItemBlock4"
+                title={'Fill out the form'}
+                status={
+                  submitCount === 0
+                    ? FormStatus.notSet
+                    : Object.keys(errors).length === 0
+                    ? FormStatus.valid
+                    : FormStatus.invalid
+                }
               >
                 <form noValidate>
                   <VStack spacing="20px" py="4" textAlign="left">
@@ -561,9 +572,10 @@ const Home: NextPage<{
         pb={8}
       >
         <Button
+          id="checkoutButton"
           colorScheme="teal"
           size="lg"
-          disabled={!validation}
+          disabled={!(selectedPlan.plan && Object.keys(errors).length === 0)}
           onClick={handleSubmit(submitForm)}
         >
           Proceed to Checkout

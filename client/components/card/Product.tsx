@@ -1,6 +1,6 @@
 import { Flex, Box, Image, Badge, useColorModeValue } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-import { currencyFormat } from 'utils/format';
+import { currencyFormat } from '../../utils/format';
 
 interface RatingProps {
   rating: number;
@@ -63,7 +63,7 @@ function Product({
         rounded="lg"
         shadow="lg"
         position="relative"
-        borderWidth={selected ? '2px' : '1px'}
+        borderWidth={selected ? '2px' : '2px'}
         borderColor={selected ? 'green.400' : 'inherit'}
         cursor="pointer"
         onClick={handleClick}

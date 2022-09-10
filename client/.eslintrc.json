@@ -2,6 +2,7 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "jest"],
+  "ignorePatterns": ["!.storybook"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],

@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { ApexOptions } from 'apexcharts';
-import SidebarWithHeader from '../components/SidebarWithHeader';
-import Footer from '../components/Footer';
+import SidebarWithHeader from '../components/shared/footer/SidebarWithHeader';
+import Footer from '../components/shared/footer/Footer';
 import {
   SimpleGrid,
   Box,

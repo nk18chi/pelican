@@ -28,7 +28,7 @@ import {
   SUPPORTED_COUNTRIES,
   generateRandomPhoneNumber,
 } from '../../function/utils/fake';
-import { TSelectedPlan } from 'pages';
+import { TSelectedPlan } from '@/components/page/Top/Top';
 
 interface PlanAccordionFormProps {
   products: QueryProductFindMany_productFindMany[];

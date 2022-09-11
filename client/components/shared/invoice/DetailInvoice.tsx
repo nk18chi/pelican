@@ -7,9 +7,9 @@ import {
   Tbody,
   Td,
 } from '@chakra-ui/react';
-import { TSelectedPlan } from 'pages';
 import { currencyFormat } from '@/components/function/utils/format';
 import useInvoiceCalculation from '../../function/hooks/useInvoiceCalculation';
+import { TSelectedPlan } from '@/components/page/Top/Top';
 
 interface DetailInvoiceProps {
   selectedPlan: TSelectedPlan;

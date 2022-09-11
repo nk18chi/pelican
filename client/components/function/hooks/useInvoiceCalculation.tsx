@@ -1,6 +1,6 @@
+import { TSelectedPlan } from '@/components/page/Top/Top';
 import { defaultInvoiceTable, TInvoice } from '@/components/shared/invoice';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
-import { TSelectedPlan } from 'pages';
 import { useState, useEffect } from 'react';
 
 interface useInvoiceCalculationProps {

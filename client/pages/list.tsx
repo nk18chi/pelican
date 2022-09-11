@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import SidebarWithHeader from '../components/SidebarWithHeader';
-import Footer from '../components/Footer';
-import SimpleTable from '../components/SimpleTable';
+import SidebarWithHeader from '../components/shared/footer/SidebarWithHeader';
+import Footer from '../components/shared/footer/Footer';
+import SimpleTable from '../components/shared/table/SimpleTable';
 
 const Dashboard: NextPage = () => {
   return (

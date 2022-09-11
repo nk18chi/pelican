@@ -1,9 +1,9 @@
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
 import { Heading, TableContainer, HStack } from '@chakra-ui/react';
 import { css } from '@emotion/react';
-import { TSelectedPlan } from 'pages';
 import { currencyFormat } from '@/components/function/utils/format';
 import useInvoiceCalculation from '../../function/hooks/useInvoiceCalculation';
+import { TSelectedPlan } from '@/components/page/Top/Top';
 
 const styleEmphasize = css`
   font-weight: bold;

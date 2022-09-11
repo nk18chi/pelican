@@ -6,7 +6,7 @@ import {
   AccordionPanel,
 } from '@chakra-ui/react';
 import { CheckCircleIcon, EditIcon, NotAllowedIcon } from '@chakra-ui/icons';
-import { FormStatus } from 'types/plan';
+import { FormStatus } from '../../types/plan';
 
 interface Props {
   id: string;

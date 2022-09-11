@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
-import { currencyFormat } from 'utils/format';
+import { currencyFormat } from '@/components/function/utils/format';
 interface Handler {
   handleClick: (plan: QueryPlanFindMany_planFindMany) => void;
 }

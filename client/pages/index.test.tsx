@@ -4,7 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Index from './index';
 import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFindMany';
 import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
-import { currencyFormat } from 'utils/format';
+import { currencyFormat } from '@/components/function/utils/format';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
 const productDummy: QueryProductFindMany_productFindMany[] = [

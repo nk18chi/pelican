@@ -12,8 +12,8 @@ const Template: ComponentStory<typeof Product> = (args) => (
   <Product {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Default = Template.bind({});
+Default.args = {
   isNewItem: true,
   imageURL: '/assets/img/phones/phone-1.png',
   name: 'iPhone 13',

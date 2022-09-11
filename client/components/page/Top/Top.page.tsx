@@ -1,7 +1,7 @@
-import { TopPageProps } from 'pages';
+import { TopNextPageProps } from 'pages';
 import Top from './Top';
 
-const TopPage = (props: TopPageProps) => {
+const TopPage = (props: TopNextPageProps) => {
   return <Top {...props} />;
 };
 

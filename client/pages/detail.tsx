@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import SidebarWithHeader from '@/components/shared/footer/SidebarWithHeader';
-import Footer from '../components/shared/footer/Footer';
+import SidebarWithHeader from '@/components/shared/Header/SidebarWithHeader';
+import Footer from '../components/shared/Footer/Footer';
 import {
   Avatar,
   Box,

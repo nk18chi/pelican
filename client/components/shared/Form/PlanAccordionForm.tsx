@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { CheckCircleIcon, EditIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import { FormStatus } from '../../types/plan';
-import Product from '../../model/product/Product';
+import Product from '../../model/Product/Product';
 import PricingHorizontal from './PricingHorizontal';
-import ReactHookFormInput from '../input/ReactHookFormInput';
+import { ReactHookFormInput, TInputField } from '../Input';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFindMany';
 import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
@@ -41,23 +41,6 @@ interface PlanAccordionFormProps {
 type TPlanAccodion = {
   title: string;
   content: JSX.Element;
-};
-
-export type TInputField = {
-  name: string;
-  displayName: string;
-  type: 'text' | 'email' | 'password' | 'phone';
-  validation: {
-    required: boolean;
-    pattern?: {
-      value: RegExp;
-      message: string;
-    };
-    minLength?: number;
-  };
-  description?: string;
-  disabled?: boolean;
-  defaultValue?: string;
 };
 
 const randomPhoneNumber = generateRandomPhoneNumber({

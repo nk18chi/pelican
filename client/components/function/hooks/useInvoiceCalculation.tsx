@@ -1,5 +1,5 @@
 import { TSelectedPlan } from '@/components/page/Top/Top';
-import { defaultInvoiceTable, TInvoice } from '@/components/shared/invoice';
+import { defaultInvoiceTable, TInvoice } from '@/components/shared/Invoice';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
 import { useState, useEffect } from 'react';
 

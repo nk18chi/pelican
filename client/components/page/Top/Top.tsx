@@ -18,9 +18,9 @@ import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFi
 import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
 import { css } from '@emotion/react';
-import PlanAccordionForm from '@/components/shared/planAccordionForm';
-import { DetailInvoice, SimpleInvoice } from '@/components/shared/invoice';
-import { TopPageProps } from 'pages';
+import { PlanAccordionForm } from '@/components/shared/Form';
+import { DetailInvoice, SimpleInvoice } from '@/components/shared/Invoice';
+import { TopNextPageProps } from 'pages';
 
 const stylePage = css`
   .chakra-checkbox__label {
@@ -45,7 +45,7 @@ export type TSelectedPlan = {
   options: QueryPlanOptionFindMany_planOptionFindMany[];
 };
 
-const Top: React.FC<TopPageProps> = ({
+const Top: React.FC<TopNextPageProps> = ({
   products,
   taxes,
   plans,

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/nk18chi/stripe-payment-app#readme",
   "devDependencies": {
     "husky": "^8.0.1",
-    "lint-staged": "^12.1.4"
+    "lint-staged": "^12.1.4",
+    "tempmon": "^1.0.1"
   }
 }

@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   stories: [
     '../components/**/*.stories.mdx',
@@ -19,6 +21,17 @@ module.exports = {
       include: /node_modules/,
       type: 'javascript/auto',
     });
+
+    config.resolve.modules = [
+      ...(config.resolve.modules || []),
+      path.resolve(__dirname, '../'),
+    ];
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@/components': path.resolve(__dirname, '../components'),
+      '@/generated': path.resolve(__dirname, '../gql/__generated__'),
+    };
 
     return config;
   },

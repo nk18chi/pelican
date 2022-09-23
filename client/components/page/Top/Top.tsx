@@ -5,12 +5,7 @@ import {
   Text,
   Stack,
   Flex,
-  Accordion,
   VStack,
-  AccordionItem,
-  AccordionButton,
-  AccordionIcon,
-  Divider,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -19,7 +14,7 @@ import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
 import { css } from '@emotion/react';
 import { PlanAccordionForm } from '@/components/shared/Form';
-import { DetailInvoice, SimpleInvoice } from '@/components/shared/Invoice';
+import { AccordionInvoice } from '@/components/shared/Invoice';
 import { TopNextPageProps } from 'pages';
 
 const stylePage = css`
@@ -85,41 +80,11 @@ const Top: React.FC<TopNextPageProps> = ({
             />
           </VStack>
           <VStack w="40%" spacing={4}>
-            <Accordion w="100%" allowToggle>
-              <AccordionItem>
-                {({ isExpanded }) => (
-                  <>
-                    <Heading
-                      as="h2"
-                      w="100%"
-                      fontWeight={600}
-                      fontSize={{ base: '2xl', sm: '2xl', md: '2xl' }}
-                      lineHeight={'110%'}
-                      textAlign="left"
-                    >
-                      <AccordionButton>
-                        <Box flex="1" textAlign="left">
-                          Invoice
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </Heading>
-                    <Divider />
-                    {isExpanded ? (
-                      <DetailInvoice
-                        selectedPlan={selectedPlan}
-                        taxes={taxes}
-                      />
-                    ) : (
-                      <SimpleInvoice
-                        selectedPlan={selectedPlan}
-                        taxes={taxes}
-                      />
-                    )}
-                  </>
-                )}
-              </AccordionItem>
-            </Accordion>
+            <AccordionInvoice
+              title="Invoice"
+              selectedPlan={selectedPlan}
+              taxes={taxes}
+            />
           </VStack>
         </Flex>
       </Stack>

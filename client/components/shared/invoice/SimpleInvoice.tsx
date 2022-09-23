@@ -1,21 +1,15 @@
-import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
 import { Heading, TableContainer, HStack } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import { currencyFormat } from '@/components/function/utils/format';
-import useInvoiceCalculation from '../../function/hooks/useInvoiceCalculation';
-import { TSelectedPlan } from '@/components/page/Top/Top';
+import useInvoiceCalculation from '@/components/function/hooks/useInvoiceCalculation';
+import { InvoiceProps } from '.';
 
 const styleEmphasize = css`
   font-weight: bold;
   font-size: 1.1rem;
 `;
 
-interface SimpleInvoiceProps {
-  selectedPlan: TSelectedPlan;
-  taxes: QueryTaxFindMany_taxFindMany[];
-}
-
-const SimpleInvoice = ({ taxes, selectedPlan }: SimpleInvoiceProps) => {
+const SimpleInvoice = ({ taxes, selectedPlan }: InvoiceProps) => {
   const invoice = useInvoiceCalculation({ taxes, selectedPlan });
   return (
     <>

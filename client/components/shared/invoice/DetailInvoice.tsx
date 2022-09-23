@@ -1,4 +1,3 @@
-import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
 import {
   Heading,
   TableContainer,
@@ -8,15 +7,10 @@ import {
   Td,
 } from '@chakra-ui/react';
 import { currencyFormat } from '@/components/function/utils/format';
-import useInvoiceCalculation from '../../function/hooks/useInvoiceCalculation';
-import { TSelectedPlan } from '@/components/page/Top/Top';
+import useInvoiceCalculation from '@/components/function/hooks/useInvoiceCalculation';
+import { InvoiceProps } from '.';
 
-interface DetailInvoiceProps {
-  selectedPlan: TSelectedPlan;
-  taxes: QueryTaxFindMany_taxFindMany[];
-}
-
-const DetailInvoice = ({ taxes, selectedPlan }: DetailInvoiceProps) => {
+const DetailInvoice = ({ taxes, selectedPlan }: InvoiceProps) => {
   const invoice = useInvoiceCalculation({ taxes, selectedPlan });
   return (
     <>

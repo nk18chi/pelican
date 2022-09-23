@@ -1,5 +1,9 @@
+import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
+import { TSelectedPlan } from '@/components/page/Top/Top';
+
 export { default as SimpleInvoice } from './SimpleInvoice';
 export { default as DetailInvoice } from './DetailInvoice';
+export { default as AccordionInvoice } from './AccordionInvoice';
 
 export type TInvoice = {
   id: string;
@@ -29,3 +33,9 @@ export const defaultInvoiceTable: TInvoice[] = [
     total: { label: 'Total', value: 0 },
   },
 ];
+
+export interface InvoiceProps {
+  title?: string;
+  selectedPlan: TSelectedPlan;
+  taxes: QueryTaxFindMany_taxFindMany[];
+}

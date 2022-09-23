@@ -1,6 +1,6 @@
 import { Flex, Box, Image, Badge, useColorModeValue } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-import { currencyFormat } from '../../function/utils/format';
+import { currencyFormat } from '@/components/function/utils/format';
 interface ProductProps {
   isNewItem: boolean;
   imageURL: string;

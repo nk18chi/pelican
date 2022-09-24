@@ -7,9 +7,7 @@ import {
   Flex,
   HStack,
   VStack,
-  Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -24,31 +22,9 @@ import {
   Button,
   Divider,
 } from '@chakra-ui/react';
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-} from 'react-icons/fi';
+import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { createIcon } from '@chakra-ui/icons';
-import { IconType } from 'react-icons';
-import { ReactText } from 'react';
-
-interface LinkItemProps {
-  name: string;
-  icon: IconType;
-}
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
-];
+import { Logo } from '../Logo';
 
 const SidebarWithHeader = ({ children }: { children: ReactNode }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -108,17 +84,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
+        <Logo isName={true} />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       <Divider />
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))}
       <div>
         <Text
           color={activeColor}
@@ -185,6 +154,51 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         boxSize="initial"
         justifyContent="flex-start"
         alignItems="center"
+        bg="inherit"
+        mb={{
+          xl: '12px',
+        }}
+        mx={{
+          xl: 'auto',
+        }}
+        ps={{
+          sm: '10px',
+          xl: '16px',
+        }}
+        py="12px"
+        borderRadius="15px"
+        w="100%"
+        _active={{
+          bg: 'inherit',
+          transform: 'none',
+          borderColor: 'transparent',
+        }}
+        _focus={{
+          boxShadow: 'none',
+        }}
+      >
+        <Flex>
+          <Flex
+            alignItems={'center'}
+            justifyContent={'center'}
+            borderRadius={'12px'}
+            bg="teal.300"
+            color="white"
+            h="30px"
+            w="30px"
+            me="12px"
+          >
+            <StatsIcon />
+          </Flex>
+          <Text my="auto" fontSize="sm">
+            Document
+          </Text>
+        </Flex>
+      </Button>
+      <Button
+        boxSize="initial"
+        justifyContent="flex-start"
+        alignItems="center"
         bg="transparent"
         mb={{
           xl: '12px',
@@ -227,46 +241,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Flex>
       </Button>
     </Box>
-  );
-};
-
-interface NavItemProps extends FlexProps {
-  icon: IconType;
-  children: ReactText;
-}
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
-  return (
-    <Link
-      href="#"
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
   );
 };
 

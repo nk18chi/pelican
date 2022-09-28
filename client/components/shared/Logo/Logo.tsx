@@ -4,7 +4,7 @@ interface LogoProps {
   isName: boolean;
   boxSize?: string;
 }
-const Logo = ({ isName, boxSize = '64px' }: LogoProps) => {
+const Logo = ({ isName, boxSize = '56px' }: LogoProps) => {
   return (
     <Flex alignItems="center" gap="8px">
       <Image

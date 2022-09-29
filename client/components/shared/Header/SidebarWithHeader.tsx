@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {
   IconButton,
   Avatar,
@@ -21,19 +21,26 @@ import {
   MenuList,
   Button,
   Divider,
+  Icon,
 } from '@chakra-ui/react';
 import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
-import { createIcon } from '@chakra-ui/icons';
 import { Logo } from '../Logo';
+import { FaRegMoneyBillAlt, FaUsers, FaListUl } from 'react-icons/fa';
+import { HiDeviceMobile } from 'react-icons/hi';
+import { MdOutlinePlaylistAdd } from 'react-icons/md';
+import { StatsIcon } from '../Icon';
+import { AiFillTags } from 'react-icons/ai';
 
 const SidebarWithHeader = ({ children }: { children: ReactNode }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh">
+      {/* laptop  */}
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
       />
+      {/* mobile */}
       <Drawer
         autoFocus={false}
         isOpen={isOpen}
@@ -47,7 +54,8 @@ const SidebarWithHeader = ({ children }: { children: ReactNode }) => {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <MobileNav onOpen={onOpen} />
+
+      <ProfileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>
@@ -55,20 +63,19 @@ const SidebarWithHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const links = [
+  { label: 'Dashboard', icon: <StatsIcon />, active: true },
+  { label: 'Customers', icon: <Icon as={FaUsers} /> },
+  { label: 'Phones', icon: <Icon as={HiDeviceMobile} /> },
+  { label: 'Plans', icon: <Icon as={FaListUl} /> },
+  { label: 'PlanOptions', icon: <Icon as={MdOutlinePlaylistAdd} /> },
+  { label: 'Promotion', icon: <Icon as={AiFillTags} /> },
+  { label: 'Invoices', icon: <Icon as={FaRegMoneyBillAlt} /> },
+];
+
 interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
-
-export const StatsIcon = createIcon({
-  displayName: 'StatsIcon',
-  viewBox: '0 0 24 24',
-  path: (
-    <path
-      fill="currentColor"
-      d="M4.57 22.297H3.164a1.055 1.055 0 01-1.055-1.054v-6.328a1.055 1.055 0 011.055-1.055H4.57a1.055 1.055 0 011.055 1.055v6.328a1.055 1.055 0 01-1.055 1.054zM14.414 22.296h-1.406a1.055 1.055 0 01-1.055-1.055V10.695a1.055 1.055 0 011.055-1.055h1.406a1.055 1.055 0 011.055 1.055V21.24a1.055 1.055 0 01-1.055 1.055zM19.336 22.297H17.93a1.055 1.055 0 01-1.055-1.055V5.773A1.055 1.055 0 0117.93 4.72h1.406a1.055 1.055 0 011.055 1.054v15.47a1.055 1.055 0 01-1.055 1.054zM9.492 22.297H8.086a1.055 1.055 0 01-1.055-1.055V2.257a1.055 1.055 0 011.055-1.054h1.406a1.055 1.055 0 011.055 1.054v18.985a1.055 1.055 0 01-1.055 1.055z"
-    />
-  ),
-});
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const activeBg = useColorModeValue('white', 'gray.700');
@@ -79,167 +86,58 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     <Box
       transition="3s ease"
       w={{ base: 'full', md: 60 }}
-      pos="fixed"
+      pos="absolute"
       h="full"
+      p="8px"
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Logo isName={true} />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      <Divider />
-      <div>
-        <Text
-          color={activeColor}
-          fontWeight="bold"
-          mb={{
-            xl: '12px',
+      <Divider mb="8px" />
+      {links.map((link) => (
+        <Button
+          key={link.label}
+          boxSize="initial"
+          justifyContent="flex-start"
+          alignItems="center"
+          bg={link.active ? activeBg : 'transparent'}
+          mb={{ xl: '12px' }}
+          mx={{ xl: 'auto' }}
+          p="12px"
+          borderRadius="15px"
+          w="100%"
+          _active={{
+            bg: 'inherit',
+            transform: 'none',
+            borderColor: 'transparent',
           }}
-          mx="auto"
-          ps={{
-            sm: '10px',
-            xl: '16px',
-          }}
-          py="12px"
+          _focus={{ boxShadow: 'none' }}
         >
-          Category
-        </Text>
-      </div>
-      <Button
-        boxSize="initial"
-        justifyContent="flex-start"
-        alignItems="center"
-        bg={activeBg}
-        mb={{
-          xl: '12px',
-        }}
-        mx={{
-          xl: 'auto',
-        }}
-        ps={{
-          sm: '10px',
-          xl: '16px',
-        }}
-        py="12px"
-        borderRadius="15px"
-        w="100%"
-        _active={{
-          bg: 'inherit',
-          transform: 'none',
-          borderColor: 'transparent',
-        }}
-        _focus={{
-          boxShadow: 'none',
-        }}
-      >
-        <Flex>
-          <Flex
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius={'12px'}
-            bg="teal.300"
-            color="white"
-            h="30px"
-            w="30px"
-            me="12px"
-          >
-            <StatsIcon />
+          <Flex>
+            <Flex
+              alignItems={'center'}
+              justifyContent={'center'}
+              borderRadius={'12px'}
+              bg={link.active ? 'teal.300' : inactiveBg}
+              color={link.active ? 'white' : 'teal.300'}
+              h="30px"
+              w="30px"
+              me="12px"
+            >
+              {link.icon}
+            </Flex>
+            <Text
+              color={link.active ? activeColor : inactiveColor}
+              my="auto"
+              fontSize="sm"
+            >
+              {link.label}
+            </Text>
           </Flex>
-          <Text color={activeColor} my="auto" fontSize="sm">
-            Document
-          </Text>
-        </Flex>
-      </Button>
-      <Button
-        boxSize="initial"
-        justifyContent="flex-start"
-        alignItems="center"
-        bg="inherit"
-        mb={{
-          xl: '12px',
-        }}
-        mx={{
-          xl: 'auto',
-        }}
-        ps={{
-          sm: '10px',
-          xl: '16px',
-        }}
-        py="12px"
-        borderRadius="15px"
-        w="100%"
-        _active={{
-          bg: 'inherit',
-          transform: 'none',
-          borderColor: 'transparent',
-        }}
-        _focus={{
-          boxShadow: 'none',
-        }}
-      >
-        <Flex>
-          <Flex
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius={'12px'}
-            bg="teal.300"
-            color="white"
-            h="30px"
-            w="30px"
-            me="12px"
-          >
-            <StatsIcon />
-          </Flex>
-          <Text my="auto" fontSize="sm">
-            Document
-          </Text>
-        </Flex>
-      </Button>
-      <Button
-        boxSize="initial"
-        justifyContent="flex-start"
-        alignItems="center"
-        bg="transparent"
-        mb={{
-          xl: '12px',
-        }}
-        mx={{
-          xl: 'auto',
-        }}
-        ps={{
-          sm: '10px',
-          xl: '16px',
-        }}
-        py="12px"
-        borderRadius="15px"
-        w="100%"
-        _active={{
-          bg: 'inherit',
-          transform: 'none',
-          borderColor: 'transparent',
-        }}
-        _focus={{
-          boxShadow: 'none',
-        }}
-      >
-        <Flex>
-          <Flex
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRadius={'12px'}
-            bg={inactiveBg}
-            color="teal.300"
-            h="30px"
-            w="30px"
-            me="12px"
-          >
-            <StatsIcon />
-          </Flex>
-          <Text color={inactiveColor} my="auto" fontSize="sm">
-            Document
-          </Text>
-        </Flex>
-      </Button>
+        </Button>
+      ))}
     </Box>
   );
 };
@@ -247,7 +145,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const ProfileNav = ({ onOpen, ...rest }: MobileProps) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -265,14 +163,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
+      <Box display={{ base: 'flex', md: 'none' }}>
+        <Logo isName={true} boxSize="48px" />
+      </Box>
 
       <HStack spacing={{ base: '0', md: '6' }}>
         <IconButton

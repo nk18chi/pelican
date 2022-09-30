@@ -12,27 +12,9 @@ import { useState } from 'react';
 import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFindMany';
 import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
-import { css } from '@emotion/react';
 import { PlanAccordionForm } from '@/components/shared/Form';
 import { AccordionInvoice } from '@/components/shared/Invoice';
 import { TopNextPageProps } from 'pages';
-
-const stylePage = css`
-  .chakra-checkbox__label {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .chakra-accordion .chakra-input {
-    background-color: white;
-  }
-  .chakra-accordion .chakra-button {
-    margin-left: auto;
-    display: flex;
-    margin-top: 20px;
-  }
-`;
 
 export type TSelectedPlan = {
   phone?: QueryProductFindMany_productFindMany;
@@ -50,7 +32,7 @@ const Top: React.FC<TopNextPageProps> = ({
     options: [],
   });
   return (
-    <Container maxW={'5xl'} css={stylePage}>
+    <Container maxW={'5xl'}>
       <Stack
         as={Box}
         textAlign={'center'}

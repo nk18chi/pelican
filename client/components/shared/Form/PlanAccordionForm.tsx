@@ -29,6 +29,24 @@ import {
   generateRandomPhoneNumber,
 } from '../../function/utils/fake';
 import { TSelectedPlan } from '@/components/page/Top/Top';
+import { css } from '@emotion/react';
+
+const stylePage = css`
+  .chakra-checkbox__label {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .chakra-accordion .chakra-input {
+    background-color: white;
+  }
+  .chakra-accordion .chakra-button {
+    margin-left: auto;
+    display: flex;
+    margin-top: 20px;
+  }
+`;
 
 interface PlanAccordionFormProps {
   products: QueryProductFindMany_productFindMany[];
@@ -262,7 +280,9 @@ const PlanAccordionForm = ({
         w="100%"
         allowToggle
         index={accordionIndex}
+        textAlign={'center'}
         onChange={(id: ExpandedIndex) => setAccordionIndex(id)}
+        css={stylePage}
       >
         {planAccordions.map((accordion, i, { length }) => {
           return (

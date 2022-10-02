@@ -1,4 +1,4 @@
-import { DashboardPage } from '@/components/page/Dashboard';
+import { DashboardPage } from '@/components/page/Admin/Dashboard';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 

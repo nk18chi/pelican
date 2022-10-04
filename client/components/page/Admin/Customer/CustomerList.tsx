@@ -1,7 +1,7 @@
 import React from 'react';
-import { useColorModeValue, Text, Flex } from '@chakra-ui/react';
+import { useColorModeValue, Text, Flex, Avatar } from '@chakra-ui/react';
 import { SimpleTable } from '@/components/shared/Table';
-import { ListNextPageProps } from 'pages/list';
+import { CustomerListNextPageProps } from 'pages/admin/customer';
 
 type TTableData = {
   thead: {
@@ -59,7 +59,7 @@ const tableData: TTableData = {
   ],
 };
 
-const List = (props: ListNextPageProps) => {
+const List = (props: CustomerListNextPageProps) => {
   console.log(props);
   const textColor = useColorModeValue('gray.700', 'white');
   tableData.tbody = [];
@@ -73,6 +73,7 @@ const List = (props: ListNextPageProps) => {
         minWidth="100%"
         flexWrap="nowrap"
       >
+        <Avatar w="50px" borderRadius="12px" me="18px" />
         <Flex direction="column">
           <Text
             fontSize="md"

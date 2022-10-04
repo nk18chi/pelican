@@ -17,19 +17,15 @@ import { CheckCircleIcon, EditIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import { FormStatus } from '../../types/plan';
 import Product from '../../model/Product/Product';
 import PricingHorizontal from './PricingHorizontal';
-import { ReactHookFormInput, TInputField } from '../Input';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFindMany';
 import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
 import { useForm } from 'react-hook-form';
 import { currencyFormat } from '../../function/utils/format';
-import {
-  SUPPORTED_COUNTRIES,
-  generateRandomPhoneNumber,
-} from '../../function/utils/fake';
 import { TSelectedPlan } from '@/components/page/Top/Top';
 import { css } from '@emotion/react';
+import CustomerForm from './CustomerForm';
 
 const stylePage = css`
   .chakra-checkbox__label {
@@ -60,60 +56,6 @@ type TPlanAccodion = {
   title: string;
   content: JSX.Element;
 };
-
-const randomPhoneNumber = generateRandomPhoneNumber({
-  country: SUPPORTED_COUNTRIES.CANADA,
-});
-
-const inputFields: TInputField[] = [
-  {
-    name: 'firstName',
-    displayName: 'First Name',
-    type: 'text',
-    validation: { required: true },
-    description: "Don't put your actual information",
-  },
-  {
-    name: 'lastName',
-    displayName: 'Last Name',
-    type: 'text',
-    validation: { required: true },
-    description: "Don't put your actual information",
-  },
-  {
-    name: 'phoneNumber',
-    displayName: 'Phone Number',
-    type: 'phone',
-    validation: { required: true },
-    description: "Don't put your actual information",
-    disabled: true,
-    defaultValue: randomPhoneNumber,
-  },
-  {
-    name: 'email',
-    displayName: 'Email',
-    type: 'email',
-    validation: {
-      required: true,
-      pattern: {
-        value: /\S+@\S+\.\S+/,
-        message: 'Your email is not valid.',
-      },
-    },
-    description: "Don't put your actual information",
-    disabled: true,
-    defaultValue: `yourphone${randomPhoneNumber}@example.com`,
-  },
-  {
-    name: 'password',
-    displayName: 'Password',
-    type: 'password',
-    validation: { required: true, minLength: 8 },
-    defaultValue: 'buildyourplan',
-    disabled: true,
-    description: '"buildyourplan" is your password',
-  },
-];
 
 const PlanAccordionForm = ({
   products,
@@ -221,15 +163,7 @@ const PlanAccordionForm = ({
       content: (
         <form noValidate>
           <VStack spacing="20px" py="4" textAlign="left">
-            {inputFields.map((input) => (
-              <ReactHookFormInput
-                key={input.name}
-                {...{
-                  input,
-                  useFormHooks,
-                }}
-              />
-            ))}
+            <CustomerForm useFormHooks={useFormHooks} />
           </VStack>
         </form>
       ),

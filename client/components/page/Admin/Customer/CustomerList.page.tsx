@@ -1,9 +1,9 @@
 import { Footer } from '@/components/shared/Footer';
 import { SidebarWithHeader } from '@/components/shared/Header';
-import { CustomerListNextPageProps } from 'pages/admin/customers';
+import { CustomerListNextPageProps } from 'pages/admin/customer';
 import CustomerList from './CustomerList';
 
-const CustomerPage = (props: CustomerListNextPageProps) => {
+const CustomerListPage = (props: CustomerListNextPageProps) => {
   return (
     <>
       <SidebarWithHeader>
@@ -14,4 +14,4 @@ const CustomerPage = (props: CustomerListNextPageProps) => {
   );
 };
 
-export default CustomerPage;
+export default CustomerListPage;

@@ -139,7 +139,6 @@ const List = (props: CustomerListNextPageProps) => {
     <main>
       <SimpleTable
         data={{
-          label: 'Customer List',
           thead: tableData.thead,
           tbody: tableData.tbody,
         }}

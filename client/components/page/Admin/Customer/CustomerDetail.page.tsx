@@ -1,3 +1,4 @@
+import BannerCover from '@/components/layout/BannerCover';
 import { Footer } from '@/components/shared/Footer';
 import { SidebarWithHeader } from '@/components/shared/Header';
 import { CustomerDetailNextPageProps } from 'pages/admin/customer/[customerId]';
@@ -7,7 +8,9 @@ const CustomerDetailPage = (props: CustomerDetailNextPageProps) => {
   return (
     <>
       <SidebarWithHeader>
-        <CustomerDetail {...props} />
+        <BannerCover label="Customer Detail">
+          <CustomerDetail {...props} />
+        </BannerCover>
       </SidebarWithHeader>
       <Footer />
     </>

@@ -63,9 +63,6 @@ const Detail = (props: CustomerDetailNextPageProps) => {
         borderRadius="15px"
         p="20px"
       >
-        <Text fontSize="xl" color={textColor} fontWeight="bold">
-          Customer Detail
-        </Text>
         <Flex
           direction={{ sm: 'column', md: 'column' }}
           w={{ sm: '90%', xl: '95%' }}

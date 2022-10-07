@@ -5,11 +5,18 @@ import {
   FormLabel,
   FormHelperText,
   FormErrorMessage,
+  Checkbox,
 } from '@chakra-ui/react';
-import { Controller, UseFormReturn, FieldErrorsImpl } from 'react-hook-form';
+import {
+  Controller,
+  UseFormReturn,
+  FieldErrorsImpl,
+  ControllerRenderProps,
+} from 'react-hook-form';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { TInputField } from '.';
+import Dropzone from './type/Dropzone';
 
 type TErrorMessage = {
   input: TInputField;
@@ -62,7 +69,11 @@ const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
         name={input.name}
         rules={input.validation}
         defaultValue={input.defaultValue}
-        render={({ field: { onChange, value } }) => {
+        render={({
+          field: { onChange, value },
+        }: {
+          field: ControllerRenderProps;
+        }) => {
           switch (input.type) {
             case 'phone':
               return (
@@ -71,6 +82,16 @@ const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
                   value={value}
                   onChange={onChange}
                   isValid={!errorMessage}
+                />
+              );
+            case 'checkbox':
+              return <Checkbox defaultChecked={!!input.defaultChecked} />;
+            case 'image':
+              return (
+                <Dropzone
+                  value={value}
+                  onChange={onChange}
+                  dropzoneConfig={input.dropzoneConfig}
                 />
               );
             default:

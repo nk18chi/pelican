@@ -1,8 +1,18 @@
+import { TDropzoneConfig } from './type/Dropzone';
+
 export { default as ReactHookFormInput } from './ReactHookFormInput';
 export type TInputField = {
   name: string;
   displayName: string;
-  type: 'text' | 'email' | 'password' | 'phone';
+  type:
+    | 'text'
+    | 'email'
+    | 'password'
+    | 'phone'
+    | 'number'
+    | 'checkbox'
+    | 'date'
+    | 'image';
   validation: {
     required: boolean;
     pattern?: {
@@ -14,4 +24,6 @@ export type TInputField = {
   description?: string;
   disabled?: boolean;
   defaultValue?: string;
+  defaultChecked?: boolean;
+  dropzoneConfig?: TDropzoneConfig;
 };

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { useRouter } from 'next/router';
 import {
   IconButton,
   Avatar,
@@ -64,13 +65,21 @@ const SidebarWithHeader = ({ children }: { children: ReactNode }) => {
 };
 
 const links = [
-  { label: 'Dashboard', icon: <StatsIcon />, active: true },
-  { label: 'Customers', icon: <Icon as={FaUsers} /> },
-  { label: 'Phones', icon: <Icon as={HiDeviceMobile} /> },
-  { label: 'Plans', icon: <Icon as={FaListUl} /> },
-  { label: 'PlanOptions', icon: <Icon as={MdOutlinePlaylistAdd} /> },
-  { label: 'Promotion', icon: <Icon as={AiFillTags} /> },
-  { label: 'Invoices', icon: <Icon as={FaRegMoneyBillAlt} /> },
+  { label: 'Dashboard', icon: <StatsIcon />, href: 'dashboard' },
+  { label: 'Customers', icon: <Icon as={FaUsers} />, href: 'customer' },
+  { label: 'Phones', icon: <Icon as={HiDeviceMobile} />, href: 'product' },
+  { label: 'Plans', icon: <Icon as={FaListUl} />, href: 'plan' },
+  {
+    label: 'PlanOptions',
+    icon: <Icon as={MdOutlinePlaylistAdd} />,
+    href: 'planOption',
+  },
+  { label: 'Promotion', icon: <Icon as={AiFillTags} />, href: 'promotion' },
+  {
+    label: 'Invoices',
+    icon: <Icon as={FaRegMoneyBillAlt} />,
+    href: 'invoice',
+  },
 ];
 
 interface SidebarProps extends BoxProps {
@@ -78,6 +87,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const router = useRouter();
   const activeBg = useColorModeValue('white', 'gray.700');
   const inactiveBg = useColorModeValue('white', 'gray.700');
   const activeColor = useColorModeValue('gray.700', 'white');
@@ -96,48 +106,55 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       <Divider mb="8px" />
-      {links.map((link) => (
-        <Button
-          key={link.label}
-          boxSize="initial"
-          justifyContent="flex-start"
-          alignItems="center"
-          bg={link.active ? activeBg : 'transparent'}
-          mb={{ xl: '12px' }}
-          mx={{ xl: 'auto' }}
-          p="12px"
-          borderRadius="15px"
-          w="100%"
-          _active={{
-            bg: 'inherit',
-            transform: 'none',
-            borderColor: 'transparent',
-          }}
-          _focus={{ boxShadow: 'none' }}
-        >
-          <Flex>
-            <Flex
-              alignItems={'center'}
-              justifyContent={'center'}
-              borderRadius={'12px'}
-              bg={link.active ? 'teal.300' : inactiveBg}
-              color={link.active ? 'white' : 'teal.300'}
-              h="30px"
-              w="30px"
-              me="12px"
-            >
-              {link.icon}
+      {links.map((link) => {
+        const active = router.pathname.includes(link.href);
+        return (
+          <Button
+            key={link.label}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push(`/admin/${link.href}`);
+            }}
+            boxSize="initial"
+            justifyContent="flex-start"
+            alignItems="center"
+            bg={active ? activeBg : 'transparent'}
+            mb={{ xl: '12px' }}
+            mx={{ xl: 'auto' }}
+            p="12px"
+            borderRadius="15px"
+            w="100%"
+            _active={{
+              bg: 'inherit',
+              transform: 'none',
+              borderColor: 'transparent',
+            }}
+            _focus={{ boxShadow: 'none' }}
+          >
+            <Flex>
+              <Flex
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderRadius={'12px'}
+                bg={active ? 'teal.300' : inactiveBg}
+                color={active ? 'white' : 'teal.300'}
+                h="30px"
+                w="30px"
+                me="12px"
+              >
+                {link.icon}
+              </Flex>
+              <Text
+                color={active ? activeColor : inactiveColor}
+                my="auto"
+                fontSize="sm"
+              >
+                {link.label}
+              </Text>
             </Flex>
-            <Text
-              color={link.active ? activeColor : inactiveColor}
-              my="auto"
-              fontSize="sm"
-            >
-              {link.label}
-            </Text>
-          </Flex>
-        </Button>
-      ))}
+          </Button>
+        );
+      })}
     </Box>
   );
 };

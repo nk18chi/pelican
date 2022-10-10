@@ -9,7 +9,7 @@ type TTableData = {
     _id: string;
     label: string;
   }[];
-  tbody: JSX.Element[][];
+  tbody: { link?: string; tds: JSX.Element[] }[];
   products: {
     _id: string;
     name: string;
@@ -28,7 +28,7 @@ const tableData: TTableData = {
     { _id: '3', label: 'Rating' },
     { _id: '4', label: 'CreatedAt' },
   ],
-  tbody: [[]],
+  tbody: [],
   products: [
     {
       _id: '1',
@@ -49,8 +49,11 @@ const List = (props: ProductListNextPageProps) => {
 
   tableData.tbody = [];
   tableData.products.map((product) => {
-    const arr = [];
-    arr.push(
+    const record: {
+      link: string;
+      tds: JSX.Element[];
+    } = { link: `/product/${product._id}`, tds: [] };
+    record.tds.push(
       <Flex
         key={product._id}
         align="center"
@@ -71,28 +74,28 @@ const List = (props: ProductListNextPageProps) => {
         </Flex>
       </Flex>
     );
-    arr.push(
+    record.tds.push(
       <Flex direction="column">
         <Text fontSize="md" color={textColor} fontWeight="bold">
           {currencyFormat({ n: product.price })}
         </Text>
       </Flex>
     );
-    arr.push(
+    record.tds.push(
       <Flex direction="column">
         <Text fontSize="md" color={textColor} fontWeight="bold">
           {product.rating} ({product.numReviews} reviews)
         </Text>
       </Flex>
     );
-    arr.push(
+    record.tds.push(
       <Flex direction="column">
         <Text fontSize="md" color={textColor} fontWeight="bold">
           {product.createdAt}
         </Text>
       </Flex>
     );
-    tableData.tbody.push(arr);
+    tableData.tbody.push(record);
   });
   return (
     <main>

@@ -8,7 +8,7 @@ type TTableData = {
     _id: string;
     label: string;
   }[];
-  tbody: JSX.Element[][];
+  tbody: { link?: string; tds: JSX.Element[] }[];
   users: {
     _id: string;
     name: string;
@@ -35,7 +35,7 @@ const tableData: TTableData = {
     { _id: '4', label: 'Last Invoice' },
     { _id: '5', label: 'CreatedAt' },
   ],
-  tbody: [[]],
+  tbody: [],
   users: [
     {
       _id: '1',
@@ -64,8 +64,11 @@ const List = (props: CustomerListNextPageProps) => {
   const textColor = useColorModeValue('gray.700', 'white');
   tableData.tbody = [];
   tableData.users.map((user) => {
-    const arr = [];
-    arr.push(
+    const record: {
+      link: string;
+      tds: JSX.Element[];
+    } = { link: `/customer/${user._id}`, tds: [] };
+    record.tds.push(
       <Flex
         key={user._id}
         align="center"
@@ -92,14 +95,14 @@ const List = (props: CustomerListNextPageProps) => {
         </Flex>
       </Flex>
     );
-    arr.push(
+    record.tds.push(
       <Flex direction="column">
         <Text fontSize="md" color={textColor} fontWeight="bold">
           {user.product.phone}
         </Text>
       </Flex>
     );
-    arr.push(
+    record.tds.push(
       <Flex direction="column">
         <Text fontSize="md" color={textColor} fontWeight="bold">
           {user.product.plan}
@@ -116,7 +119,7 @@ const List = (props: CustomerListNextPageProps) => {
         ))}
       </Flex>
     );
-    arr.push(
+    record.tds.push(
       <Flex direction="column">
         <Text fontSize="md" color={textColor} fontWeight="bold">
           {user.invoice.lastPaymentAmount}
@@ -126,14 +129,14 @@ const List = (props: CustomerListNextPageProps) => {
         </Text>
       </Flex>
     );
-    arr.push(
+    record.tds.push(
       <Flex direction="column">
         <Text fontSize="md" color={textColor} fontWeight="bold">
           {user.createdAt}
         </Text>
       </Flex>
     );
-    tableData.tbody.push(arr);
+    tableData.tbody.push(record);
   });
   return (
     <main>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import {
   Table,
   Thead,
@@ -16,10 +17,11 @@ interface SimpleTableProps {
       _id: string;
       label: string;
     }[];
-    tbody: JSX.Element[][];
+    tbody: { link?: string; tds: JSX.Element[] }[];
   };
 }
 const SimpleTable = ({ data }: SimpleTableProps) => {
+  const router = useRouter();
   return (
     <TableContainer
       bg={useColorModeValue('white', 'gray.900')}
@@ -37,10 +39,18 @@ const SimpleTable = ({ data }: SimpleTableProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {data.tbody.map((body, i) => (
-            <Tr key={i}>
-              {body.map((child, j) => (
-                <Td key={j}>{child}</Td>
+          {data.tbody.map(({ tds, link }, i) => (
+            <Tr
+              key={i}
+              _hover={{ bg: 'gray.100' }}
+              cursor="pointer"
+              onClick={(e) => {
+                e.preventDefault;
+                link && router.push(`/admin/${link}`);
+              }}
+            >
+              {tds.map((td, j) => (
+                <Td key={j}>{td}</Td>
               ))}
             </Tr>
           ))}

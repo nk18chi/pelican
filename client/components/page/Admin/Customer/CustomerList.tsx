@@ -140,12 +140,7 @@ const List = (props: CustomerListNextPageProps) => {
   });
   return (
     <main>
-      <SimpleTable
-        data={{
-          thead: tableData.thead,
-          tbody: tableData.tbody,
-        }}
-      />
+      <SimpleTable thead={tableData.thead} tbody={tableData.tbody} />
     </main>
   );
 };

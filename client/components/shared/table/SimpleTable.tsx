@@ -12,15 +12,13 @@ import {
 } from '@chakra-ui/react';
 
 interface SimpleTableProps {
-  data: {
-    thead: {
-      _id: string;
-      label: string;
-    }[];
-    tbody: { link?: string; tds: JSX.Element[] }[];
-  };
+  thead: {
+    _id: string;
+    label: string;
+  }[];
+  tbody: { link?: string; tds: JSX.Element[] }[];
 }
-const SimpleTable = ({ data }: SimpleTableProps) => {
+const SimpleTable = ({ thead, tbody }: SimpleTableProps) => {
   const router = useRouter();
   return (
     <TableContainer
@@ -31,7 +29,7 @@ const SimpleTable = ({ data }: SimpleTableProps) => {
       <Table variant="simple">
         <Thead>
           <Tr my=".8rem" pl="0px" color="gray.400">
-            {data.thead.map((head) => (
+            {thead.map((head) => (
               <Th key={head._id} color="gray.400">
                 {head.label}
               </Th>
@@ -39,7 +37,7 @@ const SimpleTable = ({ data }: SimpleTableProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {data.tbody.map(({ tds, link }, i) => (
+          {tbody.map(({ tds, link }, i) => (
             <Tr
               key={i}
               _hover={{ bg: 'gray.100' }}

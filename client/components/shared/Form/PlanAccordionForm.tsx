@@ -229,15 +229,17 @@ const PlanAccordionForm = ({
               <>
                 {accordion.content}
                 {i + 1 < length && (
-                  <Button
-                    key={`nextButton_${i}`}
-                    id={`nextButton_${i}`}
-                    colorScheme="teal"
-                    size="md"
-                    onClick={() => clickAccordionNextButton(i)}
-                  >
-                    Next
-                  </Button>
+                  <Box mt={2} textAlign="right">
+                    <Button
+                      key={`nextButton_${i}`}
+                      id={`nextButton_${i}`}
+                      colorScheme="teal"
+                      size="md"
+                      onClick={() => clickAccordionNextButton(i)}
+                    >
+                      Next
+                    </Button>
+                  </Box>
                 )}
               </>
             </AccordionItemBlock>

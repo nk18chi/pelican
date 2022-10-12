@@ -6,6 +6,7 @@ import {
   FormHelperText,
   FormErrorMessage,
   Checkbox,
+  Textarea,
 } from '@chakra-ui/react';
 import {
   Controller,
@@ -92,6 +93,14 @@ const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
                   value={value}
                   onChange={onChange}
                   dropzoneConfig={input.dropzoneConfig}
+                />
+              );
+            case 'textarea':
+              return (
+                <Textarea
+                  value={value || ''}
+                  onChange={onChange}
+                  disabled={input.disabled}
                 />
               );
             default:

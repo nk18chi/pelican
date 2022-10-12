@@ -12,7 +12,8 @@ export type TInputField = {
     | 'number'
     | 'checkbox'
     | 'date'
-    | 'image';
+    | 'image'
+    | 'textarea';
   validation: {
     required: boolean;
     pattern?: {

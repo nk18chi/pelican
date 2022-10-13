@@ -107,7 +107,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       </Flex>
       <Divider mb="8px" />
       {links.map((link) => {
-        const active = router.pathname.includes(link.href);
+        const active = !!router.asPath.match(`${link.href}($|\\/[0-9]+)`);
         return (
           <Button
             key={link.label}

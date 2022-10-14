@@ -7,6 +7,7 @@ import {
   FormErrorMessage,
   Checkbox,
   Textarea,
+  Select,
 } from '@chakra-ui/react';
 import {
   Controller,
@@ -87,6 +88,16 @@ const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
               );
             case 'checkbox':
               return <Checkbox defaultChecked={!!input.defaultChecked} />;
+            case 'select':
+              return (
+                <Select placeholder="Select option">
+                  {input.choices?.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </Select>
+              );
             case 'image':
               return (
                 <Dropzone

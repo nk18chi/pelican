@@ -13,7 +13,8 @@ export type TInputField = {
     | 'checkbox'
     | 'date'
     | 'image'
-    | 'textarea';
+    | 'textarea'
+    | 'select';
   validation: {
     required: boolean;
     pattern?: {
@@ -22,6 +23,7 @@ export type TInputField = {
     };
     minLength?: number;
   };
+  choices?: { label: string; value: string }[];
   description?: string;
   disabled?: boolean;
   defaultValue?: string;

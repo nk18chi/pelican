@@ -278,14 +278,14 @@ describe('Top Page', () => {
         planOptions={planOptionDummy}
       />
     );
-    const accorditionItemBlock1 = container.querySelector(
-      '#accordion-panel-accordionItemBlock1'
+    const accorditionItemBlock = container.querySelector(
+      '#accordion-panel-accordion_0'
     )?.parentElement;
-    expect(accorditionItemBlock1?.style.display).toBe('block');
-    const nextButton1 = container.querySelector('#nextButton1');
+    expect(accorditionItemBlock?.style.display).toBe('block');
+    const nextButton1 = container.querySelector('#nextButton_0');
     if (nextButton1) fireEvent.click(nextButton1);
     await waitFor(() =>
-      expect(accorditionItemBlock1?.style.display).toBe('none')
+      expect(accorditionItemBlock?.style.display).toBe('none')
     );
   });
   it('show an error when try to go next without selecting a plan', async () => {
@@ -297,16 +297,16 @@ describe('Top Page', () => {
         planOptions={planOptionDummy}
       />
     );
-    const accordionButton2 = container.querySelector(
-      '#accordion-button-accordionItemBlock2'
+    const accordionButton = container.querySelector(
+      '#accordion-button-accordion_1'
     );
-    if (accordionButton2) fireEvent.click(accordionButton2);
+    if (accordionButton) fireEvent.click(accordionButton);
 
     const accorditionItemBlock2 = container.querySelector(
-      '#accordion-panel-accordionItemBlock2'
+      '#accordion-panel-accordion_1'
     )?.parentElement;
     expect(accorditionItemBlock2?.style.display).toBe('block');
-    const nextButton2 = container.querySelector('#nextButton2');
+    const nextButton2 = container.querySelector('#nextButton_1');
     if (nextButton2) fireEvent.click(nextButton2);
     await waitFor(() => {
       expect(accorditionItemBlock2?.style.display).toBe('block');
@@ -321,16 +321,16 @@ describe('Top Page', () => {
         planOptions={planOptionDummy}
       />
     );
-    const accordionButton3 = container.querySelector(
-      '#accordion-button-accordionItemBlock3'
+    const accordionButton = container.querySelector(
+      '#accordion-button-accordion_2'
     );
-    if (accordionButton3) fireEvent.click(accordionButton3);
+    if (accordionButton) fireEvent.click(accordionButton);
 
     const accorditionItemBlock3 = container.querySelector(
-      '#accordion-panel-accordionItemBlock3'
+      '#accordion-panel-accordion_2'
     )?.parentElement;
     expect(accorditionItemBlock3?.style.display).toBe('block');
-    const nextButton3 = container.querySelector('#nextButton3');
+    const nextButton3 = container.querySelector('#nextButton_2');
     if (nextButton3) fireEvent.click(nextButton3);
     await waitFor(() =>
       expect(accorditionItemBlock3?.style.display).toBe('none')

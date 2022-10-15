@@ -222,7 +222,7 @@ const PlanAccordionForm = ({
           return (
             <AccordionItemBlock
               key={`accordion_${i}`}
-              id={`accordion$_{i}`}
+              id={`accordion_${i}`}
               title={accordion.title}
               status={showAccordionStatus(i)}
             >

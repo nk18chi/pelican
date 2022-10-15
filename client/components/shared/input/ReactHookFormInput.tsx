@@ -90,7 +90,12 @@ const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
               return <Checkbox defaultChecked={!!input.defaultChecked} />;
             case 'select':
               return (
-                <Select placeholder="Select option">
+                <Select
+                  placeholder="Select option"
+                  value={value}
+                  onChange={onChange}
+                  disabled={input.disabled}
+                >
                   {input.choices?.map(({ label, value }) => (
                     <option key={value} value={value}>
                       {label}

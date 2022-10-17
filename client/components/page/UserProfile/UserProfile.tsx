@@ -1,114 +1,98 @@
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Stack,
-  useColorModeValue,
-  Avatar,
-  AvatarBadge,
-  IconButton,
-  Center,
-} from '@chakra-ui/react';
-import { SmallCloseIcon } from '@chakra-ui/icons';
-import { UserProfileNextPageProps } from 'pages/user-profile';
+import { ReactHookFormInput, TInputField } from '@/components/shared/Input';
+import { Flex, useColorModeValue, VStack, Button } from '@chakra-ui/react';
+import { ProductDetailNextPageProps } from 'pages/admin/product/[productId]';
+import { useForm } from 'react-hook-form';
 
-const UserProfile = (props: UserProfileNextPageProps) => {
+const inputFields: TInputField[] = [
+  {
+    name: 'name',
+    displayName: 'Name',
+    type: 'text',
+    validation: { required: true },
+  },
+  {
+    name: 'avatar',
+    displayName: 'Avatar Image',
+    type: 'image',
+    validation: { required: true },
+    dropzoneConfig: {
+      accept: { accepted: ['image/*'] },
+      maxFiles: 1,
+      multiple: false,
+    },
+  },
+  {
+    name: 'email',
+    displayName: 'Email',
+    type: 'email',
+    validation: { required: true },
+    description:
+      "We don't support changing the email address online. Please contact us if you want to change it.",
+    disabled: true,
+  },
+  {
+    name: 'password',
+    displayName: 'Password',
+    type: 'text',
+    validation: { required: true },
+  },
+];
+
+const Detail = (props: ProductDetailNextPageProps) => {
   console.log(props);
+  const useFormHooks = useForm({ defaultValues: {} });
+  const { handleSubmit } = useFormHooks;
+  const borderProfileColor = useColorModeValue(
+    'white',
+    'rgba(255, 255, 255, 0.31)'
+  );
+  const bgProfile = useColorModeValue(
+    'hsla(0,0%,100%,.8)',
+    'linear-gradient(112.83deg, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0) 110.84%)'
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const submitForm = (data: any) => {
+    console.log('submit', data);
+  };
+
   return (
     <main>
       <Flex
-        minH={'100vh'}
-        align={'center'}
-        justify={'center'}
-        bg={useColorModeValue('gray.50', 'gray.800')}
+        direction={{ sm: 'column', md: 'column' }}
+        w={{ sm: '100%' }}
+        justifyContent={{ sm: 'center', md: 'space-between' }}
+        align="center"
+        backdropFilter="saturate(200%) blur(50px)"
+        boxShadow="0px 2px 5.5px rgba(0, 0, 0, 0.02)"
+        border="2px solid"
+        borderColor={borderProfileColor}
+        bg={bgProfile}
+        p="24px"
+        borderRadius="20px"
       >
-        <Stack
-          spacing={4}
-          w={'full'}
-          maxW={'md'}
-          bg={useColorModeValue('white', 'gray.700')}
-          rounded={'xl'}
-          boxShadow={'lg'}
-          p={6}
-          my={12}
-        >
-          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-            User Profile Edit
-          </Heading>
-          <FormControl id="userName">
-            <FormLabel>User Icon</FormLabel>
-            <Stack direction={['column', 'row']} spacing={6}>
-              <Center>
-                <Avatar size="xl" src="https://bit.ly/sage-adebayo">
-                  <AvatarBadge
-                    as={IconButton}
-                    size="sm"
-                    rounded="full"
-                    top="-10px"
-                    colorScheme="red"
-                    aria-label="remove Image"
-                    icon={<SmallCloseIcon />}
-                  />
-                </Avatar>
-              </Center>
-              <Center w="full">
-                <Button w="full">Change Icon</Button>
-              </Center>
-            </Stack>
-          </FormControl>
-          <FormControl id="userName" isRequired>
-            <FormLabel>User name</FormLabel>
-            <Input
-              placeholder="UserName"
-              _placeholder={{ color: 'gray.500' }}
-              type="text"
-            />
-          </FormControl>
-          <FormControl id="email" isRequired>
-            <FormLabel>Email address</FormLabel>
-            <Input
-              placeholder="your-email@example.com"
-              _placeholder={{ color: 'gray.500' }}
-              type="email"
-            />
-          </FormControl>
-          <FormControl id="password" isRequired>
-            <FormLabel>Password</FormLabel>
-            <Input
-              placeholder="password"
-              _placeholder={{ color: 'gray.500' }}
-              type="password"
-            />
-          </FormControl>
-          <Stack spacing={6} direction={['column', 'row']}>
-            <Button
-              bg={'red.400'}
-              color={'white'}
-              w="full"
-              _hover={{
-                bg: 'red.500',
+        <VStack w="100%" spacing="20px" py="4" textAlign="left">
+          {inputFields.map((input) => (
+            <ReactHookFormInput
+              key={input.name}
+              {...{
+                input,
+                useFormHooks,
               }}
-            >
-              Cancel
-            </Button>
-            <Button
-              bg={'blue.400'}
-              color={'white'}
-              w="full"
-              _hover={{
-                bg: 'blue.500',
-              }}
-            >
-              Submit
-            </Button>
-          </Stack>
-        </Stack>
-      </Flex>{' '}
+            />
+          ))}
+          <Button
+            id="prodileSaveButton"
+            colorScheme="teal"
+            size="lg"
+            onClick={handleSubmit(submitForm)}
+          >
+            Save
+          </Button>
+        </VStack>
+      </Flex>
     </main>
   );
 };
 
-export default UserProfile;
+export default Detail;

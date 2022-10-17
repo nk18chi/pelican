@@ -1,3 +1,4 @@
+import BannerCover from '@/components/layout/BannerCover';
 import { Footer } from '@/components/shared/Footer';
 import { SidebarWithHeader } from '@/components/shared/Header';
 import { UserProfileNextPageProps } from 'pages/user-profile';
@@ -7,7 +8,9 @@ const UserProfilePage = (props: UserProfileNextPageProps) => {
   return (
     <>
       <SidebarWithHeader>
-        <UserProfile {...props} />
+        <BannerCover label="User Profile">
+          <UserProfile {...props} />
+        </BannerCover>
       </SidebarWithHeader>
       <Footer />
     </>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import Top from './Top';
+import TopPage from './Top.page';
 import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFindMany';
 import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
 import { currencyFormat } from '@/components/function/utils/format';
@@ -97,14 +97,14 @@ const invoices: string[][] = [[], []];
 
 describe('Top Page', () => {
   it('renders the headline', () => {
-    render(<Top products={[]} taxes={[]} plans={[]} planOptions={[]} />);
+    render(<TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />);
     const heading1 = screen.getByText(/Looking for a new plan?/i);
     expect(heading1).toBeInTheDocument();
     const heading2 = screen.getByText(/Build Your Plan/i);
     expect(heading2).toBeInTheDocument();
   });
   it('renders the invoice(monthly/one-time fees) as 0 for each before choosing any products', () => {
-    render(<Top products={[]} taxes={[]} plans={[]} planOptions={[]} />);
+    render(<TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />);
     const monthlyLabel = screen.getByText(/Monthly Fees/i);
     expect(monthlyLabel).toBeInTheDocument();
     const monthlyPrice = monthlyLabel.nextSibling;
@@ -116,14 +116,14 @@ describe('Top Page', () => {
     expect(oneTimePrice).toHaveTextContent('$0.00');
   });
   it('renders the checkout button as disable button before filling out the form', () => {
-    render(<Top products={[]} taxes={[]} plans={[]} planOptions={[]} />);
+    render(<TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />);
     const button = screen.getByText(/Proceed to Checkout/i);
     expect(button).toBeInTheDocument();
     expect(button).toBeDisabled();
   });
   it('able to fill out the form while calculating invoices(monthly/one-time) based on the form', () => {
     const { container } = render(
-      <Top
+      <TopPage
         products={productDummy}
         taxes={taxesDummy}
         plans={planDummy}
@@ -271,7 +271,7 @@ describe('Top Page', () => {
   });
   it('able to skip selecting a phone', async () => {
     const { container } = render(
-      <Top
+      <TopPage
         products={productDummy}
         taxes={taxesDummy}
         plans={planDummy}
@@ -290,7 +290,7 @@ describe('Top Page', () => {
   });
   it('show an error when try to go next without selecting a plan', async () => {
     const { container } = render(
-      <Top
+      <TopPage
         products={productDummy}
         taxes={taxesDummy}
         plans={planDummy}
@@ -314,7 +314,7 @@ describe('Top Page', () => {
   });
   it('able to skip selecting plan options', async () => {
     const { container } = render(
-      <Top
+      <TopPage
         products={productDummy}
         taxes={taxesDummy}
         plans={planDummy}
@@ -338,7 +338,7 @@ describe('Top Page', () => {
   });
   it('show an error when try to go next without filling in mandatory fields', async () => {
     render(
-      <Top
+      <TopPage
         products={productDummy}
         taxes={taxesDummy}
         plans={planDummy}

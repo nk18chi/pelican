@@ -196,7 +196,7 @@ const SignUp = (props: SignUpNextPageProps) => {
                   boxShadow: 'xl',
                 }}
               >
-                Submit
+                Sign Up
               </Button>
             </Box>
             form

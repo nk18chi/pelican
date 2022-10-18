@@ -107,6 +107,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       </Flex>
       <Divider mb="8px" />
       {links.map((link) => {
+        if (!router) return null;
         const active = !!router.asPath.match(`${link.href}($|\\/[0-9]+)`);
         return (
           <Button

@@ -15,6 +15,7 @@ import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPla
 import { PlanAccordionForm } from '@/components/shared/Form';
 import { AccordionInvoice } from '@/components/shared/Invoice';
 import { TopNextPageProps } from 'pages';
+import { PromotionInputForm } from '@/components/shared/Promotion';
 
 export type TSelectedPlan = {
   phone?: QueryProductFindMany_productFindMany;
@@ -67,6 +68,7 @@ const Top: React.FC<TopNextPageProps> = ({
               selectedPlan={selectedPlan}
               taxes={taxes}
             />
+            <PromotionInputForm />
           </VStack>
         </Flex>
       </Stack>

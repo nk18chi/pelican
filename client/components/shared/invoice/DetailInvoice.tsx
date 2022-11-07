@@ -10,8 +10,8 @@ import { currencyFormat } from '@/components/function/utils/format';
 import useInvoiceCalculation from '@/components/function/hooks/useInvoiceCalculation';
 import { InvoiceProps } from '.';
 
-const DetailInvoice = ({ taxes, selectedPlan }: InvoiceProps) => {
-  const invoice = useInvoiceCalculation({ taxes, selectedPlan });
+const DetailInvoice = ({ taxes }: InvoiceProps) => {
+  const invoice = useInvoiceCalculation({ taxes });
   return (
     <>
       {invoice.map((table) => (

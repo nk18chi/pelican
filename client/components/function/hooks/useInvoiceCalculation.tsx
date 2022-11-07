@@ -1,36 +1,33 @@
-import { TSelectedPlan } from '@/components/page/Top/Top';
+import { TopContext } from '@/components/page/Top/TopContextProvider';
 import { defaultInvoiceTable, TInvoice } from '@/components/shared/Invoice';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 interface useInvoiceCalculationProps {
-  selectedPlan: TSelectedPlan;
   taxes: QueryTaxFindMany_taxFindMany[];
 }
 
-const useInvoiceCalculation = ({
-  selectedPlan,
-  taxes,
-}: useInvoiceCalculationProps) => {
+const useInvoiceCalculation = ({ taxes }: useInvoiceCalculationProps) => {
   const [invoice, setInvoice] = useState(defaultInvoiceTable);
+  const { selectedOrder } = useContext(TopContext);
 
   useEffect(() => {
     const monthlyInvoice: TInvoice = { ...defaultInvoiceTable[0], details: [] };
     const oneTimeInvoice: TInvoice = { ...defaultInvoiceTable[1], details: [] };
 
-    if (selectedPlan.plan) {
+    if (selectedOrder?.plan) {
       monthlyInvoice.details.push({
         id: '1',
-        label: `${selectedPlan.plan.title} Plan`,
-        value: selectedPlan.plan.price,
+        label: `${selectedOrder?.plan.title} Plan`,
+        value: selectedOrder?.plan.price,
       });
     }
 
-    if (selectedPlan.phone) {
+    if (selectedOrder?.phone) {
       oneTimeInvoice.details.push({
         id: '1',
-        label: selectedPlan.phone.name,
-        value: selectedPlan.phone.price,
+        label: selectedOrder?.phone.name,
+        value: selectedOrder?.phone.price,
       });
       oneTimeInvoice.details.push({
         id: '2',
@@ -39,8 +36,8 @@ const useInvoiceCalculation = ({
       });
     }
 
-    if (selectedPlan.options.length > 0) {
-      selectedPlan.options.forEach((opt) => {
+    if (selectedOrder?.options) {
+      selectedOrder?.options.forEach((opt) => {
         monthlyInvoice.details.push({
           id: opt._id,
           label: opt.label,
@@ -79,7 +76,7 @@ const useInvoiceCalculation = ({
         return p.id === '1' ? monthlyInvoice : oneTimeInvoice;
       });
     });
-  }, [taxes, selectedPlan]);
+  }, [taxes, selectedOrder]);
 
   return invoice;
 };

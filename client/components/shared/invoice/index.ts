@@ -1,5 +1,4 @@
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
-import { TSelectedPlan } from '@/components/page/Top/Top';
 
 export { default as SimpleInvoice } from './SimpleInvoice';
 export { default as DetailInvoice } from './DetailInvoice';
@@ -36,6 +35,5 @@ export const defaultInvoiceTable: TInvoice[] = [
 
 export interface InvoiceProps {
   title?: string;
-  selectedPlan: TSelectedPlan;
   taxes: QueryTaxFindMany_taxFindMany[];
 }

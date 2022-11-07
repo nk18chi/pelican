@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { SimpleInvoice, DetailInvoice, InvoiceProps } from '.';
 
-const AccordionInvoice = ({ title, taxes, selectedPlan }: InvoiceProps) => {
+const AccordionInvoice = ({ title, taxes }: InvoiceProps) => {
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -32,9 +32,9 @@ const AccordionInvoice = ({ title, taxes, selectedPlan }: InvoiceProps) => {
             </Heading>
             <Divider />
             {isExpanded ? (
-              <DetailInvoice selectedPlan={selectedPlan} taxes={taxes} />
+              <DetailInvoice taxes={taxes} />
             ) : (
-              <SimpleInvoice selectedPlan={selectedPlan} taxes={taxes} />
+              <SimpleInvoice taxes={taxes} />
             )}
           </>
         )}

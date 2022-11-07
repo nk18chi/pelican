@@ -9,8 +9,8 @@ const styleEmphasize = css`
   font-size: 1.1rem;
 `;
 
-const SimpleInvoice = ({ taxes, selectedPlan }: InvoiceProps) => {
-  const invoice = useInvoiceCalculation({ taxes, selectedPlan });
+const SimpleInvoice = ({ taxes }: InvoiceProps) => {
+  const invoice = useInvoiceCalculation({ taxes });
   return (
     <>
       {invoice.map((table) => (

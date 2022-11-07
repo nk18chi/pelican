@@ -1,6 +1,8 @@
+import React from 'react';
 import { Flex, Box, Image, Badge, useColorModeValue } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { currencyFormat } from '@/components/function/utils/format';
+
 interface ProductProps {
   isNewItem: boolean;
   imageURL: string;
@@ -11,63 +13,73 @@ interface ProductProps {
   selected: boolean;
   handleClick: () => void;
 }
+const Product = React.memo(
+  ({
+    isNewItem,
+    imageURL,
+    name,
+    price,
+    rating,
+    numReviews,
+    selected,
+    handleClick,
+  }: ProductProps) => {
+    return (
+      <Flex p="2" alignItems="center" justifyContent="center">
+        <Box
+          bg={useColorModeValue('white', 'gray.800')}
+          maxW="sm"
+          rounded="lg"
+          shadow="lg"
+          position="relative"
+          borderWidth={selected ? '2px' : '2px'}
+          borderColor={selected ? 'green.400' : 'inherit'}
+          cursor="pointer"
+          onClick={handleClick}
+        >
+          <Image
+            src={imageURL}
+            alt={`Picture of ${name}`}
+            roundedTop="lg"
+            pt="2"
+          />
+          <Box p="3">
+            <Box display="flex" alignItems="baseline">
+              {isNewItem && (
+                <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+                  New
+                </Badge>
+              )}
+            </Box>
+            <Flex mt="1" justifyContent="space-between" alignContent="center">
+              <Box
+                fontSize="1xl"
+                fontWeight="semibold"
+                as="h4"
+                textAlign="left"
+              >
+                {name}
+              </Box>
+            </Flex>
 
-const Product = ({
-  isNewItem,
-  imageURL,
-  name,
-  price,
-  rating,
-  numReviews,
-  selected,
-  handleClick,
-}: ProductProps) => {
-  return (
-    <Flex p="2" alignItems="center" justifyContent="center">
-      <Box
-        bg={useColorModeValue('white', 'gray.800')}
-        maxW="sm"
-        rounded="lg"
-        shadow="lg"
-        position="relative"
-        borderWidth={selected ? '2px' : '2px'}
-        borderColor={selected ? 'green.400' : 'inherit'}
-        cursor="pointer"
-        onClick={handleClick}
-      >
-        <Image
-          src={imageURL}
-          alt={`Picture of ${name}`}
-          roundedTop="lg"
-          pt="2"
-        />
-        <Box p="3">
-          <Box display="flex" alignItems="baseline">
-            {isNewItem && (
-              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
-                New
-              </Badge>
-            )}
+            <Flex justifyContent="space-between" alignContent="center">
+              <Rating rating={rating} numReviews={numReviews} />
+            </Flex>
+            <Flex justifyContent="space-between" alignContent="center">
+              <Box
+                fontSize="2xl"
+                color={useColorModeValue('gray.800', 'white')}
+              >
+                {currencyFormat({ n: price })}
+              </Box>
+            </Flex>
           </Box>
-          <Flex mt="1" justifyContent="space-between" alignContent="center">
-            <Box fontSize="1xl" fontWeight="semibold" as="h4" textAlign="left">
-              {name}
-            </Box>
-          </Flex>
-
-          <Flex justifyContent="space-between" alignContent="center">
-            <Rating rating={rating} numReviews={numReviews} />
-          </Flex>
-          <Flex justifyContent="space-between" alignContent="center">
-            <Box fontSize="2xl" color={useColorModeValue('gray.800', 'white')}>
-              {currencyFormat({ n: price })}
-            </Box>
-          </Flex>
         </Box>
-      </Box>
-    </Flex>
-  );
-};
+      </Flex>
+    );
+  }
+);
+Product.displayName = 'Product';
 
 interface RatingProps {
   rating: number;

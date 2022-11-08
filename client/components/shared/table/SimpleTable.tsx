@@ -37,7 +37,7 @@ const SimpleTable = ({ thead, tbody }: SimpleTableProps) => {
         </Thead>
         <Tbody>
           {tbody.map(({ tds, link }, i) => (
-            <NextLink key={i} href={`/admin/${link}`}>
+            <NextLink key={i} href={`/admin${link}`}>
               <Tr _hover={{ bg: 'gray.100' }} cursor="pointer">
                 {tds.map((td, j) => (
                   <Td key={j}>{td}</Td>

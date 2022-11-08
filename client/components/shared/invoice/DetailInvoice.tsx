@@ -7,16 +7,14 @@ import {
   Td,
 } from '@chakra-ui/react';
 import { currencyFormat } from '@/components/function/utils/format';
-import useInvoiceCalculation from '@/components/function/hooks/useInvoiceCalculation';
 import { InvoiceProps } from '.';
 
-const DetailInvoice = ({ taxes }: InvoiceProps) => {
-  const invoice = useInvoiceCalculation({ taxes });
+const DetailInvoice = ({ invoices }: InvoiceProps) => {
   return (
     <>
-      {invoice.map((table) => (
+      {invoices.map((invoice) => (
         <TableContainer
-          key={table.id}
+          key={invoice.id}
           px="4%"
           py="4"
           my="4"
@@ -32,19 +30,19 @@ const DetailInvoice = ({ taxes }: InvoiceProps) => {
             textAlign="left"
             mb={1}
           >
-            {table.label}
+            {invoice.label}
           </Heading>
           <Table size="sm">
             <Tbody>
-              {table.details.map((detail) => (
+              {invoice.details.map((detail) => (
                 <Tr key={detail.id}>
                   <Td>{detail.label}</Td>
                   <Td isNumeric>{currencyFormat({ n: detail.value })}</Td>
                 </Tr>
               ))}
               <Tr>
-                <Td>{table.total.label}</Td>
-                <Td isNumeric>{currencyFormat({ n: table.total.value })}</Td>
+                <Td>{invoice.total.label}</Td>
+                <Td isNumeric>{currencyFormat({ n: invoice.total.value })}</Td>
               </Tr>
             </Tbody>
           </Table>

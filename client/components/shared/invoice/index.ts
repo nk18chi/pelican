@@ -1,5 +1,3 @@
-import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
-
 export { default as SimpleInvoice } from './SimpleInvoice';
 export { default as DetailInvoice } from './DetailInvoice';
 export { default as AccordionInvoice } from './AccordionInvoice';
@@ -34,6 +32,5 @@ export const defaultInvoiceTable: TInvoice[] = [
 ];
 
 export interface InvoiceProps {
-  title?: string;
-  taxes: QueryTaxFindMany_taxFindMany[];
+  invoices: TInvoice[];
 }

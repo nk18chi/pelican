@@ -1,7 +1,6 @@
 import { Heading, TableContainer, HStack } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import { currencyFormat } from '@/components/function/utils/format';
-import useInvoiceCalculation from '@/components/function/hooks/useInvoiceCalculation';
 import { InvoiceProps } from '.';
 
 const styleEmphasize = css`
@@ -9,12 +8,11 @@ const styleEmphasize = css`
   font-size: 1.1rem;
 `;
 
-const SimpleInvoice = ({ taxes }: InvoiceProps) => {
-  const invoice = useInvoiceCalculation({ taxes });
+const SimpleInvoice = ({ invoices }: InvoiceProps) => {
   return (
     <>
-      {invoice.map((table) => (
-        <TableContainer key={table.id} px="4%" py="2">
+      {invoices.map((invoice) => (
+        <TableContainer key={invoice.id} px="4%" py="2">
           <HStack>
             <Heading
               as="h3"
@@ -29,10 +27,10 @@ const SimpleInvoice = ({ taxes }: InvoiceProps) => {
               textAlign="left"
               mb={1}
             >
-              {table.label}
+              {invoice.label}
             </Heading>
             <p css={styleEmphasize}>
-              {currencyFormat({ n: table.total.value })}
+              {currencyFormat({ n: invoice.total.value })}
             </p>
           </HStack>
         </TableContainer>

@@ -1,11 +1,13 @@
 import { Checkbox, Stack } from '@chakra-ui/react';
-import { ChangeEvent } from 'react';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
 import { currencyFormat } from '../../function/utils/format';
 
 interface PlanOptionCheckboxProps {
   planOptions: QueryPlanOptionFindMany_planOptionFindMany[];
-  handleCheckboxChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleCheckboxChange: (
+    checked: boolean,
+    option: QueryPlanOptionFindMany_planOptionFindMany
+  ) => void;
 }
 
 const PlanOptionCheckbox = ({
@@ -20,7 +22,7 @@ const PlanOptionCheckbox = ({
           size="lg"
           colorScheme="green"
           w="100%"
-          onChange={handleCheckboxChange}
+          onChange={(e) => handleCheckboxChange(e.target.checked, option)}
         >
           <p>{option.label}</p>
           <p>

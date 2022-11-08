@@ -7,9 +7,17 @@ import {
   AccordionIcon,
   Divider,
 } from '@chakra-ui/react';
-import { SimpleInvoice, DetailInvoice, InvoiceProps } from '.';
 
-const AccordionInvoice = ({ title, taxes }: InvoiceProps) => {
+export interface AccordionInvoiceProps {
+  title?: string;
+  StandardComponent: JSX.Element;
+  DetailComponent: JSX.Element;
+}
+const AccordionInvoice = ({
+  title,
+  StandardComponent,
+  DetailComponent,
+}: AccordionInvoiceProps) => {
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem>
@@ -31,11 +39,7 @@ const AccordionInvoice = ({ title, taxes }: InvoiceProps) => {
               </AccordionButton>
             </Heading>
             <Divider />
-            {isExpanded ? (
-              <DetailInvoice taxes={taxes} />
-            ) : (
-              <SimpleInvoice taxes={taxes} />
-            )}
+            {isExpanded ? DetailComponent : StandardComponent}
           </>
         )}
       </AccordionItem>

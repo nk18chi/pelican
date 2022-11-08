@@ -1,16 +1,18 @@
-import { TopContext } from '@/components/page/Top/TopContextProvider';
+import { TSelectedOrder } from '@/components/page/Top';
 import { defaultInvoiceTable, TInvoice } from '@/components/shared/Invoice';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 
 interface useInvoiceCalculationProps {
+  selectedOrder: TSelectedOrder;
   taxes: QueryTaxFindMany_taxFindMany[];
 }
 
-const useInvoiceCalculation = ({ taxes }: useInvoiceCalculationProps) => {
+const useInvoiceCalculation = ({
+  selectedOrder,
+  taxes,
+}: useInvoiceCalculationProps) => {
   const [invoice, setInvoice] = useState(defaultInvoiceTable);
-  const { selectedOrder } = useContext(TopContext);
-
   useEffect(() => {
     const monthlyInvoice: TInvoice = { ...defaultInvoiceTable[0], details: [] };
     const oneTimeInvoice: TInvoice = { ...defaultInvoiceTable[1], details: [] };

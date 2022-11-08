@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import {
   Box,
   CloseButton,
@@ -109,50 +110,47 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         if (!router) return null;
         const active = !!router.asPath.match(`${link.href}($|\\/[0-9]+)`);
         return (
-          <Button
-            key={link.label}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push(`/admin/${link.href}`);
-            }}
-            boxSize="initial"
-            justifyContent="flex-start"
-            alignItems="center"
-            bg={active ? activeBg : 'transparent'}
-            mb={{ xl: '12px' }}
-            mx={{ xl: 'auto' }}
-            p="12px"
-            borderRadius="15px"
-            w="100%"
-            _active={{
-              bg: 'inherit',
-              transform: 'none',
-              borderColor: 'transparent',
-            }}
-            _focus={{ boxShadow: 'none' }}
-          >
-            <Flex>
-              <Flex
-                alignItems={'center'}
-                justifyContent={'center'}
-                borderRadius={'12px'}
-                bg={active ? 'green.400' : inactiveBg}
-                color={active ? 'white' : 'green.400'}
-                h="30px"
-                w="30px"
-                me="12px"
-              >
-                {link.icon}
+          <NextLink key={link.label} href={`/admin/${link.href}`}>
+            <Button
+              boxSize="initial"
+              justifyContent="flex-start"
+              alignItems="center"
+              bg={active ? activeBg : 'transparent'}
+              mb={{ xl: '12px' }}
+              mx={{ xl: 'auto' }}
+              p="12px"
+              borderRadius="15px"
+              w="100%"
+              _active={{
+                bg: 'inherit',
+                transform: 'none',
+                borderColor: 'transparent',
+              }}
+              _focus={{ boxShadow: 'none' }}
+            >
+              <Flex>
+                <Flex
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  borderRadius={'12px'}
+                  bg={active ? 'green.400' : inactiveBg}
+                  color={active ? 'white' : 'green.400'}
+                  h="30px"
+                  w="30px"
+                  me="12px"
+                >
+                  {link.icon}
+                </Flex>
+                <Text
+                  color={active ? activeColor : inactiveColor}
+                  my="auto"
+                  fontSize="sm"
+                >
+                  {link.label}
+                </Text>
               </Flex>
-              <Text
-                color={active ? activeColor : inactiveColor}
-                my="auto"
-                fontSize="sm"
-              >
-                {link.label}
-              </Text>
-            </Flex>
-          </Button>
+            </Button>
+          </NextLink>
         );
       })}
     </Box>

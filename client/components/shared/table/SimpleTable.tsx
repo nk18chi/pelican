@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import {
   Table,
   Thead,
@@ -19,7 +19,6 @@ interface SimpleTableProps {
   tbody: { link?: string; tds: JSX.Element[] }[];
 }
 const SimpleTable = ({ thead, tbody }: SimpleTableProps) => {
-  const router = useRouter();
   return (
     <TableContainer
       bg={useColorModeValue('white', 'gray.900')}
@@ -38,19 +37,13 @@ const SimpleTable = ({ thead, tbody }: SimpleTableProps) => {
         </Thead>
         <Tbody>
           {tbody.map(({ tds, link }, i) => (
-            <Tr
-              key={i}
-              _hover={{ bg: 'gray.100' }}
-              cursor="pointer"
-              onClick={(e) => {
-                e.preventDefault;
-                link && router.push(`/admin/${link}`);
-              }}
-            >
-              {tds.map((td, j) => (
-                <Td key={j}>{td}</Td>
-              ))}
-            </Tr>
+            <NextLink key={i} href={`/admin/${link}`}>
+              <Tr _hover={{ bg: 'gray.100' }} cursor="pointer">
+                {tds.map((td, j) => (
+                  <Td key={j}>{td}</Td>
+                ))}
+              </Tr>
+            </NextLink>
           ))}
         </Tbody>
       </Table>

@@ -110,9 +110,9 @@ const PlanAccordionForm = memo(
             id="checkoutButton"
             colorScheme="teal"
             size="lg"
-            disabled={accordionStatus.every(
-              (status) => status === FormStatus.valid
-            )}
+            disabled={accordionStatus
+              .slice(0, 3)
+              .some((status) => status !== FormStatus.valid)}
             onClick={handleSubmitButton}
           >
             Proceed to Checkout

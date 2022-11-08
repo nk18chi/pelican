@@ -173,6 +173,8 @@ describe('Top Page', () => {
     invoices[1].push(currencyFormat({ n: productDummy[0].price }));
     invoices[1].push('Set Up Service Fee');
     invoices[1].push(currencyFormat({ n: 50 }));
+    const nextButton0 = container.querySelector('#nextButton_0');
+    if (nextButton0) fireEvent.click(nextButton0);
 
     // check if invoice has changed when selecting a plan.
     fireEvent.click(screen.getByText(`${planDummy[0].title}`));
@@ -185,6 +187,8 @@ describe('Top Page', () => {
     );
     invoices[0].push(planDummy[0].title);
     invoices[0].push(currencyFormat({ n: planDummy[0].price }));
+    const nextButton1 = container.querySelector('#nextButton_1');
+    if (nextButton1) fireEvent.click(nextButton1);
 
     // check if invoice has changed when selecting plan options.
     fireEvent.click(screen.getByText(`${planOptionDummy[0].label}`));
@@ -197,6 +201,8 @@ describe('Top Page', () => {
     );
     invoices[0].push(planOptionDummy[0].label);
     invoices[0].push(currencyFormat({ n: planOptionDummy[0].price }));
+    const nextButton2 = container.querySelector('#nextButton_2');
+    if (nextButton2) fireEvent.click(nextButton2);
 
     fireEvent.click(screen.getByText(`${planOptionDummy[1].label}`));
     monthlyFee += planOptionDummy[1].price;
@@ -254,14 +260,12 @@ describe('Top Page', () => {
 
     // check if the submit button works after typing first/last name
     const firstNameEle = container.querySelector('#firstName');
-    if (firstNameEle) {
+    if (firstNameEle)
       fireEvent.change(firstNameEle, { target: { value: 'John' } });
-    }
     expect(firstNameEle).toHaveDisplayValue([/John/]);
     const lastNameEle = container.querySelector('#lastName');
-    if (lastNameEle) {
+    if (lastNameEle)
       fireEvent.change(lastNameEle, { target: { value: 'Smith' } });
-    }
     expect(lastNameEle).toHaveDisplayValue([/Smith/]);
 
     // check if the submit button is enabled

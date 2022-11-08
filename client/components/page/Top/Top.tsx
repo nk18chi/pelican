@@ -63,7 +63,7 @@ const Top: React.FC<TopNextPageProps> = ({
         as={Box}
         textAlign={'center'}
         spacing={{ base: 8, md: 14 }}
-        pt={{ base: 20, md: 36 }}
+        pt={{ base: 20, md: 12 }}
         pb={{ base: 20, md: 8 }}
       >
         <Heading

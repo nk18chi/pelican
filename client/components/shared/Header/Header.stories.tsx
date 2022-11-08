@@ -1,18 +1,14 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import SidebarWithHeader from './SidebarWithHeader';
+import { Header } from '.';
 
 export default {
-  title: 'Components/shared/Header',
-  component: SidebarWithHeader,
+  title: 'Components/shared/Header/Simple',
+  component: Header,
   argTypes: {},
-} as ComponentMeta<typeof SidebarWithHeader>;
+} as ComponentMeta<typeof Header>;
 
-const Template: ComponentStory<typeof SidebarWithHeader> = (args) => (
-  <SidebarWithHeader {...args} />
-);
+const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
-  children: <p>CHILDREN</p>,
-};
+Default.args = {};

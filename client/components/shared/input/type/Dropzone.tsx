@@ -82,8 +82,8 @@ const Dropzone = ({ value, onChange, dropzoneConfig = {} }: DropzoneProps) => {
 
   const activeBg = useColorModeValue('gray.100', 'gray.600');
   const borderColor = useColorModeValue(
-    isDragActive ? 'teal.300' : 'gray.300',
-    isDragActive ? 'teal.500' : 'gray.500'
+    isDragActive ? 'green.400' : 'gray.300',
+    isDragActive ? 'green.500' : 'gray.500'
   );
 
   return (

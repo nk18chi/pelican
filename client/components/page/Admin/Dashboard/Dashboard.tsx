@@ -151,9 +151,9 @@ const data: { admin: Tdata; customer: Tdata } = {
               opacityTo: 0,
               stops: [],
             },
-            colors: ['#4FD1C5', '#2D3748'],
+            colors: ['#48bb78', '#2D3748'],
           },
-          colors: ['#4FD1C5', '#2D3748'],
+          colors: ['#48bb78', '#2D3748'],
         },
       },
     ],
@@ -259,9 +259,9 @@ const data: { admin: Tdata; customer: Tdata } = {
               opacityTo: 0,
               stops: [],
             },
-            colors: ['#4FD1C5', '#2D3748'],
+            colors: ['#48bb78', '#2D3748'],
           },
-          colors: ['#4FD1C5', '#2D3748'],
+          colors: ['#48bb78', '#2D3748'],
         },
       },
     ],
@@ -270,7 +270,7 @@ const data: { admin: Tdata; customer: Tdata } = {
 
 const Dashboard = (props: DashboardNextPageProps) => {
   console.log(props);
-  const iconTeal = useColorModeValue('teal.300', 'teal.300');
+  const iconTeal = useColorModeValue('green.400', 'green.400');
   const textColor = useColorModeValue('gray.700', 'white');
   const iconBoxInside = useColorModeValue('white', 'white');
   const userRole = 'admin';

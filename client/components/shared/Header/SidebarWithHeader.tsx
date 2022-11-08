@@ -136,8 +136,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 alignItems={'center'}
                 justifyContent={'center'}
                 borderRadius={'12px'}
-                bg={active ? 'teal.300' : inactiveBg}
-                color={active ? 'white' : 'teal.300'}
+                bg={active ? 'green.400' : inactiveBg}
+                color={active ? 'white' : 'green.400'}
                 h="30px"
                 w="30px"
                 me="12px"

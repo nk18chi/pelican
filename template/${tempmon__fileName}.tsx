@@ -114,7 +114,7 @@ const WalletIcon = createIcon({
 
 const Dashboard = (props: DashboardNextPageProps) => {
   console.log(props);
-  const iconTeal = useColorModeValue('teal.300', 'teal.300');
+  const iconTeal = useColorModeValue('green.400', 'green.400');
   const textColor = useColorModeValue('gray.700', 'white');
   const iconBoxInside = useColorModeValue('white', 'white');
   return (

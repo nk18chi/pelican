@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { CheckCircleIcon, EditIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import { FormStatus } from '../../types/plan';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { css } from '@emotion/react';
 
 const stylePage = css`
@@ -39,90 +39,90 @@ interface PlanAccordionFormProps {
   handleSubmitButton: () => void;
 }
 
-const PlanAccordionForm = ({
-  accordionBlocks,
-  handleSubmitButton,
-}: PlanAccordionFormProps) => {
-  const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>(0);
-  const [accordionStatus, setAccordionStatus] = useState<FormStatus[]>([
-    FormStatus.notSet,
-    FormStatus.notSet,
-    FormStatus.notSet,
-    FormStatus.notSet,
-  ]);
+const PlanAccordionForm = memo(
+  ({ accordionBlocks, handleSubmitButton }: PlanAccordionFormProps) => {
+    const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>(0);
+    const [accordionStatus, setAccordionStatus] = useState<FormStatus[]>([
+      FormStatus.notSet,
+      FormStatus.notSet,
+      FormStatus.notSet,
+      FormStatus.notSet,
+    ]);
 
-  const handleClickNextButton = (i: number, status: FormStatus) => {
-    setAccordionStatus((prev) => {
-      const newPrev = [...prev];
-      newPrev[i] = status;
-      return newPrev;
-    });
-    if (status === FormStatus.valid) setAccordionIndex(i + 1);
-  };
+    const handleClickNextButton = (i: number, status: FormStatus) => {
+      setAccordionStatus((prev) => {
+        const newPrev = [...prev];
+        newPrev[i] = status;
+        return newPrev;
+      });
+      if (status === FormStatus.valid) setAccordionIndex(i + 1);
+    };
 
-  return (
-    <>
-      <Accordion
-        w="100%"
-        allowToggle
-        index={accordionIndex}
-        textAlign={'center'}
-        onChange={(id: ExpandedIndex) => setAccordionIndex(id)}
-        css={stylePage}
-      >
-        {accordionBlocks.map((accordion, i, { length }) => {
-          return (
-            <AccordionItemBlock
-              key={`accordion_${i}`}
-              id={`accordion_${i}`}
-              title={accordion.title}
-              status={accordionStatus[i]}
-            >
-              <>
-                {accordion.component}
-                {i + 1 < length && (
-                  <Box mt={2} textAlign="right">
-                    <Button
-                      key={`nextButton_${i}`}
-                      id={`nextButton_${i}`}
-                      colorScheme="teal"
-                      size="md"
-                      onClick={() =>
-                        handleClickNextButton(i, accordion.validate)
-                      }
-                    >
-                      Next
-                    </Button>
-                  </Box>
-                )}
-              </>
-            </AccordionItemBlock>
-          );
-        })}
-      </Accordion>
-      <Stack
-        spacing={4}
-        direction="row"
-        align="center"
-        justifyContent={'center'}
-        pt={4}
-        pb={8}
-      >
-        <Button
-          id="checkoutButton"
-          colorScheme="teal"
-          size="lg"
-          disabled={accordionStatus.every(
-            (status) => status === FormStatus.valid
-          )}
-          onClick={handleSubmitButton}
+    return (
+      <>
+        <Accordion
+          w="100%"
+          allowToggle
+          index={accordionIndex}
+          textAlign={'center'}
+          onChange={(id: ExpandedIndex) => setAccordionIndex(id)}
+          css={stylePage}
         >
-          Proceed to Checkout
-        </Button>
-      </Stack>
-    </>
-  );
-};
+          {accordionBlocks.map((accordion, i, { length }) => {
+            return (
+              <AccordionItemBlock
+                key={`accordion_${i}`}
+                id={`accordion_${i}`}
+                title={accordion.title}
+                status={accordionStatus[i]}
+              >
+                <>
+                  {accordion.component}
+                  {i + 1 < length && (
+                    <Box mt={2} textAlign="right">
+                      <Button
+                        key={`nextButton_${i}`}
+                        id={`nextButton_${i}`}
+                        colorScheme="teal"
+                        size="md"
+                        onClick={() =>
+                          handleClickNextButton(i, accordion.validate)
+                        }
+                      >
+                        Next
+                      </Button>
+                    </Box>
+                  )}
+                </>
+              </AccordionItemBlock>
+            );
+          })}
+        </Accordion>
+        <Stack
+          spacing={4}
+          direction="row"
+          align="center"
+          justifyContent={'center'}
+          pt={4}
+          pb={8}
+        >
+          <Button
+            id="checkoutButton"
+            colorScheme="teal"
+            size="lg"
+            disabled={accordionStatus.every(
+              (status) => status === FormStatus.valid
+            )}
+            onClick={handleSubmitButton}
+          >
+            Proceed to Checkout
+          </Button>
+        </Stack>
+      </>
+    );
+  }
+);
+PlanAccordionForm.displayName = 'PlanAccordionForm';
 
 interface AccordionItemBlockProps {
   id: string;

@@ -42,9 +42,9 @@ const Top: React.FC<TopNextPageProps> = ({
   } = useFormHooks;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const submitForm = (data: any) => {
+  const submitForm = useCallback((data: any) => {
     console.log('submit', data);
-  };
+  }, []);
 
   const updateOrder = useCallback(
     (params: TSelectedOrder) => {

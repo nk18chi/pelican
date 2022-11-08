@@ -1,7 +1,7 @@
 import { TSelectedOrder } from '@/components/page/Top';
 import { defaultInvoiceTable, TInvoice } from '@/components/shared/Invoice';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 
 interface useInvoiceCalculationProps {
   selectedOrder: TSelectedOrder;
@@ -13,7 +13,7 @@ const useInvoiceCalculation = ({
   taxes,
 }: useInvoiceCalculationProps) => {
   const [invoice, setInvoice] = useState(defaultInvoiceTable);
-  useEffect(() => {
+  useMemo(() => {
     const monthlyInvoice: TInvoice = { ...defaultInvoiceTable[0], details: [] };
     const oneTimeInvoice: TInvoice = { ...defaultInvoiceTable[1], details: [] };
 

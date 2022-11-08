@@ -11,7 +11,6 @@ interface ProductListProps {
 }
 const ProductList = memo(
   ({ products, selectedOrder, handleProductClick }: ProductListProps) => {
-    console.log('ProductList');
     return (
       <Grid templateColumns="repeat(3, 1fr)">
         {Array.isArray(products) &&

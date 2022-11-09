@@ -1,5 +1,5 @@
 import BannerCover from '@/components/layout/BannerCover';
-import { Footer } from '@/components/shared/Footer';
+import Footer from '@/components/shared/Footer/Footer';
 import { SidebarWithHeader } from '@/components/shared/Header';
 import { CustomerDetailNextPageProps } from 'pages/admin/customer/[customerId]';
 import CustomerDetail from './CustomerDetail';

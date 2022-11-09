@@ -82,3 +82,10 @@ yarn test:watch
 docker-compose exec server bash
 yarn test:watch
 ```
+
+## Screenshots
+
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/42604585/200889384-b42e3e21-2c98-4aa9-bdc0-a059043abf77.png" alt="Pelican Screenshot">
+    <img src="https://user-images.githubusercontent.com/42604585/200889376-833dbb1e-6070-496c-bfdd-4a6fb0336eb4.png" alt="Pelican Screenshot">
+</p>

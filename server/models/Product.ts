@@ -2,8 +2,12 @@ import mongoose from 'mongoose';
 
 const ProductSchema = new mongoose.Schema(
   {
-    name: String,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+    name: { type: String, required: true },
+    isNewItem: { type: Boolean },
+    imageURL: { type: String, required: true },
+    price: { type: Number, required: true },
+    rating: { type: Number },
+    numReviews: { type: Number },
   },
   {
     collection: 'Products',

@@ -1,3 +1,30 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "jest"],
+  "ignorePatterns": ["!.storybook"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "next",
+        "next/core-web-vitals",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+        // "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ],
+      "parserOptions": {
+        "ecmaFeatures": {
+          "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module",
+        "project": ["tsconfig.json"]
+      }
+    }
+  ],
+  "rules": {
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
+  }
 }

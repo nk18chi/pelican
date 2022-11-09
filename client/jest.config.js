@@ -1,4 +1,5 @@
 module.exports = {
+  modulePaths: ['node_modules', '<rootDir>'],
   collectCoverageFrom: [
     '**/*.{js,jsx,ts,tsx}',
     '!**/*.d.ts',

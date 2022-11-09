@@ -1,11 +1,12 @@
 import { schemaComposer } from 'graphql-compose';
 
-import { userResolvers, UserTC } from './user/UserResolvers';
-import { userTypeDef } from './user/UserTypeDef';
+import { PlanTC } from './plan/PlanResolvers';
+import { PlanOptionTC } from './planOption/PlanOptionResolvers';
 import { ProductTC } from './product/ProductResolvers';
+import { TaxTC } from './tax/TaxResolvers';
 
 const resolvers: any = {};
-const apiResolvers: any = [userResolvers()];
+const apiResolvers: any = [];
 apiResolvers.forEach((apiResolver: any) => {
   const keys = Object.keys(apiResolver);
   keys.forEach((key) => {
@@ -29,7 +30,7 @@ const initialTypeDef = `
   }
 `;
 
-const typeDefs = [initialTypeDef, userTypeDef];
+const typeDefs = [initialTypeDef];
 let typeDef = '';
 for (const def of typeDefs) {
   typeDef += def;
@@ -38,24 +39,14 @@ for (const def of typeDefs) {
 schemaComposer.addTypeDefs(typeDef);
 schemaComposer.addResolveMethods(resolvers);
 
-ProductTC.addRelation('user', {
-  resolver: UserTC.getResolver('findById'),
-  prepareArgs: {
-    _id: (source: any) => source.user,
-  },
-  projection: { user: true },
-});
-
 schemaComposer.Query.addFields({
-  userById: UserTC.getResolver('findById'),
-  userMany: UserTC.getResolver('findMany'),
-  productById: ProductTC.getResolver('findById'),
-  productMany: ProductTC.getResolver('findMany'),
+  planFindMany: PlanTC.getResolver('findMany'),
+  planOptionFindMany: PlanOptionTC.getResolver('findMany'),
+  productFindMany: ProductTC.getResolver('findMany'),
+  taxFindMany: TaxTC.getResolver('findMany'),
 });
 
-schemaComposer.Mutation.addFields({
-  userCreateOne: UserTC.getResolver('createOne'),
-});
+schemaComposer.Mutation.addFields({});
 
 const schema = schemaComposer.buildSchema();
 export default schema;

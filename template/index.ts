@@ -1,0 +1,1 @@
+export { default as ${tempmon__fileName}Page } from './${tempmon__fileName}.page';

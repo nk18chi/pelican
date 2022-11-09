@@ -44,7 +44,7 @@ docker-compose exec mongodb bash
 /mongo/setup.sh
 ```
 
-http://localhost  
+http://localhost:3000  
 http://localhost:4000/graphql  
 http://localhost:6006/
 

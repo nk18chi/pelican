@@ -1,25 +1,21 @@
 import { gql } from '@apollo/client';
 
-export const GET_PRODUCT_BY_ID = (id: string) => gql`
-  {
-    productById(_id: "${id}") {
+export const GET_PRODUCT_FIND_MANY = gql`
+  query QueryProductFindMany(
+    $filter: FilterFindManyProductsInput
+    $skip: Int
+    $limit: Int = 100
+    $sort: SortFindManyProductsInput
+  ) {
+    productFindMany(filter: $filter, skip: $skip, limit: $limit, sort: $sort) {
       _id
       name
-      user {
-        name
-      }
-    }
-  }
-`;
-
-export const GET_PRODUCT_MANY = gql`
-  {
-    productMany {
-      _id
+      isNewItem
+      imageURL
       name
-      user {
-        name
-      }
+      price
+      rating
+      numReviews
     }
   }
 `;

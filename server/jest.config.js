@@ -3,4 +3,5 @@ module.exports = {
   testEnvironment: 'node',
   clearMocks: true,
   testMatch: ['**/*.test.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

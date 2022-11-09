@@ -37,3 +37,5 @@ yarn-error.log*
 */__snapshots__
 /cypress/videos
 /cypress/screenshots
+
+graphql-schema.json

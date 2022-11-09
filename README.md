@@ -1,3 +1,10 @@
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/42604585/200887283-c4479f33-d2ba-40c8-a02d-d5d85ff35123.png" alt="Pelican Logo" width="300" height="300">
+</p>
+
+# pelican
+Pelican is an e-commerce application that sells cellular phones with data plans and charges monthly subscriptions using Stripe.
+
 ## Environment
 
 - Node v16.10.0

@@ -1,5 +1,5 @@
 import BannerCover from '@/components/layout/BannerCover';
-import { Footer } from '@/components/shared/footertmp';
+import { Footer } from '@/components/shared/Footer';
 import { SidebarWithHeader } from '@/components/shared/Header';
 import { PromotionDetailNextPageProps } from 'pages/admin/promotion/[promotionId]';
 import PromotionDetail from './PromotionDetail';

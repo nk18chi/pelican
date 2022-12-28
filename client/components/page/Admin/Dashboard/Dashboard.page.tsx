@@ -1,4 +1,4 @@
-import { Footer } from '@/components/shared/footertmp';
+import { Footer } from '@/components/shared/Footer';
 import { SidebarWithHeader } from '@/components/shared/Header';
 import { DashboardNextPageProps } from 'pages/admin/dashboard';
 import Dashboard from './Dashboard';

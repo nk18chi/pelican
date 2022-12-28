@@ -1,5 +1,5 @@
 import { TSelectedOrder } from '@/components/page/Top';
-import { defaultInvoiceTable, TInvoice } from '@/components/shared/invoicetmp';
+import { defaultInvoiceTable, TInvoice } from '@/components/shared/Invoice';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
 import { useState, useMemo } from 'react';
 

@@ -7,7 +7,7 @@ import { TaxTC } from './tax/TaxResolvers';
 import { stripeResolvers, stripeTypeDef } from './stripe';
 
 const resolvers: any = {};
-const apiResolvers: any = [stripeResolvers];
+const apiResolvers: any = [...stripeResolvers];
 apiResolvers.forEach((apiResolver: any) => {
   const keys = Object.keys(apiResolver);
   keys.forEach((key) => {

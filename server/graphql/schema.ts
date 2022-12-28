@@ -4,9 +4,10 @@ import { PlanTC } from './plan/PlanResolvers';
 import { PlanOptionTC } from './planOption/PlanOptionResolvers';
 import { ProductTC } from './product/ProductResolvers';
 import { TaxTC } from './tax/TaxResolvers';
+import { stripeResolvers, stripeTypeDef } from './stripe';
 
 const resolvers: any = {};
-const apiResolvers: any = [];
+const apiResolvers: any = [stripeResolvers];
 apiResolvers.forEach((apiResolver: any) => {
   const keys = Object.keys(apiResolver);
   keys.forEach((key) => {
@@ -30,7 +31,7 @@ const initialTypeDef = `
   }
 `;
 
-const typeDefs = [initialTypeDef];
+const typeDefs = [initialTypeDef, stripeTypeDef];
 let typeDef = '';
 for (const def of typeDefs) {
   typeDef += def;

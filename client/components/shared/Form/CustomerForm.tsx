@@ -1,4 +1,4 @@
-import { ReactHookFormInput, TInputField } from '@/components/shared/Inputtmp';
+import { ReactHookFormInput, TInputField } from '@/components/shared/Input';
 import { UseFormReturn } from 'react-hook-form';
 import {
   SUPPORTED_COUNTRIES,

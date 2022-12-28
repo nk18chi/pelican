@@ -1,6 +1,6 @@
 import React from 'react';
 import { useColorModeValue, Text, Flex, Avatar } from '@chakra-ui/react';
-import { SimpleTable } from '@/components/shared/Tabletmp';
+import { SimpleTable } from '@/components/shared/Table';
 import { CustomerListNextPageProps } from 'pages/admin/customer';
 
 type TTableData = {

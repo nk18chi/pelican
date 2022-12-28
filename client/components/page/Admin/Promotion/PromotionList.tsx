@@ -1,6 +1,6 @@
 import React from 'react';
 import { useColorModeValue, Text, Flex, Icon } from '@chakra-ui/react';
-import { SimpleTable } from '@/components/shared/Tabletmp';
+import { SimpleTable } from '@/components/shared/Table';
 import { PromotionListNextPageProps } from 'pages/admin/promotion';
 import { currencyFormat } from '@/components/function/utils/format';
 import { FaCheckCircle } from 'react-icons/fa';

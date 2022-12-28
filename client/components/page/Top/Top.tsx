@@ -13,10 +13,10 @@ import {
   AccordionInvoice,
   DetailInvoice,
   SimpleInvoice,
-} from '@/components/shared/Invoice';
+} from '@/components/shared/invoicetmp';
 import { TopNextPageProps } from 'pages';
 import { PromotionInputForm } from '@/components/shared/Promotion';
-import ProductList from '@/components/model/Product/ProductList';
+import ProductList from '@/components/model/producttmp/ProductList';
 import PricingHorizontal from '@/components/shared/Form/PricingHorizontal';
 import { useCallback, useState } from 'react';
 import { QueryProductFindMany_productFindMany } from '@/generated/QueryProductFindMany';

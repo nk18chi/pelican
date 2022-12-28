@@ -1,5 +1,5 @@
 import BannerCover from '@/components/layout/BannerCover';
-import { Footer } from '@/components/shared/Footer';
+import { Footer } from '@/components/shared/footertmp';
 import { SidebarWithHeader } from '@/components/shared/Header';
 import { InvoiceDetailNextPageProps } from 'pages/admin/invoice/[invoiceId]';
 import InvoiceDetail from './InvoiceDetail';

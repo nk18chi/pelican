@@ -1,5 +1,5 @@
 import BannerCover from '@/components/layout/BannerCover';
-import { Footer } from '@/components/shared/Footer';
+import { Footer } from '@/components/shared/footertmp';
 import { SidebarWithHeader } from '@/components/shared/Header';
 import { PlanOptionDetailNextPageProps } from 'pages/admin/planOption/[planOptionId]';
 import PlanOptionDetail from './PlanOptionDetail';

@@ -1,4 +1,4 @@
-import { ReactHookFormInput, TInputField } from '@/components/shared/Input';
+import { ReactHookFormInput, TInputField } from '@/components/shared/Inputtmp';
 import { Flex, useColorModeValue, VStack, Button } from '@chakra-ui/react';
 import { ProductDetailNextPageProps } from 'pages/admin/product/[productId]';
 import { useForm } from 'react-hook-form';

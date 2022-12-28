@@ -1,6 +1,6 @@
 import React from 'react';
 import { useColorModeValue, Text, Flex } from '@chakra-ui/react';
-import { SimpleTable } from '@/components/shared/Table';
+import { SimpleTable } from '@/components/shared/Tabletmp';
 import { InvoiceListNextPageProps } from 'pages/admin/invoice';
 import { currencyFormat } from '@/components/function/utils/format';
 

@@ -11,6 +11,9 @@ const subscriptionResolvers = () => ({
         items,
       });
     },
+    cancelSubscription: async (_: any, { record: { subscriptionId } }: any) => {
+      return stripe.subscriptions.del(subscriptionId);
+    },
   },
 });
 

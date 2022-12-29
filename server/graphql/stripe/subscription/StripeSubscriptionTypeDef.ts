@@ -9,7 +9,12 @@ input createSubscriptionInput {
   items: [SubscriptionItemInput!]!
 }
 
+input cancelSubscriptionInput {
+  subscriptionId: String!
+}
+
 extend type Mutation {
     createSubscription(record: createSubscriptionInput!): JSON
+    cancelSubscription(record: cancelSubscriptionInput!): JSON
 }
 `;

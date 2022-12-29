@@ -1,5 +1,6 @@
 import { schemaComposer } from 'graphql-compose';
 
+import { UserTC } from './user/UserResolvers';
 import { PlanTC } from './plan/PlanResolvers';
 import { PlanOptionTC } from './planOption/PlanOptionResolvers';
 import { ProductTC } from './product/ProductResolvers';
@@ -41,6 +42,10 @@ schemaComposer.addTypeDefs(typeDef);
 schemaComposer.addResolveMethods(resolvers);
 
 schemaComposer.Query.addFields({
+  userFindOne: UserTC.getResolver('findOne'),
+  userFindMany: UserTC.getResolver('findMany'),
+  userCreateOne: UserTC.getResolver('createOne'),
+  userUpdateOne: UserTC.getResolver('updateOne'),
   planFindMany: PlanTC.getResolver('findMany'),
   planOptionFindMany: PlanOptionTC.getResolver('findMany'),
   productFindMany: ProductTC.getResolver('findMany'),

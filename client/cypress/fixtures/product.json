@@ -1,23 +1,32 @@
 [
   {
-    "_id": "62d4b636d41f4441db37ef01",
-    "name": "Product 1",
-    "user": {
-      "name": "Naoki"
-    }
+    "_id" : "6134262fb7601fc4de2356e0",
+    "isNewItem": true,
+    "imageURL": "/assets/img/phones/phone-1.png",
+    "name": "iPhone 13",
+    "price": 1800,
+    "rating": 4.8,
+    "numReviews": 134,
+    "__typename": "Products"
   },
   {
-    "_id": "62d4b636d41f4441db37ef02",
-    "name": "Product 2",
-    "user": {
-      "name": "John"
-    }
+    "_id" : "6134262fb7601fc4de2356e1",
+    "isNewItem": true,
+    "imageURL": "assets/img/phones/phone-2.png",
+    "name": "Goolge Pixel 6a",
+    "price": 1000,
+    "rating": 4.7,
+    "numReviews": 42,
+    "__typename": "Products"
   },
   {
-    "_id": "62d4b636d41f4441db37ef03",
-    "name": "Product 3",
-    "user": {
-      "name": "Nick"
-    }
+    "_id" : "6134262fb7601fc4de2356e2",
+    "isNewItem": true,
+    "imageURL": "/assets/img/phones/phone-3.png",
+    "name": "Samsung Galaxy",
+    "price": 1200,
+    "rating": 4.2,
+    "numReviews": 34,
+    "__typename": "Products"
   }
 ]

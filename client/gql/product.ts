@@ -12,7 +12,6 @@ export const GET_PRODUCT_FIND_MANY = gql`
       name
       isNewItem
       imageURL
-      name
       price
       rating
       numReviews

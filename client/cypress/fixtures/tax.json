@@ -1,0 +1,14 @@
+[
+  {
+    "__typename": "Taxes",
+    "_id": "6134262fb7601fc4de2356a1",
+    "label": "PST/QST",
+    "percentage": 0.07
+  },
+  {
+    "__typename": "Taxes",
+    "_id": "6134262fb7601fc4de2356a0",
+    "label": "GST/HST",
+    "percentage": 0.05
+  }
+]

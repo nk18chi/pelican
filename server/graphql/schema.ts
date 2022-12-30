@@ -6,6 +6,7 @@ import { PlanOptionTC } from './planOption/PlanOptionResolvers';
 import { ProductTC } from './product/ProductResolvers';
 import { TaxTC } from './tax/TaxResolvers';
 import { SubscriptionTC } from './subscription/SubscriptionResolvers';
+import { PaymentTC } from './payment/PaymentResolvers';
 import { stripeResolvers, stripeTypeDef } from './stripe';
 
 const resolvers: any = {};
@@ -54,6 +55,9 @@ schemaComposer.Query.addFields({
   subscriptionFindMany: SubscriptionTC.getResolver('findMany'),
   subscriptionCreateOne: SubscriptionTC.getResolver('createOne'),
   subscriptionUpdateOne: SubscriptionTC.getResolver('updateOne'),
+  paymentFindOne: PaymentTC.getResolver('findOne'),
+  paymentFindMany: PaymentTC.getResolver('findMany'),
+  paymentCreateOne: PaymentTC.getResolver('createOne'),
 });
 
 schemaComposer.Mutation.addFields({});

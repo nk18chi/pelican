@@ -1,5 +1,6 @@
 {
     "DATABASE": {
         "URI": "mongodb://mongodb:27017/modern-mern-stack"
-    }
+    },
+    "STRIPE_SECRET_KEY": ""
 }

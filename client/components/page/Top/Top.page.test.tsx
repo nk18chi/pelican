@@ -7,6 +7,8 @@ import { QueryPlanFindMany_planFindMany } from '@/generated/QueryPlanFindMany';
 import { currencyFormat } from '@/components/function/utils/format';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
 import { QueryTaxFindMany_taxFindMany } from '@/generated/QueryTaxFindMany';
+import { ApolloProvider } from '@apollo/client';
+import client from 'apollo-client';
 const productDummy: QueryProductFindMany_productFindMany[] = [
   {
     __typename: 'Products',
@@ -95,39 +97,68 @@ const addTaxes = (n: number): number => {
 
 const invoices: string[][] = [[], []];
 
+interface WrapperProps {
+  Component: JSX.Element;
+}
+
+const Wrapper = ({ Component }: WrapperProps) => {
+  return <ApolloProvider client={client}>{Component}</ApolloProvider>;
+};
+
 describe('Top Page', () => {
   it('renders the headline', () => {
-    render(<TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />);
+    render(
+      <Wrapper
+        Component={
+          <TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />
+        }
+      />
+    );
     const heading1 = screen.getByText(/Looking for a new plan?/i);
     expect(heading1).toBeInTheDocument();
     const heading2 = screen.getByText(/Build Your Plan/i);
     expect(heading2).toBeInTheDocument();
   });
   it('renders the invoice(monthly/one-time fees) as 0 for each before choosing any products', () => {
-    render(<TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />);
+    render(
+      <Wrapper
+        Component={
+          <TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />
+        }
+      />
+    );
     const monthlyLabel = screen.getByText(/Monthly Fees/i);
     expect(monthlyLabel).toBeInTheDocument();
     const monthlyPrice = monthlyLabel.nextSibling;
     expect(monthlyPrice).toHaveTextContent('$0.00');
-
     const oneTimeLabel = screen.getByText(/One-Time Fees/i);
     expect(oneTimeLabel).toBeInTheDocument();
     const oneTimePrice = oneTimeLabel.nextSibling;
     expect(oneTimePrice).toHaveTextContent('$0.00');
   });
   it('renders the checkout button as disable button before filling out the form', () => {
-    render(<TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />);
+    render(
+      <Wrapper
+        Component={
+          <TopPage products={[]} taxes={[]} plans={[]} planOptions={[]} />
+        }
+      />
+    );
     const button = screen.getByText(/Proceed to Checkout/i);
     expect(button).toBeInTheDocument();
     expect(button).toBeDisabled();
   });
-  it('able to fill out the form while calculating invoices(monthly/one-time) based on the form', () => {
+  it('able to fill out the form while calculating invoices(monthly/one-time) based on the form', async () => {
     const { container } = render(
-      <TopPage
-        products={productDummy}
-        taxes={taxesDummy}
-        plans={planDummy}
-        planOptions={planOptionDummy}
+      <Wrapper
+        Component={
+          <TopPage
+            products={productDummy}
+            taxes={taxesDummy}
+            plans={planDummy}
+            planOptions={planOptionDummy}
+          />
+        }
       />
     );
 
@@ -268,18 +299,24 @@ describe('Top Page', () => {
       fireEvent.change(lastNameEle, { target: { value: 'Smith' } });
     expect(lastNameEle).toHaveDisplayValue([/Smith/]);
 
-    // check if the submit button is enabled
+    // check if the submit button is enabled after moving to the card form
+    const nextButton3 = container.querySelector('#nextButton_3');
+    if (nextButton3) fireEvent.click(nextButton3);
     const button = screen.getByText(/Proceed to Checkout/i);
     expect(button).toBeInTheDocument();
-    expect(button).toBeEnabled();
+    await waitFor(() => expect(button).toBeEnabled());
   });
   it('able to skip selecting a phone', async () => {
     const { container } = render(
-      <TopPage
-        products={productDummy}
-        taxes={taxesDummy}
-        plans={planDummy}
-        planOptions={planOptionDummy}
+      <Wrapper
+        Component={
+          <TopPage
+            products={productDummy}
+            taxes={taxesDummy}
+            plans={planDummy}
+            planOptions={planOptionDummy}
+          />
+        }
       />
     );
     const accorditionItemBlock = container.querySelector(
@@ -294,18 +331,21 @@ describe('Top Page', () => {
   });
   it('show an error when try to go next without selecting a plan', async () => {
     const { container } = render(
-      <TopPage
-        products={productDummy}
-        taxes={taxesDummy}
-        plans={planDummy}
-        planOptions={planOptionDummy}
+      <Wrapper
+        Component={
+          <TopPage
+            products={productDummy}
+            taxes={taxesDummy}
+            plans={planDummy}
+            planOptions={planOptionDummy}
+          />
+        }
       />
     );
     const accordionButton = container.querySelector(
       '#accordion-button-accordion_1'
     );
     if (accordionButton) fireEvent.click(accordionButton);
-
     const accorditionItemBlock2 = container.querySelector(
       '#accordion-panel-accordion_1'
     )?.parentElement;
@@ -318,18 +358,21 @@ describe('Top Page', () => {
   });
   it('able to skip selecting plan options', async () => {
     const { container } = render(
-      <TopPage
-        products={productDummy}
-        taxes={taxesDummy}
-        plans={planDummy}
-        planOptions={planOptionDummy}
+      <Wrapper
+        Component={
+          <TopPage
+            products={productDummy}
+            taxes={taxesDummy}
+            plans={planDummy}
+            planOptions={planOptionDummy}
+          />
+        }
       />
     );
     const accordionButton = container.querySelector(
       '#accordion-button-accordion_2'
     );
     if (accordionButton) fireEvent.click(accordionButton);
-
     const accorditionItemBlock3 = container.querySelector(
       '#accordion-panel-accordion_2'
     )?.parentElement;
@@ -340,19 +383,39 @@ describe('Top Page', () => {
       expect(accorditionItemBlock3?.style.display).toBe('none')
     );
   });
-  it('show an error when try to go next without filling in mandatory fields', async () => {
+  it('show an error when try to go next without filling in mandatory fields of customer form', async () => {
     render(
-      <TopPage
-        products={productDummy}
-        taxes={taxesDummy}
-        plans={planDummy}
-        planOptions={planOptionDummy}
+      <Wrapper
+        Component={
+          <TopPage
+            products={productDummy}
+            taxes={taxesDummy}
+            plans={planDummy}
+            planOptions={planOptionDummy}
+          />
+        }
       />
     );
-    // select a plan
-    fireEvent.click(screen.getByText(`${planDummy[0].title}`));
-    // hit the submit button
-    // const submitButton = container.querySelector('#checkoutButton');
-    // if (submitButton) fireEvent.click(submitButton);
+    const accordionButton = screen.getByTestId('accordion-button-accordion_3');
+    if (accordionButton) fireEvent.click(accordionButton);
+    const accorditionItemBlock3 = screen.getByTestId(
+      'accordion-panel-accordion_3'
+    ).parentElement;
+    expect(accorditionItemBlock3?.style.display).toBe('block');
+    const nextButton3 = screen.getByTestId('nextButton_3');
+    if (nextButton3) fireEvent.click(nextButton3);
+    await waitFor(() => {
+      expect(
+        screen.getAllByText('This is a required field.')[0]
+      ).toBeInTheDocument();
+      const accorditionItemBlock3 = screen.getByTestId(
+        'accordion-panel-accordion_3'
+      ).parentElement;
+      expect(accorditionItemBlock3?.style.display).toBe('block');
+      const accorditionItemBlock4 = screen.getByTestId(
+        'accordion-panel-accordion_4'
+      )?.parentElement;
+      expect(accorditionItemBlock4?.style.display).toBe('none');
+    });
   });
 });

@@ -16,17 +16,17 @@ const Template: ComponentStory<typeof PlanAccordionForm> = () => {
         {
           title: 'First',
           component: <p>First Component</p>,
-          validate: FormStatus.valid,
+          status: FormStatus.valid,
         },
         {
           title: 'Second',
           component: <p>Second Component</p>,
-          validate: FormStatus.valid,
+          status: FormStatus.valid,
         },
         {
           title: 'Third',
           component: <p>Third Component</p>,
-          validate: FormStatus.valid,
+          status: FormStatus.valid,
         },
       ]}
     />

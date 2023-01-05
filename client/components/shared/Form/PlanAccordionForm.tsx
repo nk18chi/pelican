@@ -6,12 +6,11 @@ import {
   AccordionPanel,
   Box,
   Button,
-  ExpandedIndex,
   Stack,
 } from '@chakra-ui/react';
 import { CheckCircleIcon, EditIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import { FormStatus } from '../../types/plan';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 
 const stylePage = css`
@@ -30,33 +29,51 @@ const stylePage = css`
     margin-top: 20px;
   }
 `;
+
+type TaccordionBlocks = {
+  title: string;
+  component: JSX.Element;
+  status: FormStatus;
+  isSubmitted?: boolean;
+  handleClickNextButton?: () => Promise<void>;
+};
+
 interface PlanAccordionFormProps {
-  accordionBlocks: {
-    title: string;
-    component: JSX.Element;
-    validate: FormStatus;
-  }[];
+  accordionBlocks: TaccordionBlocks[];
   handleSubmitButton: () => void;
 }
 
 const PlanAccordionForm = memo(
   ({ accordionBlocks, handleSubmitButton }: PlanAccordionFormProps) => {
-    const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>(0);
-    const [accordionStatus, setAccordionStatus] = useState<FormStatus[]>([
-      FormStatus.notSet,
-      FormStatus.notSet,
-      FormStatus.notSet,
-      FormStatus.notSet,
-    ]);
+    const [accordionIndex, setAccordionIndex] = useState<number>(0);
+    const [accordionStatus, setAccordionStatus] = useState<FormStatus[]>(
+      new Array(accordionBlocks.length).fill(FormStatus.notSet)
+    );
+    const [accordionSubmitted, setAccordionSubmitted] = useState<boolean[]>(
+      new Array(accordionBlocks.length).fill(false)
+    );
 
-    const handleClickNextButton = (i: number, status: FormStatus) => {
-      setAccordionStatus((prev) => {
-        const newPrev = [...prev];
-        newPrev[i] = status;
-        return newPrev;
+    useEffect(() => {
+      setAccordionStatus((prev) =>
+        accordionSubmitted.map((isSubmitted, index) => {
+          const status: FormStatus = isSubmitted
+            ? accordionBlocks[index].status
+            : prev[index];
+          return status;
+        })
+      );
+    }, [accordionSubmitted, accordionBlocks]);
+
+    useEffect(() => {
+      setAccordionIndex((prev) => {
+        if (
+          accordionSubmitted[prev] &&
+          accordionStatus[prev] === FormStatus.valid
+        )
+          return prev + 1;
+        return prev;
       });
-      if (status === FormStatus.valid) setAccordionIndex(i + 1);
-    };
+    }, [accordionSubmitted, accordionStatus]);
 
     return (
       <>
@@ -65,7 +82,7 @@ const PlanAccordionForm = memo(
           allowToggle
           index={accordionIndex}
           textAlign={'center'}
-          onChange={(id: ExpandedIndex) => setAccordionIndex(id)}
+          onChange={(id: number) => setAccordionIndex(id)}
           css={stylePage}
         >
           {accordionBlocks.map((accordion, i, { length }) => {
@@ -83,11 +100,18 @@ const PlanAccordionForm = memo(
                       <Button
                         key={`nextButton_${i}`}
                         id={`nextButton_${i}`}
+                        data-testid={`nextButton_${i}`}
                         colorScheme="teal"
                         size="md"
-                        onClick={() =>
-                          handleClickNextButton(i, accordion.validate)
-                        }
+                        onClick={async () => {
+                          if (accordion.handleClickNextButton)
+                            await accordion.handleClickNextButton();
+                          setAccordionSubmitted((prev) => {
+                            const newPrev = [...prev];
+                            newPrev[i] = true;
+                            return newPrev;
+                          });
+                        }}
                       >
                         Next
                       </Button>
@@ -111,7 +135,7 @@ const PlanAccordionForm = memo(
             colorScheme="teal"
             size="lg"
             disabled={accordionStatus
-              .slice(0, 3)
+              .slice(0, accordionBlocks.length - 1)
               .some((status) => status !== FormStatus.valid)}
             onClick={handleSubmitButton}
           >
@@ -164,6 +188,7 @@ const AccordionItemBlock = ({
         <>
           <h2>
             <AccordionButton
+              data-testid={`accordion-button-${id}`}
               _expanded={{
                 bg: status === FormStatus.invalid ? 'red.400' : 'green.400',
                 color: 'white',
@@ -180,7 +205,9 @@ const AccordionItemBlock = ({
               <AccordionIcon />
             </AccordionButton>
           </h2>
-          <AccordionPanel>{children}</AccordionPanel>
+          <AccordionPanel data-testid={`accordion-panel-${id}`}>
+            {children}
+          </AccordionPanel>
         </>
       )}
     </AccordionItem>

@@ -62,7 +62,7 @@ const client = new ApolloClient({
     process.env.APP_ENV === 'test'
       ? new MockLink(mocks)
       : createHttpLink({
-          uri: process.env.API_URL,
+          uri: process.env.NEXT_PUBLIC_API_URL,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           fetch: fetch as any,
         }),

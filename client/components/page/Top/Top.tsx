@@ -26,6 +26,7 @@ import { FormStatus } from '@/components/types/plan';
 import { TSelectedOrder } from '.';
 import useInvoiceCalculation from '@/components/function/hooks/useInvoiceCalculation';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
+import StripeElement from '@/components/shared/Form/Stripe/StripeElement';
 
 const Top: React.FC<TopNextPageProps> = ({
   products,
@@ -98,7 +99,7 @@ const Top: React.FC<TopNextPageProps> = ({
                       }
                     />
                   ),
-                  validate: FormStatus.valid,
+                  status: FormStatus.valid,
                 },
                 {
                   title: 'Choose your plan',
@@ -111,7 +112,7 @@ const Top: React.FC<TopNextPageProps> = ({
                       }}
                     />
                   ),
-                  validate: selectedOrder.plan
+                  status: selectedOrder.plan
                     ? FormStatus.valid
                     : FormStatus.invalid,
                 },
@@ -134,10 +135,10 @@ const Top: React.FC<TopNextPageProps> = ({
                       }}
                     />
                   ),
-                  validate: FormStatus.valid,
+                  status: FormStatus.valid,
                 },
                 {
-                  title: 'Fill out the form',
+                  title: 'Fill out customer form',
                   component: (
                     <form noValidate>
                       <VStack spacing="20px" py="4" textAlign="left">
@@ -145,7 +146,24 @@ const Top: React.FC<TopNextPageProps> = ({
                       </VStack>
                     </form>
                   ),
-                  validate:
+                  handleClickNextButton: handleSubmit(submitForm),
+                  status:
+                    Object.keys(errors).length === 0
+                      ? FormStatus.valid
+                      : FormStatus.invalid,
+                },
+                {
+                  title: 'Set up credit card',
+                  component: (
+                    <StripeElement
+                      amount={Math.ceil(
+                        (invoices.find((invoice) => invoice.id === '1')?.total
+                          .value || 0) * 100
+                      )}
+                      noAmountMessage="Please select a plan first."
+                    />
+                  ),
+                  status:
                     submitCount === 0
                       ? FormStatus.notSet
                       : Object.keys(errors).length === 0

@@ -122,6 +122,7 @@ const ReactHookFormInput = ({ useFormHooks, input }: TProps) => {
             default:
               return (
                 <Input
+                  aria-label={input.name}
                   value={value || ''}
                   type={input.type}
                   onChange={onChange}

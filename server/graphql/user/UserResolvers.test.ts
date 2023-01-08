@@ -8,18 +8,21 @@ const usersDummy = [
     lastName: 'Smith',
     email: 'john@example.com',
     phone: '+1604123456',
+    password: 'password',
   },
   {
     firstName: 'Nate',
     lastName: 'Johnson',
     email: 'nate@example.com',
     phone: '+1604777777',
+    password: 'password',
   },
   {
     firstName: 'Kate',
     lastName: 'Brown',
     email: 'kate@example.com',
     phone: '+1778123456',
+    password: 'password',
   },
 ];
 const stripeRes = {
@@ -82,6 +85,7 @@ describe('UserResolver', () => {
       expect(res.data?.userFindOne).toEqual({
         ...usersDummy[0],
         _id: u1._id.toString(),
+        password: undefined,
       });
     });
   });
@@ -104,9 +108,9 @@ describe('UserResolver', () => {
       });
       expect(res.errors).toBeUndefined();
       expect(res.data?.userFindMany).toEqual([
-        { ...usersDummy[0], _id: u1._id.toString() },
-        { ...usersDummy[1], _id: u2._id.toString() },
-        { ...usersDummy[2], _id: u3._id.toString() },
+        { ...usersDummy[0], _id: u1._id.toString(), password: undefined },
+        { ...usersDummy[1], _id: u2._id.toString(), password: undefined },
+        { ...usersDummy[2], _id: u3._id.toString(), password: undefined },
       ]);
     });
   });
@@ -114,8 +118,9 @@ describe('UserResolver', () => {
     it('create a new user', async () => {
       expect(stripe.customers.create).not.toHaveBeenCalled();
       const res = await testApolloServer.executeOperation({
-        query: `{
-            userCreateOne(record: { firstName: "Joseph", lastName: "Smith", email: "joseph@example.com", phone: "+1778987654" }) {
+        query: `
+          mutation UserCreateOne($record: CreateOneUsersInput!) {
+            userCreateOne(record: $record) {
               record {
                 firstName
                 lastName
@@ -124,6 +129,15 @@ describe('UserResolver', () => {
               }
             }
           }`,
+        variables: {
+          record: {
+            firstName: 'Joseph',
+            lastName: 'Smith',
+            email: 'joseph@example.com',
+            phone: '+1778987654',
+            password: 'password',
+          },
+        },
       });
       expect(res.errors).toBeUndefined();
       expect(res.data?.userCreateOne).toEqual({
@@ -150,16 +164,26 @@ describe('UserResolver', () => {
       });
       expect(stripe.customers.update).not.toHaveBeenCalled();
       const res = await testApolloServer.executeOperation({
-        query: `{
-              userUpdateOne(record: { firstName: "Joseph", lastName: "Smith", email: "joseph@example.com", phone: "+1778987654" }, filter: { _id: "${u1._id.toString()}" }) {
-                record {
-                  firstName
-                  lastName
-                  email
-                  phone
-                }
-              }
-            }`,
+        query: `
+        mutation UserUpdateOne($record: UpdateOneUsersInput!, $filter: FilterUpdateOneUsersInput, $sort: SortUpdateOneUsersInput, $skip: Int) {
+          userUpdateOne(record: $record, filter: $filter, sort: $sort, skip: $skip) {
+            record {
+              firstName
+              lastName
+              email
+              phone
+            }
+          }
+        }`,
+        variables: {
+          record: {
+            firstName: 'Joseph',
+            lastName: 'Smith',
+            email: 'joseph@example.com',
+            phone: '+1778987654',
+          },
+          filter: { _id: `${u1._id.toString()}` },
+        },
       });
       expect(res.errors).toBeUndefined();
       expect(res.data?.userUpdateOne).toEqual({

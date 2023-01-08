@@ -36,6 +36,7 @@ describe('StripePaymentIntentResolvers', () => {
           enabled: true,
         },
         currency: 'cad',
+        setup_future_usage: 'off_session',
       });
     });
   });

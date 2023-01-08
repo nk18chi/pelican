@@ -40,14 +40,21 @@ describe('SubscriptionResolver', () => {
   describe('subscriptionCreateOne Query', () => {
     it('create a new subscriptions', async () => {
       const res = await testApolloServer.executeOperation({
-        query: `{
-            subscriptionCreateOne(record: { user: "6134262fb7601fc4de2356a0", plan: "6134262fb7601fc4de2356c0" }) {
-              record {
-                user
-                plan
-              }
+        query: `
+        mutation SubscriptionCreateOne($record: CreateOneSubscriptionsInput!) {
+          subscriptionCreateOne(record: $record) {
+            record {
+              user
+              plan
             }
-          }`,
+          }
+        }`,
+        variables: {
+          record: {
+            user: '6134262fb7601fc4de2356a0',
+            plan: '6134262fb7601fc4de2356c0',
+          },
+        },
       });
       expect(res.errors).toBeUndefined();
       expect(res.data?.subscriptionCreateOne).toEqual({
@@ -65,14 +72,22 @@ describe('SubscriptionResolver', () => {
         plan: '6134262fb7601fc4de2356c0',
       });
       const res = await testApolloServer.executeOperation({
-        query: `{
-            subscriptionUpdateOne(record: { user: "6134262fb7601fc4de2356a9", plan: "6134262fb7601fc4de2356c9" }, filter: { _id: "${s1._id.toString()}" }) {
+        query: `
+          mutation SubscriptionUpdateOne($record: UpdateOneSubscriptionsInput!, $filter: FilterUpdateOneSubscriptionsInput, $sort: SortUpdateOneSubscriptionsInput, $skip: Int) {
+            subscriptionUpdateOne(record: $record, filter: $filter, sort: $sort, skip: $skip) {
               record {
                 user
                 plan
               }
             }
           }`,
+        variables: {
+          record: {
+            user: '6134262fb7601fc4de2356a9',
+            plan: '6134262fb7601fc4de2356c9',
+          },
+          filter: { _id: `${s1._id.toString()}` },
+        },
       });
       expect(res.errors).toBeUndefined();
       expect(res.data?.subscriptionUpdateOne).toEqual({

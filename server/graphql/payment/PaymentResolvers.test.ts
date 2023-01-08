@@ -85,8 +85,9 @@ describe('PaymentResolver', () => {
   describe('paymentCreateOne Query', () => {
     it('create a new payments', async () => {
       const res = await testApolloServer.executeOperation({
-        query: `{
-            paymentCreateOne(record: { user: "6134262fb7601fc4de2356a0", plan: "6134262fb7601fc4de2356c0" }) {
+        query: `
+          mutation PaymentCreateOne($record: CreateOnePaymentsInput!) {
+            paymentCreateOne(record: $record) {
               record {
                 user
                 plan
@@ -95,6 +96,12 @@ describe('PaymentResolver', () => {
               }
             }
           }`,
+        variables: {
+          record: {
+            user: '6134262fb7601fc4de2356a0',
+            plan: '6134262fb7601fc4de2356c0',
+          },
+        },
       });
       expect(res.errors).toBeUndefined();
       expect(res.data?.paymentCreateOne).toEqual({

@@ -13,7 +13,7 @@ type TTableData = {
     _id: string;
     name: string;
     email: string;
-    phoneNumber: number;
+    phone: number;
     product: {
       phone: string;
       plan: string;
@@ -41,7 +41,7 @@ const tableData: TTableData = {
       _id: '1',
       name: 'John Smith',
       email: 'john@example.com',
-      phoneNumber: +1604123456,
+      phone: +1604123456,
       product: {
         phone: 'iPhone 13',
         plan: 'Standard Plan',
@@ -90,7 +90,7 @@ const List = (props: CustomerListNextPageProps) => {
             {user.email}
           </Text>
           <Text fontSize="sm" color="gray.400" fontWeight="normal">
-            {user.phoneNumber}
+            {user.phone}
           </Text>
         </Flex>
       </Flex>

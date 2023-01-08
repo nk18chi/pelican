@@ -26,7 +26,7 @@ Text.args = {
 export const Phone = Template.bind({});
 Phone.args = {
   input: {
-    name: 'phoneNumber',
+    name: 'phone',
     displayName: 'Phone Number',
     type: 'phone',
     validation: { required: true },

@@ -1,7 +1,7 @@
 import { SUPPORTED_COUNTRIES, generateRandomPhoneNumber } from './fake';
 
 const testcases = {
-  phoneNumber: [
+  phone: [
     {
       description: 'should generate a random phone number',
       props: { country: SUPPORTED_COUNTRIES.CANADA },
@@ -19,7 +19,7 @@ const testcases = {
 
 describe('fake.ts', () => {
   describe('generateRandomPhoneNumber', () => {
-    testcases.phoneNumber.forEach(
+    testcases.phone.forEach(
       ({ props, description, throwError, expected, times = 1 }) => {
         it(`${description} ${JSON.stringify(props)}`, async () => {
           if (throwError) {

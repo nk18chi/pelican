@@ -20,7 +20,7 @@ const user = {
   _id: '1',
   name: 'John Smith',
   email: 'john@example.com',
-  phoneNumber: +1604123456,
+  phone: +1604123456,
   product: {
     phone: 'iPhone 13',
     plan: 'Standard Plan',
@@ -105,7 +105,7 @@ const Detail = (props: CustomerDetailNextPageProps) => {
                 color="gray.400"
                 fontWeight="semibold"
               >
-                {user.phoneNumber}
+                {user.phone}
               </Text>
             </Flex>
           </Flex>

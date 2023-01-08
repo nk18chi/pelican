@@ -25,7 +25,7 @@ const inputFields: TInputField[] = [
     description: "Don't put your actual information",
   },
   {
-    name: 'phoneNumber',
+    name: 'phone',
     displayName: 'Phone Number',
     type: 'phone',
     validation: { required: true },

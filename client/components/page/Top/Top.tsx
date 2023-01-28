@@ -27,6 +27,16 @@ import { TSelectedOrder } from '.';
 import useInvoiceCalculation from '@/components/function/hooks/useInvoiceCalculation';
 import { QueryPlanOptionFindMany_planOptionFindMany } from '@/generated/QueryPlanOptionFindMany';
 import StripeElement from '@/components/shared/Form/Stripe/StripeElement';
+import { CREATE_ONE_USER } from 'gql/stripe';
+import { useMutation } from '@apollo/client';
+
+type TCustomerInfo = {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+};
 
 const Top: React.FC<TopNextPageProps> = ({
   products,
@@ -34,6 +44,15 @@ const Top: React.FC<TopNextPageProps> = ({
   plans,
   planOptions,
 }) => {
+  const [createOneUser, { data, loading }] = useMutation(CREATE_ONE_USER);
+  // const [createCharge, { data, loading }] = useMutation(CREATE_CHARGE);
+  const [customerInfo, setCustomerInfo] = useState<TCustomerInfo>({
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    password: '',
+  });
   const [selectedOrder, setSelectedOrder] = useState<TSelectedOrder>({});
   const invoices = useInvoiceCalculation({ selectedOrder, taxes });
   const useFormHooks = useForm({ defaultValues: {} });
@@ -43,9 +62,21 @@ const Top: React.FC<TopNextPageProps> = ({
   } = useFormHooks;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const submitForm = useCallback((data: any) => {
-    console.log('submit', data);
+  const submitCustomerForm = useCallback((data: any) => {
+    setCustomerInfo(data);
   }, []);
+
+  const submitForm = useCallback(() => {
+    console.log('customerInfo', customerInfo);
+    console.log('selectedOrder', selectedOrder);
+    createOneUser({
+      variables: {
+        record: {
+          ...customerInfo,
+        },
+      },
+    }).catch((e) => e);
+  }, [createOneUser, customerInfo, selectedOrder]);
 
   const updateOrder = useCallback(
     (params: TSelectedOrder) => {
@@ -57,6 +88,8 @@ const Top: React.FC<TopNextPageProps> = ({
     },
     [setSelectedOrder]
   );
+
+  console.log(data, loading);
 
   return (
     <Container maxW={'5xl'}>
@@ -81,7 +114,7 @@ const Top: React.FC<TopNextPageProps> = ({
         <Flex alignItems="start" gap="10">
           <VStack w="60%">
             <PlanAccordionForm
-              handleSubmitButton={handleSubmit(submitForm)}
+              handleSubmitButton={submitForm}
               accordionBlocks={[
                 {
                   title: 'Choose your new phone (Optional)',
@@ -146,7 +179,7 @@ const Top: React.FC<TopNextPageProps> = ({
                       </VStack>
                     </form>
                   ),
-                  handleClickNextButton: handleSubmit(submitForm),
+                  handleClickNextButton: handleSubmit(submitCustomerForm),
                   status:
                     Object.keys(errors).length === 0
                       ? FormStatus.valid

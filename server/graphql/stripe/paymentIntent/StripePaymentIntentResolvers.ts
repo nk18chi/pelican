@@ -6,6 +6,7 @@ const paymentIntentResolvers = () => ({
       return stripe.paymentIntents.create({
         amount,
         currency: 'cad',
+        setup_future_usage: 'off_session',
         automatic_payment_methods: {
           enabled: true,
         },
